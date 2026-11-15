@@ -1816,6 +1816,10 @@ export type Database = {
       }
     }
     Functions: {
+      approve_registration: {
+        Args: { _role: string; _user_id: string }
+        Returns: undefined
+      }
       auto_mark_expired_cards: { Args: never; Returns: Json }
       can_access_region: {
         Args: { _kabupaten_kota_id: string; _user_id: string }
@@ -2092,6 +2096,7 @@ export type Database = {
         Args: { _event_id: string; _referee_id: string }
         Returns: boolean
       }
+      increment_view_count: { Args: { topic_id: string }; Returns: undefined }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
       is_admin_kab_kota: { Args: { _user_id: string }; Returns: boolean }
       is_admin_provinsi: { Args: { _user_id: string }; Returns: boolean }
@@ -2100,6 +2105,28 @@ export type Database = {
       is_same_region: {
         Args: { _kabupaten_kota_id: string; _user_id: string }
         Returns: boolean
+      }
+      issue_my_referee_card: {
+        Args: never
+        Returns: {
+          card_number: string
+          created_at: string | null
+          expires_at: string | null
+          id: string
+          issued_at: string | null
+          last_verified_at: string | null
+          referee_id: string
+          status: string | null
+          updated_at: string | null
+          verification_code: string
+          verification_count: number | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "referee_cards"
+          isOneToOne: true
+          isSetofReturn: false
+        }
       }
       issue_official_document: {
         Args: {
@@ -2134,6 +2161,57 @@ export type Database = {
           isOneToOne: true
           isSetofReturn: false
         }
+      }
+      mark_event_completed: {
+        Args: { p_event_id: string; p_notes?: string }
+        Returns: {
+          category: string | null
+          created_at: string | null
+          created_by: string | null
+          date: string
+          deleted_at: string | null
+          description: string | null
+          end_date: string | null
+          id: string
+          kabupaten_kota_id: string | null
+          location: string | null
+          name: string
+          start_date: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "events"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      regenerate_my_referee_card: {
+        Args: never
+        Returns: {
+          card_number: string
+          created_at: string | null
+          expires_at: string | null
+          id: string
+          issued_at: string | null
+          last_verified_at: string | null
+          referee_id: string
+          status: string | null
+          updated_at: string | null
+          verification_code: string
+          verification_count: number | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "referee_cards"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      reject_registration: {
+        Args: { _reason: string; _user_id: string }
+        Returns: undefined
       }
       revoke_official_document: {
         Args: { p_reason?: string; p_verification_token: string }

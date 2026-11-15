@@ -29,6 +29,13 @@
       "when": 1794767491813,
       "tag": "0003_apply_post_baseline_source_migrations",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794767858814,
+      "tag": "0004_add_missing_app_actions",
+      "breakpoints": true
     }
   ]
 }
