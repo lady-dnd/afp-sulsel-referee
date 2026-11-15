@@ -11,7 +11,7 @@ function read(file: string) {
 
 describe("Phase 1 notification domain contract", () => {
   it("creates the canonical referral contact and assignment notification tables with strict constraints", () => {
-    const migration = read("supabase/migrations/20260920110000_phase_notification_domain_contract_v1.sql");
+    const migration = read("drizzle/migrations/0003_apply_post_baseline_source_migrations.sql");
 
     expect(migration).toContain("CREATE TABLE IF NOT EXISTS public.referee_contacts");
     expect(migration).toContain("referee_id UUID NOT NULL UNIQUE");
@@ -31,7 +31,7 @@ describe("Phase 1 notification domain contract", () => {
   });
 
   it("keeps the schema secure and avoids unrestricted public access", () => {
-    const migration = read("supabase/migrations/20260920110000_phase_notification_domain_contract_v1.sql");
+    const migration = read("drizzle/migrations/0003_apply_post_baseline_source_migrations.sql");
 
     expect(migration).toContain("ALTER TABLE public.referee_contacts ENABLE ROW LEVEL SECURITY");
     expect(migration).toContain("ALTER TABLE public.assignment_notifications ENABLE ROW LEVEL SECURITY");
@@ -43,7 +43,7 @@ describe("Phase 1 notification domain contract", () => {
   });
 
   it("keeps the Kirisan notification contract literal and avoids database kickoff_time columns", () => {
-    const migration = read("supabase/migrations/20260920110000_phase_notification_domain_contract_v1.sql");
+    const migration = read("drizzle/migrations/0003_apply_post_baseline_source_migrations.sql");
 
     expect(migration).toContain("Hubungi Koordinator Wasit");
     expect(migration).not.toContain("kickoff_time");
@@ -52,7 +52,7 @@ describe("Phase 1 notification domain contract", () => {
   });
 
   it("adds the required indexes for lookups and correlation", () => {
-    const migration = read("supabase/migrations/20260920110000_phase_notification_domain_contract_v1.sql");
+    const migration = read("drizzle/migrations/0003_apply_post_baseline_source_migrations.sql");
 
     expect(migration).toContain("CREATE INDEX IF NOT EXISTS idx_referee_contacts_referee_id");
     expect(migration).toContain("CREATE INDEX IF NOT EXISTS idx_assignment_notifications_assignment_id");
@@ -68,7 +68,7 @@ describe("Phase 1 notification domain contract", () => {
   });
 
   it("creates a secure self-service RLS contract for referee contacts", () => {
-    const migration = read("supabase/migrations/20260920130000_referee_whatsapp_contact_self_service.sql");
+    const migration = read("drizzle/migrations/0003_apply_post_baseline_source_migrations.sql");
 
     expect(migration).toContain("CREATE POLICY \"Referees can view their own whatsapp contact\"");
     expect(migration).toContain("auth.uid() = referee_id");
