@@ -65,6 +65,7 @@ import { Route as RefereeProfileIndexRouteImport } from './routes/referee.profil
 import { Route as RefereeProfileCompleteRouteImport } from './routes/referee.profile.complete'
 import { Route as ReviewIdIndexRouteImport } from './routes/review.$id.index'
 import { Route as ReviewIdDetailRouteImport } from './routes/review.$id.detail'
+import { Route as ApiPublicAvatarsSplatRouteImport } from './routes/api/public/avatars.$'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -349,6 +350,11 @@ const ReviewIdDetailRoute = ReviewIdDetailRouteImport.update({
   path: '/review/$id/detail',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicAvatarsSplatRoute = ApiPublicAvatarsSplatRouteImport.update({
+  id: '/api/public/avatars/$',
+  path: '/api/public/avatars/$',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -407,6 +413,7 @@ export interface FileRoutesByFullPath {
   '/referee/learning/': typeof RefereeLearningIndexRoute
   '/referee/profile/': typeof RefereeProfileIndexRoute
   '/review/$id/': typeof ReviewIdIndexRoute
+  '/api/public/avatars/$': typeof ApiPublicAvatarsSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -465,6 +472,7 @@ export interface FileRoutesByTo {
   '/referee/learning': typeof RefereeLearningIndexRoute
   '/referee/profile': typeof RefereeProfileIndexRoute
   '/review/$id': typeof ReviewIdIndexRoute
+  '/api/public/avatars/$': typeof ApiPublicAvatarsSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -524,6 +532,7 @@ export interface FileRoutesById {
   '/referee/learning/': typeof RefereeLearningIndexRoute
   '/referee/profile/': typeof RefereeProfileIndexRoute
   '/review/$id/': typeof ReviewIdIndexRoute
+  '/api/public/avatars/$': typeof ApiPublicAvatarsSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -584,6 +593,7 @@ export interface FileRouteTypes {
     | '/referee/learning/'
     | '/referee/profile/'
     | '/review/$id/'
+    | '/api/public/avatars/$'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -642,6 +652,7 @@ export interface FileRouteTypes {
     | '/referee/learning'
     | '/referee/profile'
     | '/review/$id'
+    | '/api/public/avatars/$'
   id:
     | '__root__'
     | '/'
@@ -700,6 +711,7 @@ export interface FileRouteTypes {
     | '/referee/learning/'
     | '/referee/profile/'
     | '/review/$id/'
+    | '/api/public/avatars/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -759,6 +771,7 @@ export interface RootRouteChildren {
   RefereeLearningIndexRoute: typeof RefereeLearningIndexRoute
   RefereeProfileIndexRoute: typeof RefereeProfileIndexRoute
   ReviewIdIndexRoute: typeof ReviewIdIndexRoute
+  ApiPublicAvatarsSplatRoute: typeof ApiPublicAvatarsSplatRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1155,6 +1168,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ReviewIdDetailRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/avatars/$': {
+      id: '/api/public/avatars/$'
+      path: '/api/public/avatars/$'
+      fullPath: '/api/public/avatars/$'
+      preLoaderRoute: typeof ApiPublicAvatarsSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -1215,6 +1235,7 @@ const rootRouteChildren: RootRouteChildren = {
   RefereeLearningIndexRoute: RefereeLearningIndexRoute,
   RefereeProfileIndexRoute: RefereeProfileIndexRoute,
   ReviewIdIndexRoute: ReviewIdIndexRoute,
+  ApiPublicAvatarsSplatRoute: ApiPublicAvatarsSplatRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
