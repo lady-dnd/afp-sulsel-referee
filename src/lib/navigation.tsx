@@ -2,7 +2,7 @@
  * Small navigation helpers with the same call shapes the original app used
  * (string paths, navigate(-1), location.state, search params), backed by TanStack Router.
  */
-import { forwardRef, useCallback, useEffect, useMemo, type AnchorHTMLAttributes } from "react";
+import { forwardRef, useCallback, useEffect, useMemo, useRef, type AnchorHTMLAttributes } from "react";
 import { Link as RouterLink, useRouter, useRouterState, useParams as useRouterParams } from "@tanstack/react-router";
 
 type NavigateOptions = { replace?: boolean; state?: Record<string, unknown> };
@@ -111,8 +111,14 @@ NavLink.displayName = "NavLink";
 
 export function Navigate({ to, replace, state }: { to: string; replace?: boolean; state?: Record<string, unknown> }) {
   const navigate = useNavigate();
+  const lastTarget = useRef<string | null>(null);
+  const stateRef = useRef(state);
+  stateRef.current = state;
   useEffect(() => {
-    navigate(to, { replace, state });
-  }, [navigate, to, replace, state]);
+    // Redirect once per target; callers often pass a fresh state object every render.
+    if (lastTarget.current === to) return;
+    lastTarget.current = to;
+    navigate(to, { replace, state: stateRef.current });
+  }, [navigate, to, replace]);
   return null;
 }
