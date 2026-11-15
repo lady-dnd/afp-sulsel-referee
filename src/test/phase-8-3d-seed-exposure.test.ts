@@ -2,14 +2,13 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 const root = process.cwd();
-const appSource = readFileSync(`${root}/src/App.tsx`, "utf8");
 const pageSource = readFileSync(`${root}/src/routes/export.tsx`, "utf8");
 const seedHookSource = readFileSync(`${root}/src/hooks/useSeedDatabase.ts`, "utf8");
 
 describe("F-007 production seed-data exposure contract", () => {
   it("F007-001 protects the export route for Admin Provinsi only", () => {
-    expect(appSource).toContain('path="/export"');
-    expect(appSource).toContain('requireRole="admin_provinsi"');
+    expect(pageSource).toContain('createFileRoute("/export")');
+    expect(pageSource).toContain('requireRole="admin_provinsi"');
   });
 
   it("F007-002 keeps direct export-page access free of seed invocation", () => {

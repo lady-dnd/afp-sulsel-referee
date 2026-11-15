@@ -2,13 +2,13 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 const root = process.cwd();
-const appSource = readFileSync(`${root}/src/App.tsx`, "utf8");
+const assignRouteSource = readFileSync(`${root}/src/routes/events.$id.assign-referees.tsx`, "utf8");
 const eventDetailSource = readFileSync(`${root}/src/routes/events.$id.index.tsx`, "utf8");
 
 describe("F-001 assignment capability contract", () => {
   it("keeps the assignment route behind the existing admin guard", () => {
-    const routeStart = appSource.indexOf('path="/events/:id/assign-referees"');
-    const routeBlock = appSource.slice(routeStart, routeStart + 260);
+    const routeStart = assignRouteSource.indexOf('createFileRoute("/events/$id/assign-referees")');
+    const routeBlock = assignRouteSource.slice(routeStart);
 
     expect(routeStart).toBeGreaterThanOrEqual(0);
     expect(routeBlock).toContain("requireAdmin");

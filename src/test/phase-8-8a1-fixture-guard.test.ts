@@ -6,7 +6,7 @@ import {
   isFixtureEmail,
   isOwnedFixtureName,
   validateFixtureProvisioningEnvironment,
-} from "../../supabase/tests/fixtureProvisioningGuard";
+} from "./fixtures/fixtureProvisioningGuard";
 
 const validInput = {
   testEnvironment: "non-production",

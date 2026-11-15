@@ -102,12 +102,12 @@ describe("Phase 2 notification orchestrator", () => {
     const assignmentHook = read("src/hooks/useEventAssignments.ts");
     const batchHook = read("src/hooks/useSmartAssignment.ts");
 
-    expect(assignmentHook).toMatch(/supabase\.functions\s*\.invoke\(\s*"notification-orchestrator"/s);
+    expect(assignmentHook).toMatch(/invokeServerTask\(\s*"notification-orchestrator"/s);
     expect(assignmentHook).toContain("assignmentId: data.id");
-    expect(assignmentHook).not.toMatch(/supabase\.functions\s*\.invoke\(\s*"send-assignment-notification"/s);
-    expect(batchHook).toMatch(/supabase\.functions\s*\.invoke\(\s*"notification-orchestrator"/s);
+    expect(assignmentHook).not.toMatch(/invokeServerTask\(\s*"send-assignment-notification"/s);
+    expect(batchHook).toMatch(/invokeServerTask\(\s*"notification-orchestrator"/s);
     expect(batchHook).toContain("assignmentId: data.id");
-    expect(batchHook).not.toMatch(/supabase\.functions\s*\.invoke\(\s*"send-assignment-notification"/s);
+    expect(batchHook).not.toMatch(/invokeServerTask\(\s*"send-assignment-notification"/s);
   });
 
   it("requires authenticated, verified JWT delivery for the new function", () => {
