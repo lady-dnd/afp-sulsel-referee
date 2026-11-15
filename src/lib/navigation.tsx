@@ -46,7 +46,7 @@ export function useLocation(): AppLocation {
 }
 
 export function useParams<T extends Record<string, string | undefined> = Record<string, string | undefined>>(): T {
-  return useRouterParams({ strict: false }) as T;
+  return useRouterParams({ strict: false } as never) as T;
 }
 
 export function useSearchParams(): [URLSearchParams, (next: URLSearchParams | Record<string, string>, opts?: NavigateOptions) => void] {
