@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { useState, useMemo } from "react";
 import { AppLayout } from "@/components/layout/AppLayout";
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar, CalendarDayButton } from "@/components/ui/calendar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -245,10 +245,12 @@ function EventCalendar() {
                 modifiersStyles={modifiersStyles}
                 className="rounded-md border pointer-events-auto"
                 components={{
-                  DayContent: ({ date }) => {
+                  DayButton: ({ children: _children, ...dayProps }) => {
+                    const date = dayProps.day.date;
                     const dateKey = format(date, "yyyy-MM-dd");
                     const count = eventCountByDate.get(dateKey) || 0;
                     return (
+                      <CalendarDayButton {...dayProps}>
                       <div className="relative w-full h-full flex flex-col items-center justify-center">
                         <span>{date.getDate()}</span>
                         {(count > 0 || requestDates.has(dateKey)) && (
@@ -266,6 +268,7 @@ function EventCalendar() {
                           </div>
                         )}
                       </div>
+                      </CalendarDayButton>
                     );
                   },
                 }}

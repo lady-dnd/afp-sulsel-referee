@@ -397,9 +397,9 @@ function ProfileComplete() {
                       selected={formData.birthDate}
                       onSelect={(date) => updateFormData("birthDate", date)}
                       initialFocus
-                      captionLayout="dropdown-buttons"
-                      fromYear={1960}
-                      toYear={2010}
+                      captionLayout="dropdown"
+                      startMonth={new Date(1960, 0)}
+                      endMonth={new Date(2010, 11)}
                       className="pointer-events-auto"
                     />
                   </PopoverContent>

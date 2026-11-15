@@ -58,7 +58,7 @@ const LearningMaterialDetail = () => {
   // Simple markdown renderer
   const renderContent = (content: string) => {
     const lines = content.split("\n");
-    const elements: JSX.Element[] = [];
+    const elements: React.ReactElement[] = [];
     let listItems: string[] = [];
     let listType: "ul" | "ol" | null = null;
 

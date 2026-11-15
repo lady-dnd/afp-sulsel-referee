@@ -569,6 +569,15 @@ export function useRestoreEvent() {
   });
 }
 
+export interface DuplicateEvent {
+  id: string;
+  name: string;
+  date: string;
+  location: string | null;
+  status: string | null;
+  similarity_score: number;
+}
+
 // Check for exact duplicate events using the canonical database contract
 export function useCheckDuplicateEvent() {
   return useMutation({
