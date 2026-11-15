@@ -44,6 +44,62 @@ export type Database = {
         }
         Relationships: []
       }
+      assignment_notifications: {
+        Row: {
+          assignment_id: string
+          created_at: string
+          email_error_code: string | null
+          email_sent_at: string | null
+          email_status: string
+          id: string
+          updated_at: string
+          whatsapp_error_code: string | null
+          whatsapp_message_id: string | null
+          whatsapp_provider: string | null
+          whatsapp_request_id: number | null
+          whatsapp_sent_at: string | null
+          whatsapp_status: string
+        }
+        Insert: {
+          assignment_id: string
+          created_at?: string
+          email_error_code?: string | null
+          email_sent_at?: string | null
+          email_status?: string
+          id?: string
+          updated_at?: string
+          whatsapp_error_code?: string | null
+          whatsapp_message_id?: string | null
+          whatsapp_provider?: string | null
+          whatsapp_request_id?: number | null
+          whatsapp_sent_at?: string | null
+          whatsapp_status?: string
+        }
+        Update: {
+          assignment_id?: string
+          created_at?: string
+          email_error_code?: string | null
+          email_sent_at?: string | null
+          email_status?: string
+          id?: string
+          updated_at?: string
+          whatsapp_error_code?: string | null
+          whatsapp_message_id?: string | null
+          whatsapp_provider?: string | null
+          whatsapp_request_id?: number | null
+          whatsapp_sent_at?: string | null
+          whatsapp_status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assignment_notifications_assignment_fk"
+            columns: ["assignment_id"]
+            isOneToOne: true
+            referencedRelation: "event_assignments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_logs: {
         Row: {
           action: string
@@ -512,6 +568,82 @@ export type Database = {
           },
         ]
       }
+      event_completion_notifications: {
+        Row: {
+          channel: string
+          claim_id: string | null
+          claimed_at: string | null
+          created_at: string
+          error_code: string | null
+          event_id: string
+          expires_at: string | null
+          id: string
+          provider: string | null
+          provider_message_id: string | null
+          provider_request_id: string | null
+          referee_id: string
+          sent_at: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          channel: string
+          claim_id?: string | null
+          claimed_at?: string | null
+          created_at?: string
+          error_code?: string | null
+          event_id: string
+          expires_at?: string | null
+          id?: string
+          provider?: string | null
+          provider_message_id?: string | null
+          provider_request_id?: string | null
+          referee_id: string
+          sent_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          channel?: string
+          claim_id?: string | null
+          claimed_at?: string | null
+          created_at?: string
+          error_code?: string | null
+          event_id?: string
+          expires_at?: string | null
+          id?: string
+          provider?: string | null
+          provider_message_id?: string | null
+          provider_request_id?: string | null
+          referee_id?: string
+          sent_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_completion_notifications_event_fk"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "active_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "event_completion_notifications_event_fk"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "event_completion_notifications_referee_fk"
+            columns: ["referee_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       event_logs: {
         Row: {
           action: string
@@ -679,6 +811,63 @@ export type Database = {
           },
         ]
       }
+      issued_documents: {
+        Row: {
+          content_hash: string
+          created_at: string
+          document_number: string
+          document_type: string
+          id: string
+          issued_at: string
+          issued_by: string | null
+          revoked_at: string | null
+          revoked_by: string | null
+          revoked_reason: string | null
+          snapshot: Json
+          source_entity_id: string
+          source_entity_type: string
+          status: string
+          updated_at: string
+          verification_token: string
+        }
+        Insert: {
+          content_hash: string
+          created_at?: string
+          document_number: string
+          document_type: string
+          id?: string
+          issued_at?: string
+          issued_by?: string | null
+          revoked_at?: string | null
+          revoked_by?: string | null
+          revoked_reason?: string | null
+          snapshot?: Json
+          source_entity_id: string
+          source_entity_type: string
+          status?: string
+          updated_at?: string
+          verification_token: string
+        }
+        Update: {
+          content_hash?: string
+          created_at?: string
+          document_number?: string
+          document_type?: string
+          id?: string
+          issued_at?: string
+          issued_by?: string | null
+          revoked_at?: string | null
+          revoked_by?: string | null
+          revoked_reason?: string | null
+          snapshot?: Json
+          source_entity_id?: string
+          source_entity_type?: string
+          status?: string
+          updated_at?: string
+          verification_token?: string
+        }
+        Relationships: []
+      }
       kabupaten_kota: {
         Row: {
           code: string | null
@@ -808,6 +997,137 @@ export type Database = {
             columns: ["material_id"]
             isOneToOne: false
             referencedRelation: "learning_materials"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      message_delivery_ledger: {
+        Row: {
+          environment: string
+          event_type: string
+          id: string
+          idempotency_key: string
+          metadata: Json | null
+          normalized_status: string
+          payload_hash: string
+          processing_time_ms: number | null
+          production: boolean
+          provider: string
+          provider_message_id: string | null
+          provider_request_id: number
+          provider_send_id: number
+          provider_status: string
+          received_at: string
+        }
+        Insert: {
+          environment: string
+          event_type: string
+          id?: string
+          idempotency_key: string
+          metadata?: Json | null
+          normalized_status: string
+          payload_hash: string
+          processing_time_ms?: number | null
+          production: boolean
+          provider: string
+          provider_message_id?: string | null
+          provider_request_id: number
+          provider_send_id: number
+          provider_status: string
+          received_at?: string
+        }
+        Update: {
+          environment?: string
+          event_type?: string
+          id?: string
+          idempotency_key?: string
+          metadata?: Json | null
+          normalized_status?: string
+          payload_hash?: string
+          processing_time_ms?: number | null
+          production?: boolean
+          provider?: string
+          provider_message_id?: string | null
+          provider_request_id?: number
+          provider_send_id?: number
+          provider_status?: string
+          received_at?: string
+        }
+        Relationships: []
+      }
+      meta_webhook_events: {
+        Row: {
+          event_key: string
+          id: number
+          lifecycle_status: string
+          payload_hash: string
+          phone_number_id: string
+          provider: string
+          provider_event_timestamp: number | null
+          received_at: string
+          waba_id: string
+          wamid: string
+        }
+        Insert: {
+          event_key: string
+          id?: number
+          lifecycle_status: string
+          payload_hash: string
+          phone_number_id: string
+          provider: string
+          provider_event_timestamp?: number | null
+          received_at?: string
+          waba_id: string
+          wamid: string
+        }
+        Update: {
+          event_key?: string
+          id?: number
+          lifecycle_status?: string
+          payload_hash?: string
+          phone_number_id?: string
+          provider?: string
+          provider_event_timestamp?: number | null
+          received_at?: string
+          waba_id?: string
+          wamid?: string
+        }
+        Relationships: []
+      }
+      notification_channel_claims: {
+        Row: {
+          assignment_id: string
+          channel: string
+          claim_id: string
+          claimed_at: string
+          created_at: string
+          expires_at: string
+          updated_at: string
+        }
+        Insert: {
+          assignment_id: string
+          channel: string
+          claim_id: string
+          claimed_at?: string
+          created_at?: string
+          expires_at: string
+          updated_at?: string
+        }
+        Update: {
+          assignment_id?: string
+          channel?: string
+          claim_id?: string
+          claimed_at?: string
+          created_at?: string
+          expires_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notification_channel_claims_assignment_fk"
+            columns: ["assignment_id"]
+            isOneToOne: false
+            referencedRelation: "event_assignments"
             referencedColumns: ["id"]
           },
         ]
@@ -950,6 +1270,39 @@ export type Database = {
           },
         ]
       }
+      private_whatsapp_settings: {
+        Row: {
+          api_base_url: string | null
+          api_key_ciphertext: string | null
+          created_at: string
+          enabled: boolean
+          id: string
+          provider: string
+          sender_number: string | null
+          updated_at: string
+        }
+        Insert: {
+          api_base_url?: string | null
+          api_key_ciphertext?: string | null
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          provider?: string
+          sender_number?: string | null
+          updated_at?: string
+        }
+        Update: {
+          api_base_url?: string | null
+          api_key_ciphertext?: string | null
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          provider?: string
+          sender_number?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           afk_origin: string | null
@@ -1057,6 +1410,27 @@ export type Database = {
         }
         Relationships: []
       }
+      public_application_settings: {
+        Row: {
+          created_at: string
+          key: string
+          updated_at: string
+          value: string | null
+        }
+        Insert: {
+          created_at?: string
+          key: string
+          updated_at?: string
+          value?: string | null
+        }
+        Update: {
+          created_at?: string
+          key?: string
+          updated_at?: string
+          value?: string | null
+        }
+        Relationships: []
+      }
       referee_cards: {
         Row: {
           card_number: string
@@ -1100,6 +1474,38 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "referee_cards_referee_id_fkey"
+            columns: ["referee_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      referee_contacts: {
+        Row: {
+          created_at: string
+          id: string
+          referee_id: string
+          updated_at: string
+          whatsapp_number: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          referee_id: string
+          updated_at?: string
+          whatsapp_number: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          referee_id?: string
+          updated_at?: string
+          whatsapp_number?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referee_contacts_referee_fk"
             columns: ["referee_id"]
             isOneToOne: true
             referencedRelation: "profiles"
@@ -1332,6 +1738,66 @@ export type Database = {
           },
         ]
       }
+      public_system_settings: {
+        Row: {
+          created_at: string | null
+          description: string | null
+          id: string | null
+          key: string | null
+          updated_at: string | null
+          updated_by: string | null
+          value: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string | null
+          key?: string | null
+          updated_at?: string | null
+          updated_by?: string | null
+          value?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string | null
+          key?: string | null
+          updated_at?: string | null
+          updated_by?: string | null
+          value?: string | null
+        }
+        Relationships: []
+      }
+      public_whatsapp_settings: {
+        Row: {
+          api_base_url: string | null
+          created_at: string | null
+          enabled: boolean | null
+          id: string | null
+          provider: string | null
+          sender_number: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          api_base_url?: string | null
+          created_at?: string | null
+          enabled?: boolean | null
+          id?: string | null
+          provider?: string | null
+          sender_number?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          api_base_url?: string | null
+          created_at?: string | null
+          enabled?: boolean | null
+          id?: string | null
+          provider?: string | null
+          sender_number?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       referee_review_stats: {
         Row: {
           avg_rating: number | null
@@ -1363,6 +1829,36 @@ export type Database = {
         Args: { p_kota_id: string; p_location: string; p_name: string }
         Returns: boolean
       }
+      claim_event_completion_notification: {
+        Args: { p_channel: string; p_event_id: string; p_referee_id: string }
+        Returns: {
+          channel: string
+          claim_id: string | null
+          claimed_at: string | null
+          created_at: string
+          error_code: string | null
+          event_id: string
+          expires_at: string | null
+          id: string
+          provider: string | null
+          provider_message_id: string | null
+          provider_request_id: string | null
+          referee_id: string
+          sent_at: string | null
+          status: string
+          updated_at: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "event_completion_notifications"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      claim_notification_channel: {
+        Args: { p_assignment_id: string; p_channel: string; p_claim_id: string }
+        Returns: string
+      }
       count_referee_cards: {
         Args: { p_search?: string; p_status?: string }
         Returns: number
@@ -1376,7 +1872,37 @@ export type Database = {
         }
         Returns: number
       }
+      finalize_event_completion_notification: {
+        Args: {
+          p_channel: string
+          p_claim_id: string
+          p_error_code?: string
+          p_event_id: string
+          p_provider?: string
+          p_provider_message_id?: string
+          p_provider_request_id?: string
+          p_referee_id: string
+          p_status: string
+        }
+        Returns: number
+      }
+      finalize_notification_channel: {
+        Args: {
+          p_assignment_id: string
+          p_channel: string
+          p_claim_id: string
+          p_error_code?: string
+          p_provider?: string
+          p_request_id?: number
+          p_status: string
+        }
+        Returns: number
+      }
       generate_card_number: { Args: { p_referee_id: string }; Returns: string }
+      generate_official_document_number: {
+        Args: { p_document_type: string; p_year?: number }
+        Returns: string
+      }
       get_accessible_regions: { Args: { _user_id: string }; Returns: string[] }
       get_admin_dashboard_summary: {
         Args: {
@@ -1575,6 +2101,67 @@ export type Database = {
         Args: { _kabupaten_kota_id: string; _user_id: string }
         Returns: boolean
       }
+      issue_official_document: {
+        Args: {
+          p_content_hash?: string
+          p_document_type: string
+          p_issued_by?: string
+          p_snapshot?: Json
+          p_source_entity_id: string
+          p_source_entity_type: string
+        }
+        Returns: {
+          content_hash: string
+          created_at: string
+          document_number: string
+          document_type: string
+          id: string
+          issued_at: string
+          issued_by: string | null
+          revoked_at: string | null
+          revoked_by: string | null
+          revoked_reason: string | null
+          snapshot: Json
+          source_entity_id: string
+          source_entity_type: string
+          status: string
+          updated_at: string
+          verification_token: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "issued_documents"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      revoke_official_document: {
+        Args: { p_reason?: string; p_verification_token: string }
+        Returns: {
+          content_hash: string
+          created_at: string
+          document_number: string
+          document_type: string
+          id: string
+          issued_at: string
+          issued_by: string | null
+          revoked_at: string | null
+          revoked_by: string | null
+          revoked_reason: string | null
+          snapshot: Json
+          source_entity_id: string
+          source_entity_type: string
+          status: string
+          updated_at: string
+          verification_token: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "issued_documents"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       search_referee_cards:
         | {
             Args: {
@@ -1620,6 +2207,35 @@ export type Database = {
               total_count: number
             }[]
           }
+      transition_event_assignment_status: {
+        Args: {
+          p_assignment_id: string
+          p_reason?: string
+          p_target_status: string
+        }
+        Returns: {
+          cancellation_reason: string | null
+          cancelled_by: string | null
+          created_at: string | null
+          deleted_at: string | null
+          event_id: string
+          id: string
+          referee_id: string
+          role: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "event_assignments"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      verify_official_document: {
+        Args: { p_verification_token: string }
+        Returns: Json
+      }
       verify_referee_card: { Args: { p_code: string }; Returns: Json }
     }
     Enums: {
