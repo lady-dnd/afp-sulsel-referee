@@ -472,11 +472,10 @@ describe("send-whatsapp behavioral contract", () => {
   });
 
   it("keeps the security regression checks in place", () => {
-    const configText = fs.readFileSync(path.join(process.cwd(), "supabase/config.toml"), "utf8");
+    const configText = fs.readFileSync(path.join(process.cwd(), "src/routes/api/functions.$name.ts"), "utf8");
     const settingsText = fs.readFileSync(path.join(process.cwd(), "src/routes/settings.tsx"), "utf8");
 
-    expect(configText).toContain("[functions.send-whatsapp]");
-    expect(configText).toContain("verify_jwt = true");
+    expect(configText).toContain("supabaseAdmin.auth.getUser(token)");
     expect(settingsText).not.toContain("WHATSAPP_ACCESS_TOKEN");
     expect(settingsText).not.toContain("WHATSAPP_PHONE_NUMBER_ID");
     expect(settingsText).not.toContain("WHATSAPP_APP_SECRET");

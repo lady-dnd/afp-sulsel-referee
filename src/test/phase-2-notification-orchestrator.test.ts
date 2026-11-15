@@ -111,9 +111,10 @@ describe("Phase 2 notification orchestrator", () => {
   });
 
   it("requires authenticated, verified JWT delivery for the new function", () => {
-    const config = read("supabase/config.toml");
-    expect(config).toContain("[functions.notification-orchestrator]");
-    expect(config).toContain("verify_jwt = true");
+    const taskRoute = read("src/routes/api/functions.$name.ts");
+    const registry = read("src/server/edge/registry.ts");
+    expect(registry).toContain('"notification-orchestrator": () => import("./notification-orchestrator")');
+    expect(taskRoute).toContain("supabaseAdmin.auth.getUser(token)");
   });
 
   it("integrates claim and finalize RPC gates before provider delivery", () => {

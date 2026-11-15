@@ -7,13 +7,14 @@ const source = fs.readFileSync(
   "utf8",
 );
 const settingsSource = fs.readFileSync(path.join(process.cwd(), "src/routes/settings.tsx"), "utf8");
-const config = fs.readFileSync(path.join(process.cwd(), "supabase/config.toml"), "utf8").replace(/\r\n/g, "\n");
+const taskRoute = fs.readFileSync(path.join(process.cwd(), "src/routes/api/functions.$name.ts"), "utf8");
 
 describe("send-whatsapp security contract", () => {
   it("uses shared JWT and admin_provinsi authorization", () => {
     expect(source).toContain("resolveCaller(req, supabase)");
     expect(source).toContain('hasAnyRole(caller, ["admin_provinsi"])');
-    expect(config).toContain("[functions.send-whatsapp]\nverify_jwt = true");
+    expect(taskRoute).toContain("supabaseAdmin.auth.getUser(token)");
+    expect(taskRoute).toContain('{ error: "Unauthorized" }, { status: 401');
   });
 
   it("validates the narrow template request contract", () => {
@@ -63,7 +64,7 @@ describe("send-whatsapp security contract", () => {
   });
 
   it("uses the narrow frontend request contract without provider secrets", () => {
-    expect(settingsSource).toContain('supabase.functions.invoke("send-whatsapp"');
+    expect(settingsSource).toContain('invokeServerTask("send-whatsapp"');
     expect(settingsSource).toContain('type: "template"');
     expect(settingsSource).toContain('name: "hello_world"');
     expect(settingsSource).not.toContain("WHATSAPP_ACCESS_TOKEN");
