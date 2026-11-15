@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { useState, useRef } from "react";
 import { Download, Database, Calendar, FileJson, FileSpreadsheet, Loader2, CheckCircle2, ArrowLeft, Upload, AlertTriangle } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/navigation";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,7 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useExportDatabase, EXPORTABLE_TABLES, ExportableTable, ExportFormat } from "@/hooks/useExportDatabase";
 import { useImportDatabase, IMPORTABLE_TABLES, ConflictStrategy } from "@/hooks/useImportDatabase";
 import { useAuth } from "@/contexts/AuthContext";
-import { Navigate } from "react-router-dom";
+import { Navigate } from "@/lib/navigation";
 
 function DatabaseExport() {
   const { isAdminProvinsi } = useAuth();

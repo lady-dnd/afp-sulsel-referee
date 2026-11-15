@@ -19,7 +19,7 @@ import { useKabupatenKota } from "@/hooks/useUsers";
 import { format, isSameDay, startOfMonth, endOfMonth, isWithinInterval, parseISO } from "date-fns";
 import { id as localeId } from "date-fns/locale";
 import { CalendarDays, MapPin, Clock, ChevronLeft, ChevronRight, Filter, X, CircleDot, CircleAlert } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { useCurrentYear } from "@/contexts/CurrentYearContext";

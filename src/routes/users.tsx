@@ -71,7 +71,7 @@ import {
   Download,
   X
 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link } from "@/lib/navigation";
 import {
   Pagination,
   PaginationContent,

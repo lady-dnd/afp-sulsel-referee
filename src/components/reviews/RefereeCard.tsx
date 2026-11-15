@@ -3,7 +3,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { StarRating } from "./StarRating";
 import { MapPin, ChevronRight } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@/lib/navigation";
 import { formatLicenseLevel, capitalizeLocation } from "@/lib/formatters";
 
 interface RefereeCardProps {

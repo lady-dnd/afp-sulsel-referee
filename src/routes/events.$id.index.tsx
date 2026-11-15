@@ -3,7 +3,7 @@ import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { useState } from "react";
 import { ArrowLeft, Calendar, MapPin, Edit, UserPlus, CheckCircle, XCircle, Clock, Loader2, History, User, Ban, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { Link, useParams, useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "@/lib/navigation";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { Button } from "@/components/ui/button";

@@ -1,4 +1,4 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate, useLocation } from "@/lib/navigation";
 import { useAuth, AppRole } from "@/contexts/AuthContext";
 import { Loader2, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";

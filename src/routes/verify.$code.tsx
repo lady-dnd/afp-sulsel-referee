@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link } from "@/lib/navigation";
 import {
   CheckCircle2,
   XCircle,

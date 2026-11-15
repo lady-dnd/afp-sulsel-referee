@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Home, Calendar, Users, ClipboardCheck, MoreHorizontal, Building2, UserCog, UserCheck, Database, BookOpen, MessageSquare, IdCard, FileCheck, FileText } from "lucide-react";
-import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
 import { usePendingCount } from "@/hooks/useRegistrations";
