@@ -28,3 +28,11 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules (AFP Sulsel)
+
+- Pages from the original React Router app import routing helpers from `@/lib/navigation`, a thin shim over TanStack Router; why: keeps ported pages unchanged while routing stays TanStack.
+- Former Supabase Edge Functions live in `src/server/edge/*` and are called via `invokeServerTask` (`src/lib/server-tasks.ts`) → `/api/functions/$name`, which requires a signed-in bearer token; why: the app runs on the Worker runtime, not Deno.
+- Provider webhooks live under `src/routes/api/public/*` and verify the provider signature/token inside the handler; why: that prefix bypasses site auth.
+- The avatars bucket is private; profile photos are stored as `/api/public/avatars/<user-id>/<file>` and served by that route; why: public pages show referee photos without exposing other storage files.
+- Many ported files carry `// @ts-nocheck`; remove it file by file when touching them; why: inherited source code was not type-clean.

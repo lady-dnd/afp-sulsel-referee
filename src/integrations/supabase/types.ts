@@ -14,11 +14,97 @@ export type Database = {
   }
   public: {
     Tables: {
+      activity_logs: {
+        Row: {
+          action: string
+          actor_id: string | null
+          created_at: string | null
+          entity: string
+          entity_id: string | null
+          id: string
+          metadata: Json | null
+        }
+        Insert: {
+          action: string
+          actor_id?: string | null
+          created_at?: string | null
+          entity: string
+          entity_id?: string | null
+          id?: string
+          metadata?: Json | null
+        }
+        Update: {
+          action?: string
+          actor_id?: string | null
+          created_at?: string | null
+          entity?: string
+          entity_id?: string | null
+          id?: string
+          metadata?: Json | null
+        }
+        Relationships: []
+      }
+      assignment_notifications: {
+        Row: {
+          assignment_id: string
+          created_at: string
+          email_error_code: string | null
+          email_sent_at: string | null
+          email_status: string
+          id: string
+          updated_at: string
+          whatsapp_error_code: string | null
+          whatsapp_message_id: string | null
+          whatsapp_provider: string | null
+          whatsapp_request_id: number | null
+          whatsapp_sent_at: string | null
+          whatsapp_status: string
+        }
+        Insert: {
+          assignment_id: string
+          created_at?: string
+          email_error_code?: string | null
+          email_sent_at?: string | null
+          email_status?: string
+          id?: string
+          updated_at?: string
+          whatsapp_error_code?: string | null
+          whatsapp_message_id?: string | null
+          whatsapp_provider?: string | null
+          whatsapp_request_id?: number | null
+          whatsapp_sent_at?: string | null
+          whatsapp_status?: string
+        }
+        Update: {
+          assignment_id?: string
+          created_at?: string
+          email_error_code?: string | null
+          email_sent_at?: string | null
+          email_status?: string
+          id?: string
+          updated_at?: string
+          whatsapp_error_code?: string | null
+          whatsapp_message_id?: string | null
+          whatsapp_provider?: string | null
+          whatsapp_request_id?: number | null
+          whatsapp_sent_at?: string | null
+          whatsapp_status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "assignment_notifications_assignment_fk"
+            columns: ["assignment_id"]
+            isOneToOne: true
+            referencedRelation: "event_assignments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       audit_logs: {
         Row: {
           action: string
           actor_id: string | null
-          created_at: string
+          created_at: string | null
           entity_id: string
           entity_type: string
           id: string
@@ -29,7 +115,7 @@ export type Database = {
         Insert: {
           action: string
           actor_id?: string | null
-          created_at?: string
+          created_at?: string | null
           entity_id: string
           entity_type: string
           id?: string
@@ -40,7 +126,7 @@ export type Database = {
         Update: {
           action?: string
           actor_id?: string | null
-          created_at?: string
+          created_at?: string | null
           entity_id?: string
           entity_type?: string
           id?: string
@@ -49,6 +135,101 @@ export type Database = {
           old_data?: Json | null
         }
         Relationships: []
+      }
+      auth_attempts: {
+        Row: {
+          attempt_type: string
+          created_at: string | null
+          email: string
+          id: string
+          ip_address: unknown
+          success: boolean
+          user_agent: string | null
+        }
+        Insert: {
+          attempt_type: string
+          created_at?: string | null
+          email: string
+          id?: string
+          ip_address?: unknown
+          success: boolean
+          user_agent?: string | null
+        }
+        Update: {
+          attempt_type?: string
+          created_at?: string | null
+          email?: string
+          id?: string
+          ip_address?: unknown
+          success?: boolean
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
+      auth_event_logs: {
+        Row: {
+          created_at: string
+          event: string
+          id: string
+          identifier_hash: string | null
+          metadata: Json | null
+          success: boolean
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event: string
+          id?: string
+          identifier_hash?: string | null
+          metadata?: Json | null
+          success: boolean
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event?: string
+          id?: string
+          identifier_hash?: string | null
+          metadata?: Json | null
+          success?: boolean
+          user_id?: string | null
+        }
+        Relationships: []
+      }
+      card_verification_logs: {
+        Row: {
+          card_id: string
+          id: string
+          ip_address: string | null
+          location: string | null
+          user_agent: string | null
+          verified_at: string | null
+        }
+        Insert: {
+          card_id: string
+          id?: string
+          ip_address?: string | null
+          location?: string | null
+          user_agent?: string | null
+          verified_at?: string | null
+        }
+        Update: {
+          card_id?: string
+          id?: string
+          ip_address?: string | null
+          location?: string | null
+          user_agent?: string | null
+          verified_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "card_verification_logs_card_id_fkey"
+            columns: ["card_id"]
+            isOneToOne: false
+            referencedRelation: "referee_cards"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       discussion_replies: {
         Row: {
@@ -83,27 +264,6 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "discussion_replies_author_id_fkey"
-            columns: ["author_id"]
-            isOneToOne: false
-            referencedRelation: "active_profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "discussion_replies_author_id_fkey"
-            columns: ["author_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "discussion_replies_author_id_fkey"
-            columns: ["author_id"]
-            isOneToOne: false
-            referencedRelation: "public_referees"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "discussion_replies_parent_reply_id_fkey"
             columns: ["parent_reply_id"]
             isOneToOne: false
@@ -128,12 +288,12 @@ export type Database = {
           id: string
           is_locked: boolean | null
           is_pinned: boolean | null
-          last_reply_at: string | null
-          law_reference: number | null
-          reply_count: number | null
+          last_activity_at: string | null
+          law_reference: string | null
+          replies_count: number | null
           title: string
           updated_at: string | null
-          view_count: number | null
+          views_count: number | null
         }
         Insert: {
           author_id: string
@@ -143,12 +303,12 @@ export type Database = {
           id?: string
           is_locked?: boolean | null
           is_pinned?: boolean | null
-          last_reply_at?: string | null
-          law_reference?: number | null
-          reply_count?: number | null
+          last_activity_at?: string | null
+          law_reference?: string | null
+          replies_count?: number | null
           title: string
           updated_at?: string | null
-          view_count?: number | null
+          views_count?: number | null
         }
         Update: {
           author_id?: string
@@ -158,36 +318,14 @@ export type Database = {
           id?: string
           is_locked?: boolean | null
           is_pinned?: boolean | null
-          last_reply_at?: string | null
-          law_reference?: number | null
-          reply_count?: number | null
+          last_activity_at?: string | null
+          law_reference?: string | null
+          replies_count?: number | null
           title?: string
           updated_at?: string | null
-          view_count?: number | null
+          views_count?: number | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "discussion_topics_author_id_fkey"
-            columns: ["author_id"]
-            isOneToOne: false
-            referencedRelation: "active_profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "discussion_topics_author_id_fkey"
-            columns: ["author_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "discussion_topics_author_id_fkey"
-            columns: ["author_id"]
-            isOneToOne: false
-            referencedRelation: "public_referees"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       evaluation_criteria: {
         Row: {
@@ -198,7 +336,7 @@ export type Database = {
           name: string
           sort_order: number | null
           updated_at: string | null
-          weight: number | null
+          weight: number
         }
         Insert: {
           created_at?: string | null
@@ -208,7 +346,7 @@ export type Database = {
           name: string
           sort_order?: number | null
           updated_at?: string | null
-          weight?: number | null
+          weight?: number
         }
         Update: {
           created_at?: string | null
@@ -218,7 +356,7 @@ export type Database = {
           name?: string
           sort_order?: number | null
           updated_at?: string | null
-          weight?: number | null
+          weight?: number
         }
         Relationships: []
       }
@@ -267,8 +405,8 @@ export type Database = {
       evaluations: {
         Row: {
           created_at: string | null
-          evaluator_id: string
-          event_id: string
+          evaluator_id: string | null
+          event_id: string | null
           id: string
           notes: string | null
           referee_id: string
@@ -279,8 +417,8 @@ export type Database = {
         }
         Insert: {
           created_at?: string | null
-          evaluator_id: string
-          event_id: string
+          evaluator_id?: string | null
+          event_id?: string | null
           id?: string
           notes?: string | null
           referee_id: string
@@ -291,8 +429,8 @@ export type Database = {
         }
         Update: {
           created_at?: string | null
-          evaluator_id?: string
-          event_id?: string
+          evaluator_id?: string | null
+          event_id?: string | null
           id?: string
           notes?: string | null
           referee_id?: string
@@ -302,27 +440,6 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: [
-          {
-            foreignKeyName: "evaluations_evaluator_id_fkey"
-            columns: ["evaluator_id"]
-            isOneToOne: false
-            referencedRelation: "active_profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "evaluations_evaluator_id_fkey"
-            columns: ["evaluator_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "evaluations_evaluator_id_fkey"
-            columns: ["evaluator_id"]
-            isOneToOne: false
-            referencedRelation: "public_referees"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "evaluations_event_id_fkey"
             columns: ["event_id"]
@@ -341,57 +458,53 @@ export type Database = {
             foreignKeyName: "evaluations_referee_id_fkey"
             columns: ["referee_id"]
             isOneToOne: false
-            referencedRelation: "active_profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "evaluations_referee_id_fkey"
-            columns: ["referee_id"]
-            isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "evaluations_referee_id_fkey"
-            columns: ["referee_id"]
-            isOneToOne: false
-            referencedRelation: "public_referees"
             referencedColumns: ["id"]
           },
         ]
       }
       event_approvals: {
         Row: {
-          action: string
+          action: string | null
           approved_by: string | null
+          approver_id: string | null
           created_at: string | null
           event_id: string
-          from_status: string | null
           id: string
           notes: string | null
-          to_status: string
+          status: string
+          updated_at: string | null
         }
         Insert: {
-          action: string
+          action?: string | null
           approved_by?: string | null
+          approver_id?: string | null
           created_at?: string | null
           event_id: string
-          from_status?: string | null
           id?: string
           notes?: string | null
-          to_status: string
+          status?: string
+          updated_at?: string | null
         }
         Update: {
-          action?: string
+          action?: string | null
           approved_by?: string | null
+          approver_id?: string | null
           created_at?: string | null
           event_id?: string
-          from_status?: string | null
           id?: string
           notes?: string | null
-          to_status?: string
+          status?: string
+          updated_at?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "event_approvals_approver_id_fkey"
+            columns: ["approver_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "event_approvals_event_id_fkey"
             columns: ["event_id"]
@@ -447,27 +560,6 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "event_assignments_cancelled_by_fkey"
-            columns: ["cancelled_by"]
-            isOneToOne: false
-            referencedRelation: "active_profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "event_assignments_cancelled_by_fkey"
-            columns: ["cancelled_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "event_assignments_cancelled_by_fkey"
-            columns: ["cancelled_by"]
-            isOneToOne: false
-            referencedRelation: "public_referees"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "event_assignments_event_id_fkey"
             columns: ["event_id"]
             isOneToOne: false
@@ -485,24 +577,116 @@ export type Database = {
             foreignKeyName: "event_assignments_referee_id_fkey"
             columns: ["referee_id"]
             isOneToOne: false
-            referencedRelation: "active_profiles"
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      event_completion_notifications: {
+        Row: {
+          channel: string
+          claim_id: string | null
+          claimed_at: string | null
+          created_at: string
+          error_code: string | null
+          event_id: string
+          expires_at: string | null
+          id: string
+          provider: string | null
+          provider_message_id: string | null
+          provider_request_id: string | null
+          referee_id: string
+          sent_at: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          channel: string
+          claim_id?: string | null
+          claimed_at?: string | null
+          created_at?: string
+          error_code?: string | null
+          event_id: string
+          expires_at?: string | null
+          id?: string
+          provider?: string | null
+          provider_message_id?: string | null
+          provider_request_id?: string | null
+          referee_id: string
+          sent_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          channel?: string
+          claim_id?: string | null
+          claimed_at?: string | null
+          created_at?: string
+          error_code?: string | null
+          event_id?: string
+          expires_at?: string | null
+          id?: string
+          provider?: string | null
+          provider_message_id?: string | null
+          provider_request_id?: string | null
+          referee_id?: string
+          sent_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_completion_notifications_event_fk"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "active_events"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "event_assignments_referee_id_fkey"
+            foreignKeyName: "event_completion_notifications_event_fk"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "event_completion_notifications_referee_fk"
             columns: ["referee_id"]
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
-          {
-            foreignKeyName: "event_assignments_referee_id_fkey"
-            columns: ["referee_id"]
-            isOneToOne: false
-            referencedRelation: "public_referees"
-            referencedColumns: ["id"]
-          },
         ]
+      }
+      event_logs: {
+        Row: {
+          action: string
+          created_at: string | null
+          event_id: string | null
+          from_status: string | null
+          id: string
+          performed_by: string | null
+          to_status: string | null
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          event_id?: string | null
+          from_status?: string | null
+          id?: string
+          performed_by?: string | null
+          to_status?: string | null
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          event_id?: string | null
+          from_status?: string | null
+          id?: string
+          performed_by?: string | null
+          to_status?: string | null
+        }
+        Relationships: []
       }
       events: {
         Row: {
@@ -512,11 +696,12 @@ export type Database = {
           date: string
           deleted_at: string | null
           description: string | null
-          document_path: string | null
+          end_date: string | null
           id: string
           kabupaten_kota_id: string | null
           location: string | null
           name: string
+          start_date: string | null
           status: string | null
           updated_at: string | null
         }
@@ -527,11 +712,12 @@ export type Database = {
           date: string
           deleted_at?: string | null
           description?: string | null
-          document_path?: string | null
+          end_date?: string | null
           id?: string
           kabupaten_kota_id?: string | null
           location?: string | null
           name: string
+          start_date?: string | null
           status?: string | null
           updated_at?: string | null
         }
@@ -542,11 +728,12 @@ export type Database = {
           date?: string
           deleted_at?: string | null
           description?: string | null
-          document_path?: string | null
+          end_date?: string | null
           id?: string
           kabupaten_kota_id?: string | null
           location?: string | null
           name?: string
+          start_date?: string | null
           status?: string | null
           updated_at?: string | null
         }
@@ -555,21 +742,7 @@ export type Database = {
             foreignKeyName: "events_created_by_fkey"
             columns: ["created_by"]
             isOneToOne: false
-            referencedRelation: "active_profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "events_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "events_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "public_referees"
             referencedColumns: ["id"]
           },
           {
@@ -640,34 +813,6 @@ export type Database = {
             foreignKeyName: "honors_referee_id_fkey"
             columns: ["referee_id"]
             isOneToOne: false
-            referencedRelation: "active_profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "honors_referee_id_fkey"
-            columns: ["referee_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "honors_referee_id_fkey"
-            columns: ["referee_id"]
-            isOneToOne: false
-            referencedRelation: "public_referees"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "honors_verified_by_fkey"
-            columns: ["verified_by"]
-            isOneToOne: false
-            referencedRelation: "active_profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "honors_verified_by_fkey"
-            columns: ["verified_by"]
-            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -675,10 +820,67 @@ export type Database = {
             foreignKeyName: "honors_verified_by_fkey"
             columns: ["verified_by"]
             isOneToOne: false
-            referencedRelation: "public_referees"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
+      }
+      issued_documents: {
+        Row: {
+          content_hash: string
+          created_at: string
+          document_number: string
+          document_type: string
+          id: string
+          issued_at: string
+          issued_by: string | null
+          revoked_at: string | null
+          revoked_by: string | null
+          revoked_reason: string | null
+          snapshot: Json
+          source_entity_id: string
+          source_entity_type: string
+          status: string
+          updated_at: string
+          verification_token: string
+        }
+        Insert: {
+          content_hash: string
+          created_at?: string
+          document_number: string
+          document_type: string
+          id?: string
+          issued_at?: string
+          issued_by?: string | null
+          revoked_at?: string | null
+          revoked_by?: string | null
+          revoked_reason?: string | null
+          snapshot?: Json
+          source_entity_id: string
+          source_entity_type: string
+          status?: string
+          updated_at?: string
+          verification_token: string
+        }
+        Update: {
+          content_hash?: string
+          created_at?: string
+          document_number?: string
+          document_type?: string
+          id?: string
+          issued_at?: string
+          issued_by?: string | null
+          revoked_at?: string | null
+          revoked_by?: string | null
+          revoked_reason?: string | null
+          snapshot?: Json
+          source_entity_id?: string
+          source_entity_type?: string
+          status?: string
+          updated_at?: string
+          verification_token?: string
+        }
+        Relationships: []
       }
       kabupaten_kota: {
         Row: {
@@ -718,75 +920,65 @@ export type Database = {
       learning_materials: {
         Row: {
           category: string
-          content: string
+          content: string | null
+          content_type: string
+          content_url: string | null
           created_at: string | null
           created_by: string | null
           description: string | null
           difficulty_level: string | null
+          duration_minutes: number | null
           id: string
           is_published: boolean | null
-          law_number: number | null
+          law_number: string | null
           pdf_url: string | null
           sort_order: number | null
+          thumbnail_url: string | null
           title: string
           updated_at: string | null
           video_url: string | null
         }
         Insert: {
           category: string
-          content: string
+          content?: string | null
+          content_type?: string
+          content_url?: string | null
           created_at?: string | null
           created_by?: string | null
           description?: string | null
           difficulty_level?: string | null
+          duration_minutes?: number | null
           id?: string
           is_published?: boolean | null
-          law_number?: number | null
+          law_number?: string | null
           pdf_url?: string | null
           sort_order?: number | null
+          thumbnail_url?: string | null
           title: string
           updated_at?: string | null
           video_url?: string | null
         }
         Update: {
           category?: string
-          content?: string
+          content?: string | null
+          content_type?: string
+          content_url?: string | null
           created_at?: string | null
           created_by?: string | null
           description?: string | null
           difficulty_level?: string | null
+          duration_minutes?: number | null
           id?: string
           is_published?: boolean | null
-          law_number?: number | null
+          law_number?: string | null
           pdf_url?: string | null
           sort_order?: number | null
+          thumbnail_url?: string | null
           title?: string
           updated_at?: string | null
           video_url?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "learning_materials_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "active_profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "learning_materials_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "learning_materials_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "public_referees"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       learning_progress: {
         Row: {
@@ -821,28 +1013,225 @@ export type Database = {
             referencedRelation: "learning_materials"
             referencedColumns: ["id"]
           },
+        ]
+      }
+      message_delivery_ledger: {
+        Row: {
+          environment: string
+          event_type: string
+          id: string
+          idempotency_key: string
+          metadata: Json | null
+          normalized_status: string
+          payload_hash: string
+          processing_time_ms: number | null
+          production: boolean
+          provider: string
+          provider_message_id: string | null
+          provider_request_id: number
+          provider_send_id: number
+          provider_status: string
+          received_at: string
+        }
+        Insert: {
+          environment: string
+          event_type: string
+          id?: string
+          idempotency_key: string
+          metadata?: Json | null
+          normalized_status: string
+          payload_hash: string
+          processing_time_ms?: number | null
+          production: boolean
+          provider: string
+          provider_message_id?: string | null
+          provider_request_id: number
+          provider_send_id: number
+          provider_status: string
+          received_at?: string
+        }
+        Update: {
+          environment?: string
+          event_type?: string
+          id?: string
+          idempotency_key?: string
+          metadata?: Json | null
+          normalized_status?: string
+          payload_hash?: string
+          processing_time_ms?: number | null
+          production?: boolean
+          provider?: string
+          provider_message_id?: string | null
+          provider_request_id?: number
+          provider_send_id?: number
+          provider_status?: string
+          received_at?: string
+        }
+        Relationships: []
+      }
+      meta_webhook_events: {
+        Row: {
+          event_key: string
+          id: number
+          lifecycle_status: string
+          payload_hash: string
+          phone_number_id: string
+          provider: string
+          provider_event_timestamp: number | null
+          received_at: string
+          waba_id: string
+          wamid: string
+        }
+        Insert: {
+          event_key: string
+          id?: number
+          lifecycle_status: string
+          payload_hash: string
+          phone_number_id: string
+          provider: string
+          provider_event_timestamp?: number | null
+          received_at?: string
+          waba_id: string
+          wamid: string
+        }
+        Update: {
+          event_key?: string
+          id?: number
+          lifecycle_status?: string
+          payload_hash?: string
+          phone_number_id?: string
+          provider?: string
+          provider_event_timestamp?: number | null
+          received_at?: string
+          waba_id?: string
+          wamid?: string
+        }
+        Relationships: []
+      }
+      notification_channel_claims: {
+        Row: {
+          assignment_id: string
+          channel: string
+          claim_id: string
+          claimed_at: string
+          created_at: string
+          expires_at: string
+          updated_at: string
+        }
+        Insert: {
+          assignment_id: string
+          channel: string
+          claim_id: string
+          claimed_at?: string
+          created_at?: string
+          expires_at: string
+          updated_at?: string
+        }
+        Update: {
+          assignment_id?: string
+          channel?: string
+          claim_id?: string
+          claimed_at?: string
+          created_at?: string
+          expires_at?: string
+          updated_at?: string
+        }
+        Relationships: [
           {
-            foreignKeyName: "learning_progress_user_id_fkey"
-            columns: ["user_id"]
+            foreignKeyName: "notification_channel_claims_assignment_fk"
+            columns: ["assignment_id"]
             isOneToOne: false
-            referencedRelation: "active_profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "learning_progress_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "learning_progress_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "public_referees"
+            referencedRelation: "event_assignments"
             referencedColumns: ["id"]
           },
         ]
+      }
+      notification_preferences: {
+        Row: {
+          assignment_enabled: boolean | null
+          created_at: string | null
+          discussion_enabled: boolean | null
+          evaluation_enabled: boolean | null
+          event_enabled: boolean | null
+          honor_enabled: boolean | null
+          id: string
+          learning_enabled: boolean | null
+          pengurus_enabled: boolean | null
+          registration_enabled: boolean | null
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          assignment_enabled?: boolean | null
+          created_at?: string | null
+          discussion_enabled?: boolean | null
+          evaluation_enabled?: boolean | null
+          event_enabled?: boolean | null
+          honor_enabled?: boolean | null
+          id?: string
+          learning_enabled?: boolean | null
+          pengurus_enabled?: boolean | null
+          registration_enabled?: boolean | null
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          assignment_enabled?: boolean | null
+          created_at?: string | null
+          discussion_enabled?: boolean | null
+          evaluation_enabled?: boolean | null
+          event_enabled?: boolean | null
+          honor_enabled?: boolean | null
+          id?: string
+          learning_enabled?: boolean | null
+          pengurus_enabled?: boolean | null
+          registration_enabled?: boolean | null
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          action: string
+          created_at: string | null
+          entity_id: string | null
+          entity_type: string | null
+          id: string
+          is_read: boolean | null
+          message: string | null
+          read_at: string | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string | null
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          is_read?: boolean | null
+          message?: string | null
+          read_at?: string | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string | null
+          entity_id?: string | null
+          entity_type?: string | null
+          id?: string
+          is_read?: boolean | null
+          message?: string | null
+          read_at?: string | null
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       pengurus: {
         Row: {
@@ -894,6 +1283,39 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      private_whatsapp_settings: {
+        Row: {
+          api_base_url: string | null
+          api_key_ciphertext: string | null
+          created_at: string
+          enabled: boolean
+          id: string
+          provider: string
+          sender_number: string | null
+          updated_at: string
+        }
+        Insert: {
+          api_base_url?: string | null
+          api_key_ciphertext?: string | null
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          provider?: string
+          sender_number?: string | null
+          updated_at?: string
+        }
+        Update: {
+          api_base_url?: string | null
+          api_key_ciphertext?: string | null
+          created_at?: string
+          enabled?: boolean
+          id?: string
+          provider?: string
+          sender_number?: string | null
+          updated_at?: string
+        }
+        Relationships: []
       }
       profiles: {
         Row: {
@@ -970,27 +1392,6 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "profiles_approved_by_fkey"
-            columns: ["approved_by"]
-            isOneToOne: false
-            referencedRelation: "active_profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "profiles_approved_by_fkey"
-            columns: ["approved_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "profiles_approved_by_fkey"
-            columns: ["approved_by"]
-            isOneToOne: false
-            referencedRelation: "public_referees"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "profiles_kabupaten_kota_id_fkey"
             columns: ["kabupaten_kota_id"]
             isOneToOne: false
@@ -1023,6 +1424,109 @@ export type Database = {
         }
         Relationships: []
       }
+      public_application_settings: {
+        Row: {
+          created_at: string
+          key: string
+          updated_at: string
+          value: string | null
+        }
+        Insert: {
+          created_at?: string
+          key: string
+          updated_at?: string
+          value?: string | null
+        }
+        Update: {
+          created_at?: string
+          key?: string
+          updated_at?: string
+          value?: string | null
+        }
+        Relationships: []
+      }
+      referee_cards: {
+        Row: {
+          card_number: string
+          created_at: string | null
+          expires_at: string | null
+          id: string
+          issued_at: string | null
+          last_verified_at: string | null
+          referee_id: string
+          status: string | null
+          updated_at: string | null
+          verification_code: string
+          verification_count: number | null
+        }
+        Insert: {
+          card_number: string
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          issued_at?: string | null
+          last_verified_at?: string | null
+          referee_id: string
+          status?: string | null
+          updated_at?: string | null
+          verification_code: string
+          verification_count?: number | null
+        }
+        Update: {
+          card_number?: string
+          created_at?: string | null
+          expires_at?: string | null
+          id?: string
+          issued_at?: string | null
+          last_verified_at?: string | null
+          referee_id?: string
+          status?: string | null
+          updated_at?: string | null
+          verification_code?: string
+          verification_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referee_cards_referee_id_fkey"
+            columns: ["referee_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      referee_contacts: {
+        Row: {
+          created_at: string
+          id: string
+          referee_id: string
+          updated_at: string
+          whatsapp_number: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          referee_id: string
+          updated_at?: string
+          whatsapp_number: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          referee_id?: string
+          updated_at?: string
+          whatsapp_number?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referee_contacts_referee_fk"
+            columns: ["referee_id"]
+            isOneToOne: true
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       referee_reviews: {
         Row: {
           comment: string | null
@@ -1053,91 +1557,58 @@ export type Database = {
             foreignKeyName: "referee_reviews_referee_id_fkey"
             columns: ["referee_id"]
             isOneToOne: false
-            referencedRelation: "active_profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "referee_reviews_referee_id_fkey"
-            columns: ["referee_id"]
-            isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "referee_reviews_referee_id_fkey"
-            columns: ["referee_id"]
-            isOneToOne: false
-            referencedRelation: "public_referees"
             referencedColumns: ["id"]
           },
         ]
       }
       system_settings: {
         Row: {
-          created_at: string | null
+          created_at: string
           description: string | null
           id: string
           key: string
-          updated_at: string | null
+          updated_at: string
           updated_by: string | null
           value: string | null
         }
         Insert: {
-          created_at?: string | null
+          created_at?: string
           description?: string | null
           id?: string
           key: string
-          updated_at?: string | null
+          updated_at?: string
           updated_by?: string | null
           value?: string | null
         }
         Update: {
-          created_at?: string | null
+          created_at?: string
           description?: string | null
           id?: string
           key?: string
-          updated_at?: string | null
+          updated_at?: string
           updated_by?: string | null
           value?: string | null
         }
-        Relationships: [
-          {
-            foreignKeyName: "system_settings_updated_by_fkey"
-            columns: ["updated_by"]
-            isOneToOne: false
-            referencedRelation: "active_profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "system_settings_updated_by_fkey"
-            columns: ["updated_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "system_settings_updated_by_fkey"
-            columns: ["updated_by"]
-            isOneToOne: false
-            referencedRelation: "public_referees"
-            referencedColumns: ["id"]
-          },
-        ]
+        Relationships: []
       }
       user_roles: {
         Row: {
+          email: string | null
           id: string
-          role: Database["public"]["Enums"]["app_role"]
+          role: Database["public"]["Enums"]["app_role"] | null
           user_id: string
         }
         Insert: {
+          email?: string | null
           id?: string
-          role: Database["public"]["Enums"]["app_role"]
+          role?: Database["public"]["Enums"]["app_role"] | null
           user_id: string
         }
         Update: {
+          email?: string | null
           id?: string
-          role?: Database["public"]["Enums"]["app_role"]
+          role?: Database["public"]["Enums"]["app_role"] | null
           user_id?: string
         }
         Relationships: []
@@ -1152,10 +1623,12 @@ export type Database = {
           date: string | null
           deleted_at: string | null
           description: string | null
+          end_date: string | null
           id: string | null
           kabupaten_kota_id: string | null
           location: string | null
           name: string | null
+          start_date: string | null
           status: string | null
           updated_at: string | null
         }
@@ -1166,10 +1639,12 @@ export type Database = {
           date?: string | null
           deleted_at?: string | null
           description?: string | null
+          end_date?: string | null
           id?: string | null
           kabupaten_kota_id?: string | null
           location?: string | null
           name?: string | null
+          start_date?: string | null
           status?: string | null
           updated_at?: string | null
         }
@@ -1180,10 +1655,12 @@ export type Database = {
           date?: string | null
           deleted_at?: string | null
           description?: string | null
+          end_date?: string | null
           id?: string | null
           kabupaten_kota_id?: string | null
           location?: string | null
           name?: string | null
+          start_date?: string | null
           status?: string | null
           updated_at?: string | null
         }
@@ -1192,21 +1669,7 @@ export type Database = {
             foreignKeyName: "events_created_by_fkey"
             columns: ["created_by"]
             isOneToOne: false
-            referencedRelation: "active_profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "events_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "events_created_by_fkey"
-            columns: ["created_by"]
-            isOneToOne: false
-            referencedRelation: "public_referees"
             referencedColumns: ["id"]
           },
           {
@@ -1277,34 +1740,6 @@ export type Database = {
             foreignKeyName: "honors_referee_id_fkey"
             columns: ["referee_id"]
             isOneToOne: false
-            referencedRelation: "active_profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "honors_referee_id_fkey"
-            columns: ["referee_id"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "honors_referee_id_fkey"
-            columns: ["referee_id"]
-            isOneToOne: false
-            referencedRelation: "public_referees"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "honors_verified_by_fkey"
-            columns: ["verified_by"]
-            isOneToOne: false
-            referencedRelation: "active_profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "honors_verified_by_fkey"
-            columns: ["verified_by"]
-            isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
@@ -1312,121 +1747,68 @@ export type Database = {
             foreignKeyName: "honors_verified_by_fkey"
             columns: ["verified_by"]
             isOneToOne: false
-            referencedRelation: "public_referees"
+            referencedRelation: "profiles"
             referencedColumns: ["id"]
           },
         ]
       }
-      active_profiles: {
+      public_system_settings: {
         Row: {
-          afk_origin: string | null
-          approved_at: string | null
-          approved_by: string | null
-          birth_date: string | null
           created_at: string | null
-          deleted_at: string | null
-          full_name: string | null
+          description: string | null
           id: string | null
-          is_active: boolean | null
-          is_profile_complete: boolean | null
-          kabupaten_kota_id: string | null
-          ktp_photo_url: string | null
-          license_expiry: string | null
-          license_level: string | null
-          license_photo_url: string | null
-          occupation: string | null
-          profile_photo_url: string | null
-          registration_status: string | null
-          rejected_reason: string | null
-          requested_role: string | null
+          key: string | null
+          updated_at: string | null
+          updated_by: string | null
+          value: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string | null
+          id?: string | null
+          key?: string | null
+          updated_at?: string | null
+          updated_by?: string | null
+          value?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          description?: string | null
+          id?: string | null
+          key?: string | null
+          updated_at?: string | null
+          updated_by?: string | null
+          value?: string | null
+        }
+        Relationships: []
+      }
+      public_whatsapp_settings: {
+        Row: {
+          api_base_url: string | null
+          created_at: string | null
+          enabled: boolean | null
+          id: string | null
+          provider: string | null
+          sender_number: string | null
           updated_at: string | null
         }
         Insert: {
-          afk_origin?: string | null
-          approved_at?: string | null
-          approved_by?: string | null
-          birth_date?: string | null
+          api_base_url?: string | null
           created_at?: string | null
-          deleted_at?: string | null
-          full_name?: string | null
+          enabled?: boolean | null
           id?: string | null
-          is_active?: boolean | null
-          is_profile_complete?: boolean | null
-          kabupaten_kota_id?: string | null
-          ktp_photo_url?: string | null
-          license_expiry?: string | null
-          license_level?: string | null
-          license_photo_url?: string | null
-          occupation?: string | null
-          profile_photo_url?: string | null
-          registration_status?: string | null
-          rejected_reason?: string | null
-          requested_role?: string | null
+          provider?: string | null
+          sender_number?: string | null
           updated_at?: string | null
         }
         Update: {
-          afk_origin?: string | null
-          approved_at?: string | null
-          approved_by?: string | null
-          birth_date?: string | null
+          api_base_url?: string | null
           created_at?: string | null
-          deleted_at?: string | null
-          full_name?: string | null
+          enabled?: boolean | null
           id?: string | null
-          is_active?: boolean | null
-          is_profile_complete?: boolean | null
-          kabupaten_kota_id?: string | null
-          ktp_photo_url?: string | null
-          license_expiry?: string | null
-          license_level?: string | null
-          license_photo_url?: string | null
-          occupation?: string | null
-          profile_photo_url?: string | null
-          registration_status?: string | null
-          rejected_reason?: string | null
-          requested_role?: string | null
+          provider?: string | null
+          sender_number?: string | null
           updated_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "profiles_approved_by_fkey"
-            columns: ["approved_by"]
-            isOneToOne: false
-            referencedRelation: "active_profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "profiles_approved_by_fkey"
-            columns: ["approved_by"]
-            isOneToOne: false
-            referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "profiles_approved_by_fkey"
-            columns: ["approved_by"]
-            isOneToOne: false
-            referencedRelation: "public_referees"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "profiles_kabupaten_kota_id_fkey"
-            columns: ["kabupaten_kota_id"]
-            isOneToOne: false
-            referencedRelation: "kabupaten_kota"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      public_referees: {
-        Row: {
-          afk_origin: string | null
-          avg_rating: number | null
-          full_name: string | null
-          id: string | null
-          license_level: string | null
-          profile_photo_url: string | null
-          total_reviews: number | null
         }
         Relationships: []
       }
@@ -1441,27 +1823,18 @@ export type Database = {
             foreignKeyName: "referee_reviews_referee_id_fkey"
             columns: ["referee_id"]
             isOneToOne: false
-            referencedRelation: "active_profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "referee_reviews_referee_id_fkey"
-            columns: ["referee_id"]
-            isOneToOne: false
             referencedRelation: "profiles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "referee_reviews_referee_id_fkey"
-            columns: ["referee_id"]
-            isOneToOne: false
-            referencedRelation: "public_referees"
             referencedColumns: ["id"]
           },
         ]
       }
     }
     Functions: {
+      approve_registration: {
+        Args: { _role: string; _user_id: string }
+        Returns: undefined
+      }
+      auto_mark_expired_cards: { Args: never; Returns: Json }
       can_access_region: {
         Args: { _kabupaten_kota_id: string; _user_id: string }
         Returns: boolean
@@ -1469,6 +1842,84 @@ export type Database = {
       can_approve_registration: {
         Args: { _admin_id: string; _user_id: string }
         Returns: boolean
+      }
+      check_duplicate_event: {
+        Args: { p_kota_id: string; p_location: string; p_name: string }
+        Returns: boolean
+      }
+      claim_event_completion_notification: {
+        Args: { p_channel: string; p_event_id: string; p_referee_id: string }
+        Returns: {
+          channel: string
+          claim_id: string | null
+          claimed_at: string | null
+          created_at: string
+          error_code: string | null
+          event_id: string
+          expires_at: string | null
+          id: string
+          provider: string | null
+          provider_message_id: string | null
+          provider_request_id: string | null
+          referee_id: string
+          sent_at: string | null
+          status: string
+          updated_at: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "event_completion_notifications"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      claim_notification_channel: {
+        Args: { p_assignment_id: string; p_channel: string; p_claim_id: string }
+        Returns: string
+      }
+      count_referee_cards: {
+        Args: { p_search?: string; p_status?: string }
+        Returns: number
+      }
+      count_referees: {
+        Args: {
+          _is_active?: boolean
+          _kabupaten_kota_id?: string
+          _license_level?: string
+          _search?: string
+        }
+        Returns: number
+      }
+      finalize_event_completion_notification: {
+        Args: {
+          p_channel: string
+          p_claim_id: string
+          p_error_code?: string
+          p_event_id: string
+          p_provider?: string
+          p_provider_message_id?: string
+          p_provider_request_id?: string
+          p_referee_id: string
+          p_status: string
+        }
+        Returns: number
+      }
+      finalize_notification_channel: {
+        Args: {
+          p_assignment_id: string
+          p_channel: string
+          p_claim_id: string
+          p_error_code?: string
+          p_provider?: string
+          p_request_id?: number
+          p_status: string
+        }
+        Returns: number
+      }
+      generate_card_number: { Args: { p_referee_id: string }; Returns: string }
+      generate_official_document_number: {
+        Args: { p_document_type: string; p_year?: number }
+        Returns: string
       }
       get_accessible_regions: { Args: { _user_id: string }; Returns: string[] }
       get_admin_dashboard_summary: {
@@ -1522,17 +1973,51 @@ export type Database = {
           total_verified: number
         }[]
       }
+      get_my_referee_event_count: {
+        Args: { _end_date?: string; _start_date?: string }
+        Returns: {
+          cancelled_events: number
+          completed_events: number
+          pending_events: number
+          referee_id: string
+          referee_name: string
+          total_events: number
+        }[]
+      }
       get_pending_registrations: {
         Args: never
         Returns: {
           created_at: string
-          email: string
           full_name: string
           id: string
           kabupaten_kota_id: string
           kabupaten_kota_name: string
           registration_status: string
           requested_role: string
+        }[]
+      }
+      get_public_referee: {
+        Args: { _referee_id: string }
+        Returns: {
+          afk_origin: string
+          full_name: string
+          id: string
+          is_active: boolean
+          kabupaten_kota_name: string
+          license_level: string
+          profile_photo_url: string
+        }[]
+      }
+      get_public_referees: {
+        Args: { _is_active?: boolean; _search?: string }
+        Returns: {
+          afk_origin: string
+          full_name: string
+          id: string
+          is_active: boolean
+          kabupaten_kota_name: string
+          license_level: string
+          profile_photo_url: string
         }[]
       }
       get_referee_event_count: {
@@ -1575,6 +2060,8 @@ export type Database = {
           _is_active?: boolean
           _kabupaten_kota_id?: string
           _license_level?: string
+          _limit?: number
+          _offset?: number
           _search?: string
         }
         Returns: {
@@ -1586,7 +2073,6 @@ export type Database = {
           is_active: boolean
           is_profile_complete: boolean
           kabupaten_kota_id: string
-          kabupaten_kota_name: string
           license_expiry: string
           license_level: string
           profile_photo_url: string
@@ -1599,7 +2085,6 @@ export type Database = {
           approved_by: string
           approver_name: string
           created_at: string
-          email: string
           full_name: string
           id: string
           kabupaten_kota_id: string
@@ -1610,6 +2095,10 @@ export type Database = {
         }[]
       }
       get_user_kabupaten_kota: { Args: { _user_id: string }; Returns: string }
+      get_user_kabupaten_kota_id: {
+        Args: { _user_id: string }
+        Returns: string
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1621,7 +2110,9 @@ export type Database = {
         Args: { _event_id: string; _referee_id: string }
         Returns: boolean
       }
+      increment_view_count: { Args: { topic_id: string }; Returns: undefined }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
+      is_admin_kab_kota: { Args: { _user_id: string }; Returns: boolean }
       is_admin_provinsi: { Args: { _user_id: string }; Returns: boolean }
       is_event_approved: { Args: { _event_id: string }; Returns: boolean }
       is_referee_active: { Args: { _referee_id: string }; Returns: boolean }
@@ -1629,6 +2120,215 @@ export type Database = {
         Args: { _kabupaten_kota_id: string; _user_id: string }
         Returns: boolean
       }
+      issue_my_referee_card: {
+        Args: never
+        Returns: {
+          card_number: string
+          created_at: string | null
+          expires_at: string | null
+          id: string
+          issued_at: string | null
+          last_verified_at: string | null
+          referee_id: string
+          status: string | null
+          updated_at: string | null
+          verification_code: string
+          verification_count: number | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "referee_cards"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      issue_official_document: {
+        Args: {
+          p_content_hash?: string
+          p_document_type: string
+          p_issued_by?: string
+          p_snapshot?: Json
+          p_source_entity_id: string
+          p_source_entity_type: string
+        }
+        Returns: {
+          content_hash: string
+          created_at: string
+          document_number: string
+          document_type: string
+          id: string
+          issued_at: string
+          issued_by: string | null
+          revoked_at: string | null
+          revoked_by: string | null
+          revoked_reason: string | null
+          snapshot: Json
+          source_entity_id: string
+          source_entity_type: string
+          status: string
+          updated_at: string
+          verification_token: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "issued_documents"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      mark_event_completed: {
+        Args: { p_event_id: string; p_notes?: string }
+        Returns: {
+          category: string | null
+          created_at: string | null
+          created_by: string | null
+          date: string
+          deleted_at: string | null
+          description: string | null
+          end_date: string | null
+          id: string
+          kabupaten_kota_id: string | null
+          location: string | null
+          name: string
+          start_date: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "events"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      regenerate_my_referee_card: {
+        Args: never
+        Returns: {
+          card_number: string
+          created_at: string | null
+          expires_at: string | null
+          id: string
+          issued_at: string | null
+          last_verified_at: string | null
+          referee_id: string
+          status: string | null
+          updated_at: string | null
+          verification_code: string
+          verification_count: number | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "referee_cards"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      reject_registration: {
+        Args: { _reason: string; _user_id: string }
+        Returns: undefined
+      }
+      revoke_official_document: {
+        Args: { p_reason?: string; p_verification_token: string }
+        Returns: {
+          content_hash: string
+          created_at: string
+          document_number: string
+          document_type: string
+          id: string
+          issued_at: string
+          issued_by: string | null
+          revoked_at: string | null
+          revoked_by: string | null
+          revoked_reason: string | null
+          snapshot: Json
+          source_entity_id: string
+          source_entity_type: string
+          status: string
+          updated_at: string
+          verification_token: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "issued_documents"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      search_referee_cards:
+        | {
+            Args: {
+              p_limit?: number
+              p_offset?: number
+              p_search?: string
+              p_status?: string
+            }
+            Returns: {
+              afk_origin: string
+              card_number: string
+              created_at: string
+              expires_at: string
+              full_name: string
+              id: string
+              is_active: boolean
+              issued_at: string
+              kabupaten_kota_name: string
+              last_verified_at: string
+              license_expiry: string
+              license_level: string
+              profile_photo_url: string
+              referee_id: string
+              status: string
+              updated_at: string
+              verification_count: number
+            }[]
+          }
+        | {
+            Args: {
+              is_active?: boolean
+              license_level?: string
+              page?: number
+              page_size?: number
+              search?: string
+            }
+            Returns: {
+              created_at: string
+              full_name: string
+              id: string
+              is_active: boolean
+              license_level: string
+              total_count: number
+            }[]
+          }
+      transition_event_assignment_status: {
+        Args: {
+          p_assignment_id: string
+          p_reason?: string
+          p_target_status: string
+        }
+        Returns: {
+          cancellation_reason: string | null
+          cancelled_by: string | null
+          created_at: string | null
+          deleted_at: string | null
+          event_id: string
+          id: string
+          referee_id: string
+          role: string | null
+          status: string | null
+          updated_at: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "event_assignments"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      verify_official_document: {
+        Args: { p_verification_token: string }
+        Returns: Json
+      }
+      verify_referee_card: { Args: { p_code: string }; Returns: Json }
     }
     Enums: {
       app_role:

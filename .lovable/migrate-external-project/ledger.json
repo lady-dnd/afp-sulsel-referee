@@ -1,21 +1,21 @@
 {
   "source": "code-archive APP_AFP.zip (Vite + React Router + Supabase, AFP Sulsel referee management)",
   "capabilities": [
-    {"capability": "frontend code (56 pages, components, hooks, lib)", "source": "src/", "outcome": "migrate to TanStack routes", "status": "in_progress", "next_action": "port pages to src/routes"},
-    {"capability": "design/theme", "source": "src/index.css + tailwind.config.ts", "outcome": "port to src/styles.css (Tailwind v4)", "status": "pending", "next_action": "port tokens"},
-    {"capability": "database schema (~35 tables, RLS, functions)", "source": "supabase/migrations (69 files)", "outcome": "migrate to Lovable Cloud", "status": "pending", "next_action": "apply migrations"},
-    {"capability": "database records", "source": "old Supabase project", "outcome": "migrate", "status": "pending", "next_action": "request CSV/JSON exports after preview"},
-    {"capability": "auth identities (email/password, roles in user_roles)", "source": "Supabase auth", "outcome": "migrate to Lovable auth; first-login verify + new password", "status": "pending", "next_action": "request users export after preview"},
-    {"capability": "authorization (roles admin_provinsi, admin_kab_kota, panitia, evaluator, wasit; RLS)", "source": "migrations + ProtectedRoute", "outcome": "migrate", "status": "pending", "next_action": "port guards + RLS"},
-    {"capability": "storage buckets avatars (public), documents (private)", "source": "migrations", "outcome": "migrate", "status": "pending", "next_action": "buckets via migration; file bytes pending export"},
-    {"capability": "uploaded file bytes", "source": "old storage", "outcome": "migrate", "status": "pending", "next_action": "request after preview"},
-    {"capability": "edge functions (24) user admin, settings, export/import, reports, notifications", "source": "supabase/functions", "outcome": "convert to server functions", "status": "pending", "next_action": "port"},
-    {"capability": "webhooks meta-whatsapp-webhook, kirisan-webhook", "source": "supabase/functions", "outcome": "preserve as /api/public routes", "status": "pending", "next_action": "port; update URLs in Meta/Kirisan dashboards at cutover"},
-    {"capability": "scheduled jobs (auto-complete events, reminders)", "source": "client-triggered + functions", "outcome": "preserve", "status": "pending", "next_action": "inspect"},
-    {"capability": "email (Resend/SMTP)", "source": "edge functions", "outcome": "preserve provider", "status": "pending", "next_action": "secrets requested at verification"},
-    {"capability": "WhatsApp (Meta Cloud API, Kirisan)", "source": "edge functions", "outcome": "preserve provider", "status": "pending", "next_action": "secrets requested at verification"},
-    {"capability": "secrets", "source": "env var names", "outcome": "request via secure form", "status": "pending", "next_action": "before live verification"},
-    {"capability": "cutover (domain afpsulsel, webhook URLs)", "source": ".htaccess / hosting", "outcome": "pending", "status": "pending", "next_action": "after verification"},
-    {"capability": "verification", "source": "-", "outcome": "-", "status": "pending", "next_action": "after build"}
+    {"capability": "frontend code (53 routed pages, components, hooks, lib)", "source": "src/", "outcome": "migrated to TanStack routes with React Router shim", "status": "verified", "next_action": "none; admin tour (25 pages) and referee tour (10 pages) render"},
+    {"capability": "design/theme", "source": "src/index.css + tailwind.config.ts", "outcome": "ported to src/styles.css (oklch)", "status": "verified", "next_action": "none"},
+    {"capability": "database schema, RLS, functions", "source": "production-schema.sql + newer migrations", "outcome": "applied to Lovable Cloud; 6 missing RPCs added; event_approvals FK added; approval log trigger fixed", "status": "verified", "next_action": "none"},
+    {"capability": "reference data (province, 24 regencies, criteria, settings, LOTG materials)", "source": "migrations seeds", "outcome": "seeded", "status": "verified", "next_action": "none"},
+    {"capability": "database records", "source": "old project", "outcome": "migrate", "status": "pending", "next_action": "user to export per-table CSVs; sanitize then import"},
+    {"capability": "auth identities", "source": "old auth users", "outcome": "email/password enabled; imported users will use Lupa Password to verify email and set new password", "status": "pending", "next_action": "user export needed; create accounts by email, map old IDs"},
+    {"capability": "authorization (5 roles, ProtectedRoute, RLS)", "source": "migrations + ProtectedRoute", "outcome": "migrated", "status": "verified", "next_action": "admin and referee checked; signed-out redirect to /login"},
+    {"capability": "storage buckets", "source": "avatars public, documents private", "outcome": "both private; avatars served by /api/public/avatars route; documents via signed URLs", "status": "verified", "next_action": "none"},
+    {"capability": "uploaded file bytes", "source": "old storage", "outcome": "migrate", "status": "pending", "next_action": "user to provide files; rewrite stored photo URLs on import"},
+    {"capability": "server tasks (22 former edge functions)", "source": "supabase/functions", "outcome": "ported to src/server/edge via /api/functions/$name", "status": "verified", "next_action": "create-user, reset-user-password, send-event-notification exercised; email/WhatsApp sends need secrets"},
+    {"capability": "webhooks meta-whatsapp-webhook, kirisan-webhook", "source": "supabase/functions", "outcome": "/api/public/meta-whatsapp-webhook and /api/public/kirisan-webhook", "status": "implemented", "next_action": "update URLs in Meta and Kirisan dashboards at cutover; live test needs secrets"},
+    {"capability": "scheduled jobs (auto-complete events, reminders)", "source": "client-triggered", "outcome": "preserved as client-triggered tasks", "status": "verified", "next_action": "none"},
+    {"capability": "email (Resend)", "source": "edge functions", "outcome": "preserved; raw SMTP unsupported on runtime, Resend path kept", "status": "blocked", "next_action": "RESEND_API_KEY via secure form"},
+    {"capability": "WhatsApp (Meta Cloud API, Kirisan)", "source": "edge functions", "outcome": "preserved", "status": "blocked", "next_action": "Meta/Kirisan secrets and WhatsApp encryption key via secure form"},
+    {"capability": "cutover (domain, webhook URLs)", "source": "hosting", "outcome": "pending", "status": "pending", "next_action": "publish, connect domain, update provider webhook URLs"},
+    {"capability": "verification", "source": "-", "outcome": "typecheck, 32 test files, browser tours, event create/approve/complete flow", "status": "verified", "next_action": "re-run imported-user sign-in after user import"}
   ]
 }
