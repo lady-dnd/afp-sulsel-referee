@@ -1,6 +1,6 @@
 // @ts-nocheck -- ported from the original project's Deno server functions.
 import { Deno } from "@/server/edge-runtime";
-﻿import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+
 
 export type KirisanEnvironment = "test" | "production";
 export type KirisanNormalizedStatus = "sent" | "failed" | "unknown";
@@ -91,7 +91,7 @@ async function createSupabasePersistenceAdapter(): Promise<KirisanPersistenceAda
     return null;
   }
 
-  const { createClient } = await import("https://esm.sh/@supabase/supabase-js@2");
+  const { createClient } = await import("@/server/edge-runtime");
   const supabase = createClient(supabaseUrl, serviceRoleKey, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
