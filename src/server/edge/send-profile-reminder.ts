@@ -4,7 +4,6 @@ import { Deno } from "@/server/edge-runtime";
 import { hasAnyRole, resolveCaller } from "./_shared/authorization.ts";
  
 // Resend client setup - using fetch directly to avoid type issues
-const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
  
  const corsHeaders = {
    "Access-Control-Allow-Origin": "*",
@@ -21,7 +20,7 @@ async function sendEmail(to: string, subject: string, html: string) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${RESEND_API_KEY}`,
+      "Authorization": `Bearer ${Deno.env.get("RESEND_API_KEY")}`,
     },
     body: JSON.stringify({
       from: "Asosiasi Futsal Sulsel <onboarding@resend.dev>",
