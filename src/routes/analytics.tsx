@@ -30,12 +30,12 @@ import { format, subMonths, startOfMonth, endOfMonth } from "date-fns";
 import { id } from "date-fns/locale";
 
 const COLORS = {
-  primary: "hsl(var(--primary))",
-  secondary: "hsl(var(--secondary))",
+  primary: "var(--primary)",
+  secondary: "var(--secondary)",
   success: "#22c55e",
   warning: "#f59e0b",
   error: "#ef4444",
-  muted: "hsl(var(--muted-foreground))",
+  muted: "var(--muted-foreground)",
 };
 
 const PIE_COLORS = ["#3b82f6", "#22c55e", "#f59e0b", "#ef4444", "#8b5cf6", "#ec4899"];

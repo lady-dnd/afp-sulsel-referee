@@ -130,7 +130,7 @@ function EventCalendar() {
 
   const modifiersStyles = {
     hasEvents: { fontWeight: "bold" as const },
-    today: { outline: "2px solid hsl(var(--primary))", outlineOffset: "2px" },
+    today: { outline: "2px solid var(--primary)", outlineOffset: "2px" },
   };
 
   if (eventsLoading || kabupatenLoading) {
