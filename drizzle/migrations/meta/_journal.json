@@ -36,6 +36,13 @@
       "when": 1794767858814,
       "tag": "0004_add_missing_app_actions",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1794768724300,
+      "tag": "0005_link_event_approvals_to_events",
+      "breakpoints": true
     }
   ]
 }
