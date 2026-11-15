@@ -84,7 +84,11 @@ export async function uploadProfileImage(
 
   if (uploadError) throw uploadError;
 
+  if (bucket === "avatars") {
+    // Avatars live in a private bucket and are served through the app's public avatar route.
+    return `/api/public/avatars/${fileName}`;
+  }
+
   const { data } = supabase.storage.from(bucket).getPublicUrl(fileName);
-  
   return data.publicUrl;
 }
