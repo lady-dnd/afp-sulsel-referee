@@ -1,3 +1,4 @@
+// @ts-nocheck -- carried over from the imported project with loose typings; remove after tightening types.
 import fs from "node:fs";
 import path from "node:path";
 import { beforeEach, describe, expect, it, vi } from "vitest";
