@@ -10,33 +10,715 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AnalyticsRouteImport } from './routes/analytics'
+import { Route as ApprovalsRouteImport } from './routes/approvals'
+import { Route as AuditLogsRouteImport } from './routes/audit-logs'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as ExportRouteImport } from './routes/export'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as NotificationsRouteImport } from './routes/notifications'
+import { Route as OrganizationRouteImport } from './routes/organization'
+import { Route as PendingApprovalRouteImport } from './routes/pending-approval'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as UserApprovalsRouteImport } from './routes/user-approvals'
+import { Route as UsersRouteImport } from './routes/users'
+import { Route as AdminAuthLogsRouteImport } from './routes/admin.auth-logs'
+import { Route as AdminDiscussionsRouteImport } from './routes/admin.discussions'
+import { Route as AdminHonorRouteImport } from './routes/admin.honor'
+import { Route as AdminIdCardsRouteImport } from './routes/admin.id-cards'
+import { Route as AdminLearningRouteImport } from './routes/admin.learning'
+import { Route as AdministrationEventAssignmentsRouteImport } from './routes/administration.event-assignments'
+import { Route as EvaluationsIndexRouteImport } from './routes/evaluations.index'
+import { Route as EvaluationsIdRouteImport } from './routes/evaluations.$id'
+import { Route as EvaluationsNewRouteImport } from './routes/evaluations.new'
+import { Route as EventsIndexRouteImport } from './routes/events.index'
+import { Route as EventsCalendarRouteImport } from './routes/events.calendar'
+import { Route as EventsSubmitRouteImport } from './routes/events.submit'
+import { Route as ProfileCompleteRouteImport } from './routes/profile.complete'
+import { Route as RefereeIndexRouteImport } from './routes/referee.index'
+import { Route as RefereeEventsRouteImport } from './routes/referee.events'
+import { Route as RefereeHonorRouteImport } from './routes/referee.honor'
+import { Route as RefereeIdCardRouteImport } from './routes/referee.id-card'
+import { Route as RefereesIndexRouteImport } from './routes/referees.index'
+import { Route as RefereesIdRouteImport } from './routes/referees.$id'
+import { Route as ReportsAnnualRouteImport } from './routes/reports.annual'
+import { Route as ReportsEventAnalyticsRouteImport } from './routes/reports.event-analytics'
+import { Route as ReportsRefereePerformanceRouteImport } from './routes/reports.referee-performance'
+import { Route as ReviewIndexRouteImport } from './routes/review.index'
+import { Route as ReviewSuccessRouteImport } from './routes/review.success'
+import { Route as VerifyCodeRouteImport } from './routes/verify.$code'
+import { Route as EventsIdIndexRouteImport } from './routes/events.$id.index'
+import { Route as EventsIdAssignRefereesRouteImport } from './routes/events.$id.assign-referees'
+import { Route as EventsIdEditRouteImport } from './routes/events.$id.edit'
+import { Route as RefereeDiscussionsIndexRouteImport } from './routes/referee.discussions.index'
+import { Route as RefereeDiscussionsIdRouteImport } from './routes/referee.discussions.$id'
+import { Route as RefereeDiscussionsNewRouteImport } from './routes/referee.discussions.new'
+import { Route as RefereeLearningIndexRouteImport } from './routes/referee.learning.index'
+import { Route as RefereeLearningIdRouteImport } from './routes/referee.learning.$id'
+import { Route as RefereeProfileIndexRouteImport } from './routes/referee.profile.index'
+import { Route as RefereeProfileCompleteRouteImport } from './routes/referee.profile.complete'
+import { Route as ReviewIdIndexRouteImport } from './routes/review.$id.index'
+import { Route as ReviewIdDetailRouteImport } from './routes/review.$id.detail'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnalyticsRoute = AnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApprovalsRoute = ApprovalsRouteImport.update({
+  id: '/approvals',
+  path: '/approvals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuditLogsRoute = AuditLogsRouteImport.update({
+  id: '/audit-logs',
+  path: '/audit-logs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ExportRoute = ExportRouteImport.update({
+  id: '/export',
+  path: '/export',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NotificationsRoute = NotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OrganizationRoute = OrganizationRouteImport.update({
+  id: '/organization',
+  path: '/organization',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PendingApprovalRoute = PendingApprovalRouteImport.update({
+  id: '/pending-approval',
+  path: '/pending-approval',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UserApprovalsRoute = UserApprovalsRouteImport.update({
+  id: '/user-approvals',
+  path: '/user-approvals',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UsersRoute = UsersRouteImport.update({
+  id: '/users',
+  path: '/users',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminAuthLogsRoute = AdminAuthLogsRouteImport.update({
+  id: '/admin/auth-logs',
+  path: '/admin/auth-logs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDiscussionsRoute = AdminDiscussionsRouteImport.update({
+  id: '/admin/discussions',
+  path: '/admin/discussions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminHonorRoute = AdminHonorRouteImport.update({
+  id: '/admin/honor',
+  path: '/admin/honor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIdCardsRoute = AdminIdCardsRouteImport.update({
+  id: '/admin/id-cards',
+  path: '/admin/id-cards',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLearningRoute = AdminLearningRouteImport.update({
+  id: '/admin/learning',
+  path: '/admin/learning',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdministrationEventAssignmentsRoute =
+  AdministrationEventAssignmentsRouteImport.update({
+    id: '/administration/event-assignments',
+    path: '/administration/event-assignments',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const EvaluationsIndexRoute = EvaluationsIndexRouteImport.update({
+  id: '/evaluations/',
+  path: '/evaluations/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EvaluationsIdRoute = EvaluationsIdRouteImport.update({
+  id: '/evaluations/$id',
+  path: '/evaluations/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EvaluationsNewRoute = EvaluationsNewRouteImport.update({
+  id: '/evaluations/new',
+  path: '/evaluations/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsIndexRoute = EventsIndexRouteImport.update({
+  id: '/events/',
+  path: '/events/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsCalendarRoute = EventsCalendarRouteImport.update({
+  id: '/events/calendar',
+  path: '/events/calendar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsSubmitRoute = EventsSubmitRouteImport.update({
+  id: '/events/submit',
+  path: '/events/submit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProfileCompleteRoute = ProfileCompleteRouteImport.update({
+  id: '/profile/complete',
+  path: '/profile/complete',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefereeIndexRoute = RefereeIndexRouteImport.update({
+  id: '/referee/',
+  path: '/referee/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefereeEventsRoute = RefereeEventsRouteImport.update({
+  id: '/referee/events',
+  path: '/referee/events',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefereeHonorRoute = RefereeHonorRouteImport.update({
+  id: '/referee/honor',
+  path: '/referee/honor',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefereeIdCardRoute = RefereeIdCardRouteImport.update({
+  id: '/referee/id-card',
+  path: '/referee/id-card',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefereesIndexRoute = RefereesIndexRouteImport.update({
+  id: '/referees/',
+  path: '/referees/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefereesIdRoute = RefereesIdRouteImport.update({
+  id: '/referees/$id',
+  path: '/referees/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsAnnualRoute = ReportsAnnualRouteImport.update({
+  id: '/reports/annual',
+  path: '/reports/annual',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsEventAnalyticsRoute = ReportsEventAnalyticsRouteImport.update({
+  id: '/reports/event-analytics',
+  path: '/reports/event-analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReportsRefereePerformanceRoute =
+  ReportsRefereePerformanceRouteImport.update({
+    id: '/reports/referee-performance',
+    path: '/reports/referee-performance',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ReviewIndexRoute = ReviewIndexRouteImport.update({
+  id: '/review/',
+  path: '/review/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReviewSuccessRoute = ReviewSuccessRouteImport.update({
+  id: '/review/success',
+  path: '/review/success',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const VerifyCodeRoute = VerifyCodeRouteImport.update({
+  id: '/verify/$code',
+  path: '/verify/$code',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsIdIndexRoute = EventsIdIndexRouteImport.update({
+  id: '/events/$id/',
+  path: '/events/$id/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsIdAssignRefereesRoute = EventsIdAssignRefereesRouteImport.update({
+  id: '/events/$id/assign-referees',
+  path: '/events/$id/assign-referees',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EventsIdEditRoute = EventsIdEditRouteImport.update({
+  id: '/events/$id/edit',
+  path: '/events/$id/edit',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefereeDiscussionsIndexRoute = RefereeDiscussionsIndexRouteImport.update({
+  id: '/referee/discussions/',
+  path: '/referee/discussions/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefereeDiscussionsIdRoute = RefereeDiscussionsIdRouteImport.update({
+  id: '/referee/discussions/$id',
+  path: '/referee/discussions/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefereeDiscussionsNewRoute = RefereeDiscussionsNewRouteImport.update({
+  id: '/referee/discussions/new',
+  path: '/referee/discussions/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefereeLearningIndexRoute = RefereeLearningIndexRouteImport.update({
+  id: '/referee/learning/',
+  path: '/referee/learning/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefereeLearningIdRoute = RefereeLearningIdRouteImport.update({
+  id: '/referee/learning/$id',
+  path: '/referee/learning/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefereeProfileIndexRoute = RefereeProfileIndexRouteImport.update({
+  id: '/referee/profile/',
+  path: '/referee/profile/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RefereeProfileCompleteRoute = RefereeProfileCompleteRouteImport.update({
+  id: '/referee/profile/complete',
+  path: '/referee/profile/complete',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReviewIdIndexRoute = ReviewIdIndexRouteImport.update({
+  id: '/review/$id/',
+  path: '/review/$id/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReviewIdDetailRoute = ReviewIdDetailRouteImport.update({
+  id: '/review/$id/detail',
+  path: '/review/$id/detail',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
+  '/approvals': typeof ApprovalsRoute
+  '/audit-logs': typeof AuditLogsRoute
+  '/dashboard': typeof DashboardRoute
+  '/export': typeof ExportRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/notifications': typeof NotificationsRoute
+  '/organization': typeof OrganizationRoute
+  '/pending-approval': typeof PendingApprovalRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
+  '/user-approvals': typeof UserApprovalsRoute
+  '/users': typeof UsersRoute
+  '/admin/auth-logs': typeof AdminAuthLogsRoute
+  '/admin/discussions': typeof AdminDiscussionsRoute
+  '/admin/honor': typeof AdminHonorRoute
+  '/admin/id-cards': typeof AdminIdCardsRoute
+  '/admin/learning': typeof AdminLearningRoute
+  '/administration/event-assignments': typeof AdministrationEventAssignmentsRoute
+  '/evaluations/$id': typeof EvaluationsIdRoute
+  '/evaluations/new': typeof EvaluationsNewRoute
+  '/events/calendar': typeof EventsCalendarRoute
+  '/events/submit': typeof EventsSubmitRoute
+  '/profile/complete': typeof ProfileCompleteRoute
+  '/referee/events': typeof RefereeEventsRoute
+  '/referee/honor': typeof RefereeHonorRoute
+  '/referee/id-card': typeof RefereeIdCardRoute
+  '/referees/$id': typeof RefereesIdRoute
+  '/reports/annual': typeof ReportsAnnualRoute
+  '/reports/event-analytics': typeof ReportsEventAnalyticsRoute
+  '/reports/referee-performance': typeof ReportsRefereePerformanceRoute
+  '/review/success': typeof ReviewSuccessRoute
+  '/verify/$code': typeof VerifyCodeRoute
+  '/evaluations/': typeof EvaluationsIndexRoute
+  '/events/': typeof EventsIndexRoute
+  '/referee/': typeof RefereeIndexRoute
+  '/referees/': typeof RefereesIndexRoute
+  '/review/': typeof ReviewIndexRoute
+  '/events/$id/assign-referees': typeof EventsIdAssignRefereesRoute
+  '/events/$id/edit': typeof EventsIdEditRoute
+  '/referee/discussions/$id': typeof RefereeDiscussionsIdRoute
+  '/referee/discussions/new': typeof RefereeDiscussionsNewRoute
+  '/referee/learning/$id': typeof RefereeLearningIdRoute
+  '/referee/profile/complete': typeof RefereeProfileCompleteRoute
+  '/review/$id/detail': typeof ReviewIdDetailRoute
+  '/events/$id/': typeof EventsIdIndexRoute
+  '/referee/discussions/': typeof RefereeDiscussionsIndexRoute
+  '/referee/learning/': typeof RefereeLearningIndexRoute
+  '/referee/profile/': typeof RefereeProfileIndexRoute
+  '/review/$id/': typeof ReviewIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
+  '/approvals': typeof ApprovalsRoute
+  '/audit-logs': typeof AuditLogsRoute
+  '/dashboard': typeof DashboardRoute
+  '/export': typeof ExportRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/notifications': typeof NotificationsRoute
+  '/organization': typeof OrganizationRoute
+  '/pending-approval': typeof PendingApprovalRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
+  '/user-approvals': typeof UserApprovalsRoute
+  '/users': typeof UsersRoute
+  '/admin/auth-logs': typeof AdminAuthLogsRoute
+  '/admin/discussions': typeof AdminDiscussionsRoute
+  '/admin/honor': typeof AdminHonorRoute
+  '/admin/id-cards': typeof AdminIdCardsRoute
+  '/admin/learning': typeof AdminLearningRoute
+  '/administration/event-assignments': typeof AdministrationEventAssignmentsRoute
+  '/evaluations/$id': typeof EvaluationsIdRoute
+  '/evaluations/new': typeof EvaluationsNewRoute
+  '/events/calendar': typeof EventsCalendarRoute
+  '/events/submit': typeof EventsSubmitRoute
+  '/profile/complete': typeof ProfileCompleteRoute
+  '/referee/events': typeof RefereeEventsRoute
+  '/referee/honor': typeof RefereeHonorRoute
+  '/referee/id-card': typeof RefereeIdCardRoute
+  '/referees/$id': typeof RefereesIdRoute
+  '/reports/annual': typeof ReportsAnnualRoute
+  '/reports/event-analytics': typeof ReportsEventAnalyticsRoute
+  '/reports/referee-performance': typeof ReportsRefereePerformanceRoute
+  '/review/success': typeof ReviewSuccessRoute
+  '/verify/$code': typeof VerifyCodeRoute
+  '/evaluations': typeof EvaluationsIndexRoute
+  '/events': typeof EventsIndexRoute
+  '/referee': typeof RefereeIndexRoute
+  '/referees': typeof RefereesIndexRoute
+  '/review': typeof ReviewIndexRoute
+  '/events/$id/assign-referees': typeof EventsIdAssignRefereesRoute
+  '/events/$id/edit': typeof EventsIdEditRoute
+  '/referee/discussions/$id': typeof RefereeDiscussionsIdRoute
+  '/referee/discussions/new': typeof RefereeDiscussionsNewRoute
+  '/referee/learning/$id': typeof RefereeLearningIdRoute
+  '/referee/profile/complete': typeof RefereeProfileCompleteRoute
+  '/review/$id/detail': typeof ReviewIdDetailRoute
+  '/events/$id': typeof EventsIdIndexRoute
+  '/referee/discussions': typeof RefereeDiscussionsIndexRoute
+  '/referee/learning': typeof RefereeLearningIndexRoute
+  '/referee/profile': typeof RefereeProfileIndexRoute
+  '/review/$id': typeof ReviewIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
+  '/approvals': typeof ApprovalsRoute
+  '/audit-logs': typeof AuditLogsRoute
+  '/dashboard': typeof DashboardRoute
+  '/export': typeof ExportRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/login': typeof LoginRoute
+  '/notifications': typeof NotificationsRoute
+  '/organization': typeof OrganizationRoute
+  '/pending-approval': typeof PendingApprovalRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/settings': typeof SettingsRoute
+  '/signup': typeof SignupRoute
+  '/user-approvals': typeof UserApprovalsRoute
+  '/users': typeof UsersRoute
+  '/admin/auth-logs': typeof AdminAuthLogsRoute
+  '/admin/discussions': typeof AdminDiscussionsRoute
+  '/admin/honor': typeof AdminHonorRoute
+  '/admin/id-cards': typeof AdminIdCardsRoute
+  '/admin/learning': typeof AdminLearningRoute
+  '/administration/event-assignments': typeof AdministrationEventAssignmentsRoute
+  '/evaluations/$id': typeof EvaluationsIdRoute
+  '/evaluations/new': typeof EvaluationsNewRoute
+  '/events/calendar': typeof EventsCalendarRoute
+  '/events/submit': typeof EventsSubmitRoute
+  '/profile/complete': typeof ProfileCompleteRoute
+  '/referee/events': typeof RefereeEventsRoute
+  '/referee/honor': typeof RefereeHonorRoute
+  '/referee/id-card': typeof RefereeIdCardRoute
+  '/referees/$id': typeof RefereesIdRoute
+  '/reports/annual': typeof ReportsAnnualRoute
+  '/reports/event-analytics': typeof ReportsEventAnalyticsRoute
+  '/reports/referee-performance': typeof ReportsRefereePerformanceRoute
+  '/review/success': typeof ReviewSuccessRoute
+  '/verify/$code': typeof VerifyCodeRoute
+  '/evaluations/': typeof EvaluationsIndexRoute
+  '/events/': typeof EventsIndexRoute
+  '/referee/': typeof RefereeIndexRoute
+  '/referees/': typeof RefereesIndexRoute
+  '/review/': typeof ReviewIndexRoute
+  '/events/$id/assign-referees': typeof EventsIdAssignRefereesRoute
+  '/events/$id/edit': typeof EventsIdEditRoute
+  '/referee/discussions/$id': typeof RefereeDiscussionsIdRoute
+  '/referee/discussions/new': typeof RefereeDiscussionsNewRoute
+  '/referee/learning/$id': typeof RefereeLearningIdRoute
+  '/referee/profile/complete': typeof RefereeProfileCompleteRoute
+  '/review/$id/detail': typeof ReviewIdDetailRoute
+  '/events/$id/': typeof EventsIdIndexRoute
+  '/referee/discussions/': typeof RefereeDiscussionsIndexRoute
+  '/referee/learning/': typeof RefereeLearningIndexRoute
+  '/referee/profile/': typeof RefereeProfileIndexRoute
+  '/review/$id/': typeof ReviewIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/analytics'
+    | '/approvals'
+    | '/audit-logs'
+    | '/dashboard'
+    | '/export'
+    | '/forgot-password'
+    | '/login'
+    | '/notifications'
+    | '/organization'
+    | '/pending-approval'
+    | '/reset-password'
+    | '/settings'
+    | '/signup'
+    | '/user-approvals'
+    | '/users'
+    | '/admin/auth-logs'
+    | '/admin/discussions'
+    | '/admin/honor'
+    | '/admin/id-cards'
+    | '/admin/learning'
+    | '/administration/event-assignments'
+    | '/evaluations/$id'
+    | '/evaluations/new'
+    | '/events/calendar'
+    | '/events/submit'
+    | '/profile/complete'
+    | '/referee/events'
+    | '/referee/honor'
+    | '/referee/id-card'
+    | '/referees/$id'
+    | '/reports/annual'
+    | '/reports/event-analytics'
+    | '/reports/referee-performance'
+    | '/review/success'
+    | '/verify/$code'
+    | '/evaluations/'
+    | '/events/'
+    | '/referee/'
+    | '/referees/'
+    | '/review/'
+    | '/events/$id/assign-referees'
+    | '/events/$id/edit'
+    | '/referee/discussions/$id'
+    | '/referee/discussions/new'
+    | '/referee/learning/$id'
+    | '/referee/profile/complete'
+    | '/review/$id/detail'
+    | '/events/$id/'
+    | '/referee/discussions/'
+    | '/referee/learning/'
+    | '/referee/profile/'
+    | '/review/$id/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/analytics'
+    | '/approvals'
+    | '/audit-logs'
+    | '/dashboard'
+    | '/export'
+    | '/forgot-password'
+    | '/login'
+    | '/notifications'
+    | '/organization'
+    | '/pending-approval'
+    | '/reset-password'
+    | '/settings'
+    | '/signup'
+    | '/user-approvals'
+    | '/users'
+    | '/admin/auth-logs'
+    | '/admin/discussions'
+    | '/admin/honor'
+    | '/admin/id-cards'
+    | '/admin/learning'
+    | '/administration/event-assignments'
+    | '/evaluations/$id'
+    | '/evaluations/new'
+    | '/events/calendar'
+    | '/events/submit'
+    | '/profile/complete'
+    | '/referee/events'
+    | '/referee/honor'
+    | '/referee/id-card'
+    | '/referees/$id'
+    | '/reports/annual'
+    | '/reports/event-analytics'
+    | '/reports/referee-performance'
+    | '/review/success'
+    | '/verify/$code'
+    | '/evaluations'
+    | '/events'
+    | '/referee'
+    | '/referees'
+    | '/review'
+    | '/events/$id/assign-referees'
+    | '/events/$id/edit'
+    | '/referee/discussions/$id'
+    | '/referee/discussions/new'
+    | '/referee/learning/$id'
+    | '/referee/profile/complete'
+    | '/review/$id/detail'
+    | '/events/$id'
+    | '/referee/discussions'
+    | '/referee/learning'
+    | '/referee/profile'
+    | '/review/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/analytics'
+    | '/approvals'
+    | '/audit-logs'
+    | '/dashboard'
+    | '/export'
+    | '/forgot-password'
+    | '/login'
+    | '/notifications'
+    | '/organization'
+    | '/pending-approval'
+    | '/reset-password'
+    | '/settings'
+    | '/signup'
+    | '/user-approvals'
+    | '/users'
+    | '/admin/auth-logs'
+    | '/admin/discussions'
+    | '/admin/honor'
+    | '/admin/id-cards'
+    | '/admin/learning'
+    | '/administration/event-assignments'
+    | '/evaluations/$id'
+    | '/evaluations/new'
+    | '/events/calendar'
+    | '/events/submit'
+    | '/profile/complete'
+    | '/referee/events'
+    | '/referee/honor'
+    | '/referee/id-card'
+    | '/referees/$id'
+    | '/reports/annual'
+    | '/reports/event-analytics'
+    | '/reports/referee-performance'
+    | '/review/success'
+    | '/verify/$code'
+    | '/evaluations/'
+    | '/events/'
+    | '/referee/'
+    | '/referees/'
+    | '/review/'
+    | '/events/$id/assign-referees'
+    | '/events/$id/edit'
+    | '/referee/discussions/$id'
+    | '/referee/discussions/new'
+    | '/referee/learning/$id'
+    | '/referee/profile/complete'
+    | '/review/$id/detail'
+    | '/events/$id/'
+    | '/referee/discussions/'
+    | '/referee/learning/'
+    | '/referee/profile/'
+    | '/review/$id/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AnalyticsRoute: typeof AnalyticsRoute
+  ApprovalsRoute: typeof ApprovalsRoute
+  AuditLogsRoute: typeof AuditLogsRoute
+  DashboardRoute: typeof DashboardRoute
+  ExportRoute: typeof ExportRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  LoginRoute: typeof LoginRoute
+  NotificationsRoute: typeof NotificationsRoute
+  OrganizationRoute: typeof OrganizationRoute
+  PendingApprovalRoute: typeof PendingApprovalRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  SettingsRoute: typeof SettingsRoute
+  SignupRoute: typeof SignupRoute
+  UserApprovalsRoute: typeof UserApprovalsRoute
+  UsersRoute: typeof UsersRoute
+  AdminAuthLogsRoute: typeof AdminAuthLogsRoute
+  AdminDiscussionsRoute: typeof AdminDiscussionsRoute
+  AdminHonorRoute: typeof AdminHonorRoute
+  AdminIdCardsRoute: typeof AdminIdCardsRoute
+  AdminLearningRoute: typeof AdminLearningRoute
+  AdministrationEventAssignmentsRoute: typeof AdministrationEventAssignmentsRoute
+  EvaluationsIdRoute: typeof EvaluationsIdRoute
+  EvaluationsNewRoute: typeof EvaluationsNewRoute
+  EventsCalendarRoute: typeof EventsCalendarRoute
+  EventsSubmitRoute: typeof EventsSubmitRoute
+  ProfileCompleteRoute: typeof ProfileCompleteRoute
+  RefereeEventsRoute: typeof RefereeEventsRoute
+  RefereeHonorRoute: typeof RefereeHonorRoute
+  RefereeIdCardRoute: typeof RefereeIdCardRoute
+  RefereesIdRoute: typeof RefereesIdRoute
+  ReportsAnnualRoute: typeof ReportsAnnualRoute
+  ReportsEventAnalyticsRoute: typeof ReportsEventAnalyticsRoute
+  ReportsRefereePerformanceRoute: typeof ReportsRefereePerformanceRoute
+  ReviewSuccessRoute: typeof ReviewSuccessRoute
+  VerifyCodeRoute: typeof VerifyCodeRoute
+  EvaluationsIndexRoute: typeof EvaluationsIndexRoute
+  EventsIndexRoute: typeof EventsIndexRoute
+  RefereeIndexRoute: typeof RefereeIndexRoute
+  RefereesIndexRoute: typeof RefereesIndexRoute
+  ReviewIndexRoute: typeof ReviewIndexRoute
+  EventsIdAssignRefereesRoute: typeof EventsIdAssignRefereesRoute
+  EventsIdEditRoute: typeof EventsIdEditRoute
+  RefereeDiscussionsIdRoute: typeof RefereeDiscussionsIdRoute
+  RefereeDiscussionsNewRoute: typeof RefereeDiscussionsNewRoute
+  RefereeLearningIdRoute: typeof RefereeLearningIdRoute
+  RefereeProfileCompleteRoute: typeof RefereeProfileCompleteRoute
+  ReviewIdDetailRoute: typeof ReviewIdDetailRoute
+  EventsIdIndexRoute: typeof EventsIdIndexRoute
+  RefereeDiscussionsIndexRoute: typeof RefereeDiscussionsIndexRoute
+  RefereeLearningIndexRoute: typeof RefereeLearningIndexRoute
+  RefereeProfileIndexRoute: typeof RefereeProfileIndexRoute
+  ReviewIdIndexRoute: typeof ReviewIdIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +730,427 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/analytics': {
+      id: '/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/approvals': {
+      id: '/approvals'
+      path: '/approvals'
+      fullPath: '/approvals'
+      preLoaderRoute: typeof ApprovalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/audit-logs': {
+      id: '/audit-logs'
+      path: '/audit-logs'
+      fullPath: '/audit-logs'
+      preLoaderRoute: typeof AuditLogsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/export': {
+      id: '/export'
+      path: '/export'
+      fullPath: '/export'
+      preLoaderRoute: typeof ExportRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/organization': {
+      id: '/organization'
+      path: '/organization'
+      fullPath: '/organization'
+      preLoaderRoute: typeof OrganizationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pending-approval': {
+      id: '/pending-approval'
+      path: '/pending-approval'
+      fullPath: '/pending-approval'
+      preLoaderRoute: typeof PendingApprovalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/user-approvals': {
+      id: '/user-approvals'
+      path: '/user-approvals'
+      fullPath: '/user-approvals'
+      preLoaderRoute: typeof UserApprovalsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/users': {
+      id: '/users'
+      path: '/users'
+      fullPath: '/users'
+      preLoaderRoute: typeof UsersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/auth-logs': {
+      id: '/admin/auth-logs'
+      path: '/admin/auth-logs'
+      fullPath: '/admin/auth-logs'
+      preLoaderRoute: typeof AdminAuthLogsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/discussions': {
+      id: '/admin/discussions'
+      path: '/admin/discussions'
+      fullPath: '/admin/discussions'
+      preLoaderRoute: typeof AdminDiscussionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/honor': {
+      id: '/admin/honor'
+      path: '/admin/honor'
+      fullPath: '/admin/honor'
+      preLoaderRoute: typeof AdminHonorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/id-cards': {
+      id: '/admin/id-cards'
+      path: '/admin/id-cards'
+      fullPath: '/admin/id-cards'
+      preLoaderRoute: typeof AdminIdCardsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/learning': {
+      id: '/admin/learning'
+      path: '/admin/learning'
+      fullPath: '/admin/learning'
+      preLoaderRoute: typeof AdminLearningRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/administration/event-assignments': {
+      id: '/administration/event-assignments'
+      path: '/administration/event-assignments'
+      fullPath: '/administration/event-assignments'
+      preLoaderRoute: typeof AdministrationEventAssignmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/evaluations/': {
+      id: '/evaluations/'
+      path: '/evaluations'
+      fullPath: '/evaluations/'
+      preLoaderRoute: typeof EvaluationsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/evaluations/$id': {
+      id: '/evaluations/$id'
+      path: '/evaluations/$id'
+      fullPath: '/evaluations/$id'
+      preLoaderRoute: typeof EvaluationsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/evaluations/new': {
+      id: '/evaluations/new'
+      path: '/evaluations/new'
+      fullPath: '/evaluations/new'
+      preLoaderRoute: typeof EvaluationsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events/': {
+      id: '/events/'
+      path: '/events'
+      fullPath: '/events/'
+      preLoaderRoute: typeof EventsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events/calendar': {
+      id: '/events/calendar'
+      path: '/events/calendar'
+      fullPath: '/events/calendar'
+      preLoaderRoute: typeof EventsCalendarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events/submit': {
+      id: '/events/submit'
+      path: '/events/submit'
+      fullPath: '/events/submit'
+      preLoaderRoute: typeof EventsSubmitRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/profile/complete': {
+      id: '/profile/complete'
+      path: '/profile/complete'
+      fullPath: '/profile/complete'
+      preLoaderRoute: typeof ProfileCompleteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referee/': {
+      id: '/referee/'
+      path: '/referee'
+      fullPath: '/referee/'
+      preLoaderRoute: typeof RefereeIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referee/events': {
+      id: '/referee/events'
+      path: '/referee/events'
+      fullPath: '/referee/events'
+      preLoaderRoute: typeof RefereeEventsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referee/honor': {
+      id: '/referee/honor'
+      path: '/referee/honor'
+      fullPath: '/referee/honor'
+      preLoaderRoute: typeof RefereeHonorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referee/id-card': {
+      id: '/referee/id-card'
+      path: '/referee/id-card'
+      fullPath: '/referee/id-card'
+      preLoaderRoute: typeof RefereeIdCardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referees/': {
+      id: '/referees/'
+      path: '/referees'
+      fullPath: '/referees/'
+      preLoaderRoute: typeof RefereesIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referees/$id': {
+      id: '/referees/$id'
+      path: '/referees/$id'
+      fullPath: '/referees/$id'
+      preLoaderRoute: typeof RefereesIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports/annual': {
+      id: '/reports/annual'
+      path: '/reports/annual'
+      fullPath: '/reports/annual'
+      preLoaderRoute: typeof ReportsAnnualRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports/event-analytics': {
+      id: '/reports/event-analytics'
+      path: '/reports/event-analytics'
+      fullPath: '/reports/event-analytics'
+      preLoaderRoute: typeof ReportsEventAnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reports/referee-performance': {
+      id: '/reports/referee-performance'
+      path: '/reports/referee-performance'
+      fullPath: '/reports/referee-performance'
+      preLoaderRoute: typeof ReportsRefereePerformanceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/review/': {
+      id: '/review/'
+      path: '/review'
+      fullPath: '/review/'
+      preLoaderRoute: typeof ReviewIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/review/success': {
+      id: '/review/success'
+      path: '/review/success'
+      fullPath: '/review/success'
+      preLoaderRoute: typeof ReviewSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/verify/$code': {
+      id: '/verify/$code'
+      path: '/verify/$code'
+      fullPath: '/verify/$code'
+      preLoaderRoute: typeof VerifyCodeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events/$id/': {
+      id: '/events/$id/'
+      path: '/events/$id'
+      fullPath: '/events/$id/'
+      preLoaderRoute: typeof EventsIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events/$id/assign-referees': {
+      id: '/events/$id/assign-referees'
+      path: '/events/$id/assign-referees'
+      fullPath: '/events/$id/assign-referees'
+      preLoaderRoute: typeof EventsIdAssignRefereesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/events/$id/edit': {
+      id: '/events/$id/edit'
+      path: '/events/$id/edit'
+      fullPath: '/events/$id/edit'
+      preLoaderRoute: typeof EventsIdEditRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referee/discussions/': {
+      id: '/referee/discussions/'
+      path: '/referee/discussions'
+      fullPath: '/referee/discussions/'
+      preLoaderRoute: typeof RefereeDiscussionsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referee/discussions/$id': {
+      id: '/referee/discussions/$id'
+      path: '/referee/discussions/$id'
+      fullPath: '/referee/discussions/$id'
+      preLoaderRoute: typeof RefereeDiscussionsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referee/discussions/new': {
+      id: '/referee/discussions/new'
+      path: '/referee/discussions/new'
+      fullPath: '/referee/discussions/new'
+      preLoaderRoute: typeof RefereeDiscussionsNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referee/learning/': {
+      id: '/referee/learning/'
+      path: '/referee/learning'
+      fullPath: '/referee/learning/'
+      preLoaderRoute: typeof RefereeLearningIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referee/learning/$id': {
+      id: '/referee/learning/$id'
+      path: '/referee/learning/$id'
+      fullPath: '/referee/learning/$id'
+      preLoaderRoute: typeof RefereeLearningIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referee/profile/': {
+      id: '/referee/profile/'
+      path: '/referee/profile'
+      fullPath: '/referee/profile/'
+      preLoaderRoute: typeof RefereeProfileIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/referee/profile/complete': {
+      id: '/referee/profile/complete'
+      path: '/referee/profile/complete'
+      fullPath: '/referee/profile/complete'
+      preLoaderRoute: typeof RefereeProfileCompleteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/review/$id/': {
+      id: '/review/$id/'
+      path: '/review/$id'
+      fullPath: '/review/$id/'
+      preLoaderRoute: typeof ReviewIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/review/$id/detail': {
+      id: '/review/$id/detail'
+      path: '/review/$id/detail'
+      fullPath: '/review/$id/detail'
+      preLoaderRoute: typeof ReviewIdDetailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AnalyticsRoute: AnalyticsRoute,
+  ApprovalsRoute: ApprovalsRoute,
+  AuditLogsRoute: AuditLogsRoute,
+  DashboardRoute: DashboardRoute,
+  ExportRoute: ExportRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  LoginRoute: LoginRoute,
+  NotificationsRoute: NotificationsRoute,
+  OrganizationRoute: OrganizationRoute,
+  PendingApprovalRoute: PendingApprovalRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  SettingsRoute: SettingsRoute,
+  SignupRoute: SignupRoute,
+  UserApprovalsRoute: UserApprovalsRoute,
+  UsersRoute: UsersRoute,
+  AdminAuthLogsRoute: AdminAuthLogsRoute,
+  AdminDiscussionsRoute: AdminDiscussionsRoute,
+  AdminHonorRoute: AdminHonorRoute,
+  AdminIdCardsRoute: AdminIdCardsRoute,
+  AdminLearningRoute: AdminLearningRoute,
+  AdministrationEventAssignmentsRoute: AdministrationEventAssignmentsRoute,
+  EvaluationsIdRoute: EvaluationsIdRoute,
+  EvaluationsNewRoute: EvaluationsNewRoute,
+  EventsCalendarRoute: EventsCalendarRoute,
+  EventsSubmitRoute: EventsSubmitRoute,
+  ProfileCompleteRoute: ProfileCompleteRoute,
+  RefereeEventsRoute: RefereeEventsRoute,
+  RefereeHonorRoute: RefereeHonorRoute,
+  RefereeIdCardRoute: RefereeIdCardRoute,
+  RefereesIdRoute: RefereesIdRoute,
+  ReportsAnnualRoute: ReportsAnnualRoute,
+  ReportsEventAnalyticsRoute: ReportsEventAnalyticsRoute,
+  ReportsRefereePerformanceRoute: ReportsRefereePerformanceRoute,
+  ReviewSuccessRoute: ReviewSuccessRoute,
+  VerifyCodeRoute: VerifyCodeRoute,
+  EvaluationsIndexRoute: EvaluationsIndexRoute,
+  EventsIndexRoute: EventsIndexRoute,
+  RefereeIndexRoute: RefereeIndexRoute,
+  RefereesIndexRoute: RefereesIndexRoute,
+  ReviewIndexRoute: ReviewIndexRoute,
+  EventsIdAssignRefereesRoute: EventsIdAssignRefereesRoute,
+  EventsIdEditRoute: EventsIdEditRoute,
+  RefereeDiscussionsIdRoute: RefereeDiscussionsIdRoute,
+  RefereeDiscussionsNewRoute: RefereeDiscussionsNewRoute,
+  RefereeLearningIdRoute: RefereeLearningIdRoute,
+  RefereeProfileCompleteRoute: RefereeProfileCompleteRoute,
+  ReviewIdDetailRoute: ReviewIdDetailRoute,
+  EventsIdIndexRoute: EventsIdIndexRoute,
+  RefereeDiscussionsIndexRoute: RefereeDiscussionsIndexRoute,
+  RefereeLearningIndexRoute: RefereeLearningIndexRoute,
+  RefereeProfileIndexRoute: RefereeProfileIndexRoute,
+  ReviewIdIndexRoute: ReviewIdIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
