@@ -27,7 +27,7 @@ describe("WhatsApp provider contract", () => {
   });
 
   it("uses the verified Meta template language and named parameter contract", () => {
-    const source = read("supabase/functions/send-whatsapp/index.ts");
+    const source = read("src/server/edge/send-whatsapp.ts");
     const metaPayloadSource = source.slice(source.indexOf("function buildMetaNamedParameters"), source.indexOf("function validateKirisanBaseUrl"));
     expect(source).toContain('const META_TEMPLATE_NAME = "afp_sulsel_referee_assignmen_new";');
     expect(source).toContain('const META_TEMPLATE_LANGUAGE = "en";');
@@ -50,7 +50,7 @@ describe("WhatsApp provider contract", () => {
 
   it("stores only the non-secret provider selector in browser settings", () => {
     const settingsHook = read("src/hooks/useSettings.ts");
-    const settingsPage = read("src/pages/Settings.tsx");
+    const settingsPage = read("src/routes/settings.tsx");
 
     expect(settingsHook).toContain('"whatsapp_provider"');
     expect(settingsHook).not.toContain('select("whatsapp_api_key");');
@@ -61,7 +61,7 @@ describe("WhatsApp provider contract", () => {
   });
 
   it("keeps the Meta adapter and replaces the stubbed Kirisan boundary with the real WABA adapter contract", () => {
-    const source = read("supabase/functions/send-whatsapp/index.ts");
+    const source = read("src/server/edge/send-whatsapp.ts");
 
     expect(source).toContain("resolveCaller(req, supabase)");
     expect(source).toContain('hasAnyRole(caller, ["admin_provinsi"])');
@@ -77,8 +77,8 @@ describe("WhatsApp provider contract", () => {
   });
 
   it("keeps Meta credentials and Kirisan credentials server-side", () => {
-    const source = read("supabase/functions/send-whatsapp/index.ts");
-    const page = read("src/pages/Settings.tsx");
+    const source = read("src/server/edge/send-whatsapp.ts");
+    const page = read("src/routes/settings.tsx");
 
     expect(source).toContain('Deno.env.get("WHATSAPP_ACCESS_TOKEN")');
     expect(source).toContain('Deno.env.get("KIRISAN_API_TOKEN")');
@@ -87,7 +87,7 @@ describe("WhatsApp provider contract", () => {
   });
 
   it("implements the Kirisan WABA adapter and response validation contract for TEST mode", () => {
-    const source = read("supabase/functions/send-whatsapp/index.ts");
+    const source = read("src/server/edge/send-whatsapp.ts");
 
     expect(source).toContain('KIRISAN_WHATSAPP_DEVICE_TOKEN');
     expect(source).toContain('afp_sulsel_referee_assignment');
@@ -102,7 +102,7 @@ describe("WhatsApp provider contract", () => {
   });
 
   it("keeps the Kirisan WABA contract aligned with the documented keys/content/target request shape", () => {
-    const source = read("supabase/functions/send-whatsapp/index.ts");
+    const source = read("src/server/edge/send-whatsapp.ts");
 
     expect(source).toContain('keys: {');
     expect(source).toContain('content: {');

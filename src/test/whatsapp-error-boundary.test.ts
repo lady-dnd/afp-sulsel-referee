@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import fs from "node:fs";
 import path from "node:path";
-import { internalWhatsappErrorResponse, WHATSAPP_INTERNAL_ERROR } from "../../supabase/functions/_shared/whatsapp-errors";
+import { internalWhatsappErrorResponse, WHATSAPP_INTERNAL_ERROR } from "../server/edge/_shared/whatsapp-errors";
 
 const root = process.cwd();
 
@@ -49,8 +49,8 @@ describe("WhatsApp Edge Function error boundary", () => {
 
   it("contains no raw error propagation or sensitive logging in WhatsApp functions", () => {
     for (const file of [
-      "supabase/functions/upsert-whatsapp-config/index.ts",
-      "supabase/functions/test-whatsapp-config/index.ts",
+      "src/server/edge/upsert-whatsapp-config.ts",
+      "src/server/edge/test-whatsapp-config.ts",
     ]) {
       const source = read(file);
       expect(source).not.toContain("error.message");

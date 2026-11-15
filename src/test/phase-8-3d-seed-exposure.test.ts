@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 const root = process.cwd();
 const appSource = readFileSync(`${root}/src/App.tsx`, "utf8");
-const pageSource = readFileSync(`${root}/src/pages/DatabaseExport.tsx`, "utf8");
+const pageSource = readFileSync(`${root}/src/routes/export.tsx`, "utf8");
 const seedHookSource = readFileSync(`${root}/src/hooks/useSeedDatabase.ts`, "utf8");
 
 describe("F-007 production seed-data exposure contract", () => {

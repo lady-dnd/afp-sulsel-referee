@@ -2,9 +2,9 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 const root = process.cwd();
-const assignmentPage = readFileSync(`${root}/src/pages/RefereeAssignment.tsx`, "utf8");
-const eventDetailPage = readFileSync(`${root}/src/pages/EventDetail.tsx`, "utf8");
-const refereeEventsPage = readFileSync(`${root}/src/pages/RefereeEvents.tsx`, "utf8");
+const assignmentPage = readFileSync(`${root}/src/routes/events.$id.assign-referees.tsx`, "utf8");
+const eventDetailPage = readFileSync(`${root}/src/routes/events.$id.index.tsx`, "utf8");
+const refereeEventsPage = readFileSync(`${root}/src/routes/referee.events.tsx`, "utf8");
 
 describe("F-004 and F-008 async-state contracts", () => {
   it("distinguishes assignment query errors and exposes retry", () => {

@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
-const pageSource = readFileSync(`${process.cwd()}/src/pages/EventCalendar.tsx`, "utf8");
+const pageSource = readFileSync(`${process.cwd()}/src/routes/events.calendar.tsx`, "utf8");
 
 describe("Phase 8.8 event calendar contract", () => {
   it("uses the shared current year and scoped event query", () => {

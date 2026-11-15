@@ -6,7 +6,7 @@ const root = process.cwd();
 const read = (file: string) => fs.readFileSync(path.join(root, file), "utf8");
 
 const hookSource = read("src/hooks/useEvents.ts");
-const pageSource = read("src/pages/EventDetail.tsx");
+const pageSource = read("src/routes/events.$id.index.tsx");
 const completionSource = hookSource.slice(
   hookSource.indexOf("export function useCompleteEvent"),
   hookSource.indexOf("export function useDeleteEvent"),

@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 const root = process.cwd();
 const hookSource = readFileSync(`${root}/src/hooks/useAdminEventAssignments.ts`, "utf8");
-const pageSource = readFileSync(`${root}/src/pages/AdminEventAssignments.tsx`, "utf8");
+const pageSource = readFileSync(`${root}/src/routes/administration.event-assignments.tsx`, "utf8");
 
 const statuses = ["pending", "confirmed", "declined", "cancelled"] as const;
 

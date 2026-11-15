@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 
 const root = process.cwd();
 const hookSource = readFileSync(`${root}/src/hooks/useAdminEventAssignments.ts`, "utf8");
-const pageSource = readFileSync(`${root}/src/pages/AdminEventAssignments.tsx`, "utf8");
-const refereeAssignmentSource = readFileSync(`${root}/src/pages/RefereeAssignment.tsx`, "utf8");
+const pageSource = readFileSync(`${root}/src/routes/administration.event-assignments.tsx`, "utf8");
+const refereeAssignmentSource = readFileSync(`${root}/src/routes/events.$id.assign-referees.tsx`, "utf8");
 
 describe("F-005 event assignment transition contract", () => {
   it("uses the canonical RPC for full admin status changes", () => {

@@ -473,7 +473,7 @@ describe("send-whatsapp behavioral contract", () => {
 
   it("keeps the security regression checks in place", () => {
     const configText = fs.readFileSync(path.join(process.cwd(), "supabase/config.toml"), "utf8");
-    const settingsText = fs.readFileSync(path.join(process.cwd(), "src/pages/Settings.tsx"), "utf8");
+    const settingsText = fs.readFileSync(path.join(process.cwd(), "src/routes/settings.tsx"), "utf8");
 
     expect(configText).toContain("[functions.send-whatsapp]");
     expect(configText).toContain("verify_jwt = true");

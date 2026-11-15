@@ -6,11 +6,11 @@ import {
   encryptWhatsappSecret,
   requireWhatsappEncryptionKey,
   WHATSAPP_SECRET_PROTECTION_ERROR,
-} from "../../supabase/functions/_shared/whatsapp-crypto";
+} from "../server/edge/_shared/whatsapp-crypto";
 import {
   internalWhatsappErrorResponse,
   WHATSAPP_INTERNAL_ERROR,
-} from "../../supabase/functions/_shared/whatsapp-errors";
+} from "../server/edge/_shared/whatsapp-errors";
 
 const root = process.cwd();
 const syntheticSecret = "TEST_SECRET_VALUE";
@@ -84,8 +84,8 @@ describe("WhatsApp secret protection fail-closed contract", () => {
 
   it("has no executable plaintext fallback in either WhatsApp function", () => {
     for (const file of [
-      "supabase/functions/upsert-whatsapp-config/index.ts",
-      "supabase/functions/test-whatsapp-config/index.ts",
+      "src/server/edge/upsert-whatsapp-config.ts",
+      "src/server/edge/test-whatsapp-config.ts",
     ]) {
       const source = read(file);
       expect(source).not.toMatch(/if\s*\(!keyMaterial\)[\s\S]{0,120}return\s+(secret|ciphertext)/);

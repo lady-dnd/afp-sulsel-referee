@@ -10,7 +10,7 @@ function read(file: string) {
 
 describe("safe settings boundary contract", () => {
   it("removes browser-exposed WhatsApp secret configuration from the UI", () => {
-    const settingsSource = read("src/pages/Settings.tsx");
+    const settingsSource = read("src/routes/settings.tsx");
 
     expect(settingsSource).not.toContain('TabsTrigger value="whatsapp"');
     expect(settingsSource).not.toContain("whatsapp_api_key");

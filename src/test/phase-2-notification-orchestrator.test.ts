@@ -60,7 +60,7 @@ describe("Phase 2 notification orchestrator", () => {
   });
 
   it("uses the canonical Meta template and persists the Meta wamid in the notification row", () => {
-    const source = read("supabase/functions/notification-orchestrator/index.ts");
+    const source = read("src/server/edge/notification-orchestrator.ts");
 
     expect(source).toContain('name: "afp_sulsel_referee_assignmen_new"');
     expect(source).toContain('"Hubungi Koordinator Wasit"');
@@ -70,8 +70,8 @@ describe("Phase 2 notification orchestrator", () => {
   });
 
   it("keeps the orchestrator server-side and free of browser secrets", () => {
-    const source = read("supabase/functions/notification-orchestrator/index.ts");
-    const settingsPage = read("src/pages/Settings.tsx");
+    const source = read("src/server/edge/notification-orchestrator.ts");
+    const settingsPage = read("src/routes/settings.tsx");
 
     expect(source).toContain("resolveCaller(req, supabase)");
     expect(source).toContain("hasAnyRole(caller, [\"admin_provinsi\", \"admin_kab_kota\", \"panitia\"])");
@@ -88,7 +88,7 @@ describe("Phase 2 notification orchestrator", () => {
   });
 
   it("preserves the Phase 1 contract without adding match/fixture operational columns", () => {
-    const source = read("supabase/functions/notification-orchestrator/index.ts");
+    const source = read("src/server/edge/notification-orchestrator.ts");
 
     expect(source).toContain("assignment_notifications");
     expect(source).not.toContain("kickoff_time");
@@ -117,7 +117,7 @@ describe("Phase 2 notification orchestrator", () => {
   });
 
   it("integrates claim and finalize RPC gates before provider delivery", () => {
-    const source = read("supabase/functions/notification-orchestrator/index.ts");
+    const source = read("src/server/edge/notification-orchestrator.ts");
     expect(source).toContain("claim_notification_channel");
     expect(source).toContain("finalize_notification_channel");
     expect(source).toContain("p_assignment_id");
@@ -126,7 +126,7 @@ describe("Phase 2 notification orchestrator", () => {
   });
 
   it("prevents WhatsApp delivery when the contact is missing before any claim is created", () => {
-    const source = read("supabase/functions/notification-orchestrator/index.ts");
+    const source = read("src/server/edge/notification-orchestrator.ts");
     expect(source).toContain("WHATSAPP_CONTACT_MISSING");
     expect(source).toContain("const normalized = normalizeWhatsAppNumber(rawContact);");
     expect(source).toContain("if (!normalized)");

@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
-const pageSource = readFileSync(`${process.cwd()}/src/pages/EventEdit.tsx`, "utf8");
+const pageSource = readFileSync(`${process.cwd()}/src/routes/events.$id.edit.tsx`, "utf8");
 const hookSource = readFileSync(`${process.cwd()}/src/hooks/useEvents.ts`, "utf8");
 const auditSource = readFileSync(`${process.cwd()}/src/lib/authAudit.ts`, "utf8");
 

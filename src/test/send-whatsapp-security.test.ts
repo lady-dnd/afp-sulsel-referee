@@ -3,10 +3,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 const source = fs.readFileSync(
-  path.join(process.cwd(), "supabase/functions/send-whatsapp/index.ts"),
+  path.join(process.cwd(), "src/server/edge/send-whatsapp.ts"),
   "utf8",
 );
-const settingsSource = fs.readFileSync(path.join(process.cwd(), "src/pages/Settings.tsx"), "utf8");
+const settingsSource = fs.readFileSync(path.join(process.cwd(), "src/routes/settings.tsx"), "utf8");
 const config = fs.readFileSync(path.join(process.cwd(), "supabase/config.toml"), "utf8").replace(/\r\n/g, "\n");
 
 describe("send-whatsapp security contract", () => {

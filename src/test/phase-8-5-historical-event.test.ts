@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
-const source = readFileSync(`${process.cwd()}/src/pages/EventSubmission.tsx`, "utf8");
+const source = readFileSync(`${process.cwd()}/src/routes/events.submit.tsx`, "utf8");
 
 describe("Phase 8.5 historical event creation contract", () => {
   it("gates past-date creation through the canonical Admin Provinsi role", () => {
