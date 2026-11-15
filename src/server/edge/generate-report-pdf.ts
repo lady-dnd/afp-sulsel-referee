@@ -2,7 +2,7 @@
 import { Deno } from "@/server/edge-runtime";
  import { createClient } from "@/server/edge-runtime";
  import { hasAnyRole, resolveCaller } from "./_shared/authorization.ts";
- import { PDFDocument, rgb, StandardFonts } from "https://esm.sh/pdf-lib@1.17.1";
+ import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
  
  const corsHeaders = {
    "Access-Control-Allow-Origin": "*",
