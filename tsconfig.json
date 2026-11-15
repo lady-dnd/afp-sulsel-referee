@@ -25,6 +25,7 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
     "noImplicitAny": false,
+    "strictNullChecks": false,
     "noUncheckedSideEffectImports": true,
     "paths": {
       "@/*": ["./src/*"]
