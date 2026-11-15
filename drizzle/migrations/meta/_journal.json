@@ -43,6 +43,13 @@
       "when": 1794768724300,
       "tag": "0005_link_event_approvals_to_events",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794769178698,
+      "tag": "0006_fix_event_approval_logging",
+      "breakpoints": true
     }
   ]
 }
