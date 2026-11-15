@@ -1,4 +1,5 @@
 // @ts-nocheck -- carried over from the imported project with loose database typings; remove after tightening types.
+import { invokeServerTask } from "@/lib/server-tasks";
 import { useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -369,8 +370,7 @@ export function useBatchAssignReferees() {
             });
 
             // Send assignment notification through the canonical orchestrator (async)
-            supabase.functions
-              .invoke("notification-orchestrator", {
+            invokeServerTask("notification-orchestrator", {
                 body: {
                   assignmentId: data.id,
                 },

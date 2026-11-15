@@ -47,8 +47,7 @@ export function useAutoCompleteEvents() {
     hasRun.current = true;
 
     // Run in background (fire and forget)
-    supabase.functions
-      .invoke("auto-complete-events", {
+    invokeServerTask("auto-complete-events", {
         body: { trigger: "page_load" },
       })
       .then(({ data, error }) => {
