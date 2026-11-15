@@ -20,7 +20,7 @@ describe("safe settings boundary contract", () => {
 
   it("keeps the safe settings boundary and excludes sensitive fields from public read paths", () => {
     const settingsHook = read("src/hooks/useSettings.ts");
-    const migration = read("drizzle/migrations/0003_apply_post_baseline_source_migrations.sql");
+    const migration = read("src/test/fixtures/migrations/20260918000000_safe_public_application_settings_boundary.sql");
 
     expect(settingsHook).toContain("public_application_settings");
     expect(settingsHook).not.toContain('select("*")');

@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 const root = process.cwd();
 const hookSource = readFileSync(`${root}/src/hooks/useEventAssignments.ts`, "utf8");
-const migrationSource = readFileSync(`${root}/drizzle/migrations/0003_apply_post_baseline_source_migrations.sql`, "utf8");
+const migrationSource = readFileSync(`${root}/src/test/fixtures/migrations/20260909120000_phase_8_9_assignment_state_machine.sql`, "utf8");
 
 describe("event assignment canonical state machine", () => {
   it("uses the canonical status domain and transition RPC", () => {
