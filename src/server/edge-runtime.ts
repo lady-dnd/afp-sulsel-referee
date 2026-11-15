@@ -40,11 +40,45 @@ function keyAwareFetch(key: string): typeof fetch {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function createClient(url: string, key: string, options: SupabaseClientOptions<any> = {}) {
-  return createSupabaseClient(url, key, {
+  const client = createSupabaseClient(url, key, {
     ...options,
     auth: { persistSession: false, autoRefreshToken: false, ...(options.auth ?? {}) },
     global: { ...(options.global ?? {}), fetch: keyAwareFetch(key) },
   });
+  // Task-to-task calls run in-process instead of going to a separate functions host.
+  Object.defineProperty(client, "functions", {
+    value: { invoke: invokeLocalTask },
+    configurable: true,
+  });
+  return client;
+}
+
+async function invokeLocalTask(
+  name: string,
+  options: { body?: unknown; headers?: Record<string, string>; method?: string } = {},
+) {
+  const headers = new Headers(options.headers);
+  let body: BodyInit | undefined;
+  if (options.body !== undefined && options.body !== null) {
+    if (typeof options.body === "string") body = options.body;
+    else {
+      body = JSON.stringify(options.body);
+      if (!headers.has("Content-Type")) headers.set("Content-Type", "application/json");
+    }
+  }
+  const { runServerTask } = await import("./edge/registry");
+  const res = await runServerTask(
+    name,
+    new Request(`http://internal.task/api/functions/${name}`, { method: options.method ?? "POST", headers, body }),
+  );
+  const type = res.headers.get("content-type") ?? "";
+  const payload = type.includes("application/json") ? await res.json().catch(() => null) : await res.text();
+  if (!res.ok) {
+    const message =
+      payload && typeof payload === "object" && "error" in payload ? String(payload.error) : `Task ${name} failed (${res.status})`;
+    return { data: null, error: Object.assign(new Error(message), { context: res, status: res.status }) };
+  }
+  return { data: payload, error: null };
 }
 
 /** SMTP needs raw TCP sockets, which this hosting runtime does not provide. */

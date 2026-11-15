@@ -1,4 +1,5 @@
 // @ts-nocheck -- carried over from the imported project with loose database typings; remove after tightening types.
+import { invokeServerTask } from "@/lib/server-tasks";
  import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
  import { supabase } from "@/integrations/supabase/client";
  import { toast } from "sonner";
@@ -83,7 +84,7 @@
  
    return useMutation({
      mutationFn: async (userIds: string[]) => {
-       const { data, error } = await supabase.functions.invoke(
+       const { data, error } = await invokeServerTask(
          "send-profile-reminder",
          {
            body: { userIds },

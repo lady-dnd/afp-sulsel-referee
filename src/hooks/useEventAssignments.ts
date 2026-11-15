@@ -1,4 +1,5 @@
 // @ts-nocheck -- carried over from the imported project with loose database typings; remove after tightening types.
+import { invokeServerTask } from "@/lib/server-tasks";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "../integrations/supabase/client";
 import { toast } from "sonner";
@@ -375,7 +376,7 @@ export function useAssignReferee() {
       });
 
       // Send assignment notification through the canonical orchestrator (async, don't await)
-      supabase.functions.invoke("notification-orchestrator", {
+      invokeServerTask("notification-orchestrator", {
         body: {
           assignmentId: data.id,
         },

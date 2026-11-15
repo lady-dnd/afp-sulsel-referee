@@ -1,3 +1,4 @@
+import { invokeServerTask } from "@/lib/server-tasks";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -94,7 +95,7 @@ export function useUpdateSetting() {
         throw new Error(parsedValue.error);
       }
 
-      const { data, error } = await supabase.functions.invoke("update-application-settings", {
+      const { data, error } = await invokeServerTask("update-application-settings", {
         body: { settings: [{ key: parsedKey, value: parsedValue.value }] },
       });
 
@@ -122,7 +123,7 @@ export function useBulkUpdateSettings() {
         throw new Error(validation.error);
       }
 
-      const { data, error } = await supabase.functions.invoke("update-application-settings", {
+      const { data, error } = await invokeServerTask("update-application-settings", {
         body: { settings: validation.normalized },
       });
 

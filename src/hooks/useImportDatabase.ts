@@ -1,3 +1,4 @@
+import { invokeServerTask } from "@/lib/server-tasks";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -151,7 +152,7 @@ export function useImportDatabase() {
       const totalRecords = filteredData.reduce((sum, d) => sum + d.records.length, 0);
       setProgress(`Mengimport ${totalRecords} record ke ${filteredData.length} tabel...`);
 
-      const response = await supabase.functions.invoke('import-database', {
+      const response = await invokeServerTask('import-database', {
         body: {
           data: filteredData,
           format: 'json',

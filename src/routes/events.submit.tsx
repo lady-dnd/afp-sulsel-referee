@@ -1,3 +1,4 @@
+import { invokeServerTask } from "@/lib/server-tasks";
 import { createFileRoute } from "@tanstack/react-router";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { useState, useEffect } from "react";
@@ -195,7 +196,7 @@ const EventSubmission = () => {
       // Send email notification for event submission
       if (eventData) {
         try {
-          const { error: notifyError } = await supabase.functions.invoke(
+          const { error: notifyError } = await invokeServerTask(
             "send-event-notification",
             {
               body: { 

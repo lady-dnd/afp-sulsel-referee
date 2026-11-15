@@ -1,3 +1,4 @@
+import { invokeServerTask } from "@/lib/server-tasks";
 import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
@@ -35,7 +36,7 @@ export function useSeedDatabase() {
     try {
       setProgress('Menghubungi server...');
       
-      const { data, error } = await supabase.functions.invoke('seed-database', {
+      const { data, error } = await invokeServerTask('seed-database', {
         method: 'POST',
       });
 

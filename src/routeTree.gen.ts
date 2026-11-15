@@ -50,6 +50,9 @@ import { Route as ReportsRefereePerformanceRouteImport } from './routes/reports.
 import { Route as ReviewIndexRouteImport } from './routes/review.index'
 import { Route as ReviewSuccessRouteImport } from './routes/review.success'
 import { Route as VerifyCodeRouteImport } from './routes/verify.$code'
+import { Route as ApiFunctionsNameRouteImport } from './routes/api/functions.$name'
+import { Route as ApiPublicKirisanWebhookRouteImport } from './routes/api/public/kirisan-webhook'
+import { Route as ApiPublicMetaWhatsappWebhookRouteImport } from './routes/api/public/meta-whatsapp-webhook'
 import { Route as EventsIdIndexRouteImport } from './routes/events.$id.index'
 import { Route as EventsIdAssignRefereesRouteImport } from './routes/events.$id.assign-referees'
 import { Route as EventsIdEditRouteImport } from './routes/events.$id.edit'
@@ -270,6 +273,22 @@ const VerifyCodeRoute = VerifyCodeRouteImport.update({
   path: '/verify/$code',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiFunctionsNameRoute = ApiFunctionsNameRouteImport.update({
+  id: '/api/functions/$name',
+  path: '/api/functions/$name',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicKirisanWebhookRoute = ApiPublicKirisanWebhookRouteImport.update({
+  id: '/api/public/kirisan-webhook',
+  path: '/api/public/kirisan-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicMetaWhatsappWebhookRoute =
+  ApiPublicMetaWhatsappWebhookRouteImport.update({
+    id: '/api/public/meta-whatsapp-webhook',
+    path: '/api/public/meta-whatsapp-webhook',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const EventsIdIndexRoute = EventsIdIndexRouteImport.update({
   id: '/events/$id/',
   path: '/events/$id/',
@@ -373,6 +392,9 @@ export interface FileRoutesByFullPath {
   '/referee/': typeof RefereeIndexRoute
   '/referees/': typeof RefereesIndexRoute
   '/review/': typeof ReviewIndexRoute
+  '/api/functions/$name': typeof ApiFunctionsNameRoute
+  '/api/public/kirisan-webhook': typeof ApiPublicKirisanWebhookRoute
+  '/api/public/meta-whatsapp-webhook': typeof ApiPublicMetaWhatsappWebhookRoute
   '/events/$id/assign-referees': typeof EventsIdAssignRefereesRoute
   '/events/$id/edit': typeof EventsIdEditRoute
   '/referee/discussions/$id': typeof RefereeDiscussionsIdRoute
@@ -428,6 +450,9 @@ export interface FileRoutesByTo {
   '/referee': typeof RefereeIndexRoute
   '/referees': typeof RefereesIndexRoute
   '/review': typeof ReviewIndexRoute
+  '/api/functions/$name': typeof ApiFunctionsNameRoute
+  '/api/public/kirisan-webhook': typeof ApiPublicKirisanWebhookRoute
+  '/api/public/meta-whatsapp-webhook': typeof ApiPublicMetaWhatsappWebhookRoute
   '/events/$id/assign-referees': typeof EventsIdAssignRefereesRoute
   '/events/$id/edit': typeof EventsIdEditRoute
   '/referee/discussions/$id': typeof RefereeDiscussionsIdRoute
@@ -484,6 +509,9 @@ export interface FileRoutesById {
   '/referee/': typeof RefereeIndexRoute
   '/referees/': typeof RefereesIndexRoute
   '/review/': typeof ReviewIndexRoute
+  '/api/functions/$name': typeof ApiFunctionsNameRoute
+  '/api/public/kirisan-webhook': typeof ApiPublicKirisanWebhookRoute
+  '/api/public/meta-whatsapp-webhook': typeof ApiPublicMetaWhatsappWebhookRoute
   '/events/$id/assign-referees': typeof EventsIdAssignRefereesRoute
   '/events/$id/edit': typeof EventsIdEditRoute
   '/referee/discussions/$id': typeof RefereeDiscussionsIdRoute
@@ -541,6 +569,9 @@ export interface FileRouteTypes {
     | '/referee/'
     | '/referees/'
     | '/review/'
+    | '/api/functions/$name'
+    | '/api/public/kirisan-webhook'
+    | '/api/public/meta-whatsapp-webhook'
     | '/events/$id/assign-referees'
     | '/events/$id/edit'
     | '/referee/discussions/$id'
@@ -596,6 +627,9 @@ export interface FileRouteTypes {
     | '/referee'
     | '/referees'
     | '/review'
+    | '/api/functions/$name'
+    | '/api/public/kirisan-webhook'
+    | '/api/public/meta-whatsapp-webhook'
     | '/events/$id/assign-referees'
     | '/events/$id/edit'
     | '/referee/discussions/$id'
@@ -651,6 +685,9 @@ export interface FileRouteTypes {
     | '/referee/'
     | '/referees/'
     | '/review/'
+    | '/api/functions/$name'
+    | '/api/public/kirisan-webhook'
+    | '/api/public/meta-whatsapp-webhook'
     | '/events/$id/assign-referees'
     | '/events/$id/edit'
     | '/referee/discussions/$id'
@@ -707,6 +744,9 @@ export interface RootRouteChildren {
   RefereeIndexRoute: typeof RefereeIndexRoute
   RefereesIndexRoute: typeof RefereesIndexRoute
   ReviewIndexRoute: typeof ReviewIndexRoute
+  ApiFunctionsNameRoute: typeof ApiFunctionsNameRoute
+  ApiPublicKirisanWebhookRoute: typeof ApiPublicKirisanWebhookRoute
+  ApiPublicMetaWhatsappWebhookRoute: typeof ApiPublicMetaWhatsappWebhookRoute
   EventsIdAssignRefereesRoute: typeof EventsIdAssignRefereesRoute
   EventsIdEditRoute: typeof EventsIdEditRoute
   RefereeDiscussionsIdRoute: typeof RefereeDiscussionsIdRoute
@@ -1010,6 +1050,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof VerifyCodeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/functions/$name': {
+      id: '/api/functions/$name'
+      path: '/api/functions/$name'
+      fullPath: '/api/functions/$name'
+      preLoaderRoute: typeof ApiFunctionsNameRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/kirisan-webhook': {
+      id: '/api/public/kirisan-webhook'
+      path: '/api/public/kirisan-webhook'
+      fullPath: '/api/public/kirisan-webhook'
+      preLoaderRoute: typeof ApiPublicKirisanWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/meta-whatsapp-webhook': {
+      id: '/api/public/meta-whatsapp-webhook'
+      path: '/api/public/meta-whatsapp-webhook'
+      fullPath: '/api/public/meta-whatsapp-webhook'
+      preLoaderRoute: typeof ApiPublicMetaWhatsappWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/events/$id/': {
       id: '/events/$id/'
       path: '/events/$id'
@@ -1139,6 +1200,9 @@ const rootRouteChildren: RootRouteChildren = {
   RefereeIndexRoute: RefereeIndexRoute,
   RefereesIndexRoute: RefereesIndexRoute,
   ReviewIndexRoute: ReviewIndexRoute,
+  ApiFunctionsNameRoute: ApiFunctionsNameRoute,
+  ApiPublicKirisanWebhookRoute: ApiPublicKirisanWebhookRoute,
+  ApiPublicMetaWhatsappWebhookRoute: ApiPublicMetaWhatsappWebhookRoute,
   EventsIdAssignRefereesRoute: EventsIdAssignRefereesRoute,
   EventsIdEditRoute: EventsIdEditRoute,
   RefereeDiscussionsIdRoute: RefereeDiscussionsIdRoute,

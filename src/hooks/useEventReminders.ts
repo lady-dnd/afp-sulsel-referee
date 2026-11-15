@@ -1,3 +1,4 @@
+import { invokeServerTask } from "@/lib/server-tasks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -26,7 +27,7 @@ export function useSendEventReminders() {
 
   return useMutation({
     mutationFn: async (daysBeforeEvent: number = 1) => {
-      const { data, error } = await supabase.functions.invoke("send-event-reminders", {
+      const { data, error } = await invokeServerTask("send-event-reminders", {
         body: { daysBeforeEvent },
       });
 
@@ -65,7 +66,7 @@ export function useSendAssignmentReminder() {
       eventId: string;
       role?: string;
     }) => {
-      const { data, error } = await supabase.functions.invoke("send-assignment-notification", {
+      const { data, error } = await invokeServerTask("send-assignment-notification", {
         body: {
           assignmentId,
           refereeId,

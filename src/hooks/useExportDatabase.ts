@@ -1,4 +1,5 @@
 // @ts-nocheck -- carried over from the imported project with loose database typings; remove after tightening types.
+import { invokeServerTask } from "@/lib/server-tasks";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -61,7 +62,7 @@ export function useExportDatabase() {
       if (startDate) params.append('start_date', startDate);
       if (endDate) params.append('end_date', endDate);
 
-      const response = await supabase.functions.invoke('export-database', {
+      const response = await invokeServerTask('export-database', {
         body: null,
         headers: {
           'Authorization': `Bearer ${session.access_token}`,

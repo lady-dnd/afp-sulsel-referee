@@ -1,3 +1,4 @@
+import { invokeServerTask } from "@/lib/server-tasks";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import type { AppRole } from "@/contexts/AuthContext";
@@ -155,7 +156,7 @@ export function useCreateUser() {
         throw new Error("Not authenticated");
       }
 
-      const response = await supabase.functions.invoke("create-user", {
+      const response = await invokeServerTask("create-user", {
         body: userData,
       });
 
@@ -239,7 +240,7 @@ export function useDeleteUser() {
         throw new Error("Not authenticated");
       }
 
-      const response = await supabase.functions.invoke("delete-user", {
+      const response = await invokeServerTask("delete-user", {
         body: { user_id: userId },
       });
 
@@ -268,7 +269,7 @@ export function useResetUserPassword() {
         throw new Error("Not authenticated");
       }
 
-      const response = await supabase.functions.invoke("reset-user-password", {
+      const response = await invokeServerTask("reset-user-password", {
         body: { user_id: userId, new_password: newPassword },
       });
 
@@ -296,7 +297,7 @@ export function useUpdateUserEmail() {
         throw new Error("Not authenticated");
       }
 
-      const response = await supabase.functions.invoke("update-user-email", {
+      const response = await invokeServerTask("update-user-email", {
         body: { user_id: userId, new_email: newEmail },
       });
 
@@ -327,7 +328,7 @@ export function useBulkCreateUsers() {
         throw new Error("Not authenticated");
       }
 
-      const response = await supabase.functions.invoke("create-users-bulk", {
+      const response = await invokeServerTask("create-users-bulk", {
         body: { users },
       });
 

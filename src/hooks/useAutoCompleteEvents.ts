@@ -1,3 +1,4 @@
+import { invokeServerTask } from "@/lib/server-tasks";
 import { useEffect, useRef } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -79,7 +80,7 @@ export function useManualAutoComplete() {
 
   return useMutation({
     mutationFn: async (): Promise<AutoCompleteResult> => {
-      const { data, error } = await supabase.functions.invoke("auto-complete-events", {
+      const { data, error } = await invokeServerTask("auto-complete-events", {
         body: { trigger: "manual" },
       });
 

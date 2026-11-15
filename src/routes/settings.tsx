@@ -1,3 +1,4 @@
+import { invokeServerTask } from "@/lib/server-tasks";
 import { createFileRoute } from "@tanstack/react-router";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { useState, useEffect, useRef } from "react";
@@ -107,7 +108,7 @@ function Settings() {
 
     setIsSendingTest(true);
     try {
-      const { data, error } = await supabase.functions.invoke("test-email-config", {
+      const { data, error } = await invokeServerTask("test-email-config", {
         body: { testEmail },
       });
 
@@ -135,7 +136,7 @@ function Settings() {
 
     setIsSendingWhatsappTest(true);
     try {
-      const { data, error } = await supabase.functions.invoke("send-whatsapp", {
+      const { data, error } = await invokeServerTask("send-whatsapp", {
         body: {
           to: recipient,
           type: "template",

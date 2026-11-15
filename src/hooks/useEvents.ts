@@ -1,4 +1,5 @@
 // @ts-nocheck -- carried over from the imported project with loose database typings; remove after tightening types.
+import { invokeServerTask } from "@/lib/server-tasks";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
@@ -338,7 +339,7 @@ export function useApproveEvent() {
 
       // Send approval notification email to event creator
       try {
-        const { error: notifyError } = await supabase.functions.invoke(
+        const { error: notifyError } = await invokeServerTask(
           "send-event-notification",
           {
             body: { 
