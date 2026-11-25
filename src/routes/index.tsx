@@ -1,237 +1,131 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState, useEffect } from "react";
-import { Eye, EyeOff, Loader2, AlertCircle, Star, ArrowRight } from "lucide-react";
-import { useNavigate, Link, useLocation } from "@/lib/navigation";
+import { CalendarDays, LayoutDashboard, LogIn, PlusCircle, Star } from "lucide-react";
+import { Link } from "@/lib/navigation";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Alert, AlertDescription } from "@/components/ui/alert";
 import { useAuth } from "@/contexts/AuthContext";
-import { FFILogo } from "@/components/reviews/FFILogo";
-import { z } from "zod";
-import { loginSchema } from "@/lib/validations";
-import { logAuthEvent } from "@/lib/authAudit";
 import { getDefaultRouteByRole } from "@/lib/routeUtils";
+import { PublicEventCalendar } from "@/components/home/PublicEventCalendar";
+import ffiLogo from "@/assets/ffi-logo.png";
 
-function Login() {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { signIn, user, role, isProfileComplete, isLoading: authLoading, isAdmin } = useAuth();
-  
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  // Redirect if already logged in
-  useEffect(() => {
-    if (user && !authLoading && role) {
-      redirectBasedOnRole();
-    }
-  }, [user, role, isProfileComplete, authLoading]);
-
-  const redirectBasedOnRole = () => {
-    // Check if there's a redirect path from protected route
-    const from = (location.state as { from?: { pathname: string } })?.from?.pathname;
-    
-    if (from) {
-      navigate(from, { replace: true });
-      return;
-    }
-
-    // Use centralized route logic
-    const defaultRoute = getDefaultRouteByRole(role, isAdmin());
-    navigate(defaultRoute, { replace: true });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-
-    // Validate with Zod
-    try {
-      loginSchema.parse({ email, password });
-    } catch (err) {
-      if (err instanceof z.ZodError) {
-        setError(err.errors[0].message);
-        return;
-      }
-    }
-
-    setIsLoading(true);
-    
-    const { error } = await signIn(email, password);
-    
-    setIsLoading(false);
-    
-    if (error) {
-      void logAuthEvent({
-        event: "AUTH_LOGIN_FAILED",
-        success: false,
-        identifier: email,
-        metadata: {
-          reason: error.message,
-        },
-      });
-      if (error.message.includes("Invalid login credentials")) {
-        setError("Email atau password salah");
-      } else if (error.message.includes("Email not confirmed")) {
-        setError("Email belum diverifikasi. Silakan cek email Anda");
-      } else {
-        setError(error.message);
-      }
-    }
-  };
-
-  // Show loading while checking auth state
-  if (authLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
-  }
+function PublicHomePage() {
+  const { user, role, isAdmin } = useAuth();
+  const dashboardPath = user && role ? getDefaultRouteByRole(role, isAdmin()) : "/login";
 
   return (
-    <div className="min-h-screen bg-background flex flex-col">
-      {/* Header with gradient */}
-      <div className="bg-gradient-to-br from-primary to-accent px-6 pt-12 pb-16 text-center">
-        <FFILogo size="lg" showSubtitle={true} />
-      </div>
-
-      {/* Login Form Card */}
-      <div className="flex-1 px-6 -mt-8">
-        <div className="bg-card rounded-2xl shadow-lg border border-border p-6 animate-fade-in">
-          <h2 className="text-lg font-bold text-center mb-1">
-            Login Sistem Asosiasi Futsal Provinsi Sulawesi Selatan
-          </h2>
-          <p className="text-sm text-muted-foreground text-center mb-6">
-            Masuk untuk mengelola event dan wasit
-          </p>
-
-          {/* Error Alert */}
-          {error && (
-            <Alert variant="destructive" className="mb-4">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Email Field */}
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-medium">
-                Email
-              </Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="nama@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={isLoading}
-                className="h-12 text-base"
-                autoComplete="email"
-              />
-            </div>
-
-            {/* Password Field */}
-            <div className="space-y-2">
-              <Label htmlFor="password" className="text-sm font-medium">
-                Password
-              </Label>
-              <div className="relative">
-                <Input
-                  id="password"
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Masukkan password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  disabled={isLoading}
-                  className="h-12 text-base pr-12"
-                  autoComplete="current-password"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
-                  tabIndex={-1}
-                >
-                  {showPassword ? (
-                    <EyeOff className="h-5 w-5" />
-                  ) : (
-                    <Eye className="h-5 w-5" />
-                  )}
-                </button>
-              </div>
-            </div>
-
-            {/* Forgot Password Link */}
-            <div className="text-right">
-              <Link
-                to="/forgot-password"
-                className="text-sm text-primary hover:underline"
-              >
-                Lupa Password?
-              </Link>
-            </div>
-
-            {/* Submit Button */}
-            <Button
-              type="submit"
-              className="w-full h-12 text-base font-semibold"
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                  Memproses...
-                </>
-              ) : (
-                "Masuk"
-              )}
-            </Button>
-
-            <div className="text-center mt-4 text-sm text-muted-foreground">
-              Belum punya akun?{" "}
-              <Link to="/signup" className="text-primary hover:underline font-medium">
-                Daftar di sini
-              </Link>
-            </div>
-          </form>
-        </div>
-
-        {/* Public Review CTA */}
-        <div className="bg-gradient-to-r from-amber-50 to-orange-50 dark:from-amber-950/20 dark:to-orange-950/20 rounded-xl p-4 mt-4 border border-amber-200 dark:border-amber-800">
-          <div className="flex items-center gap-3">
-            <div className="bg-amber-100 dark:bg-amber-900/50 p-2 rounded-lg">
-              <Star className="h-5 w-5 text-amber-600 dark:text-amber-400" />
-            </div>
-            <div className="flex-1">
-              <h3 className="font-semibold text-sm">Beri Penilaian Wasit</h3>
-              <p className="text-xs text-muted-foreground">
-                Bantu tingkatkan kualitas wasit dengan ulasan Anda
+    <div className="min-h-screen flex flex-col bg-background">
+      {/* Public Top Bar */}
+      <header className="sticky top-0 z-30 border-b bg-background/95 backdrop-blur-sm">
+        <div className="container flex h-16 items-center justify-between gap-3">
+          <Link to="/" className="flex items-center gap-2.5 min-w-0">
+            <img
+              src={ffiLogo}
+              alt="AFP Sulawesi Selatan"
+              className="h-9 w-auto object-contain shrink-0"
+            />
+            <div className="min-w-0">
+              <p className="font-bold text-sm sm:text-base text-foreground leading-tight truncate">
+                AFP Sulawesi Selatan
+              </p>
+              <p className="text-[11px] text-muted-foreground leading-tight truncate">
+                Kalender Event &amp; Penugasan Wasit
               </p>
             </div>
-            <Button variant="outline" size="sm" asChild className="shrink-0">
+          </Link>
+
+          <nav className="flex items-center gap-2">
+            <Button asChild variant="ghost" size="sm" className="hidden sm:inline-flex">
               <Link to="/review">
-                Review <ArrowRight className="ml-1 h-4 w-4" />
+                <Star className="h-4 w-4 mr-1.5" />
+                Penilaian Wasit
               </Link>
             </Button>
+            <Button asChild variant="outline" size="sm" className="hidden md:inline-flex">
+              <Link to="/events/submit">
+                <PlusCircle className="h-4 w-4 mr-1.5" />
+                Ajukan Event
+              </Link>
+            </Button>
+            <Button asChild size="sm">
+              <Link to={dashboardPath}>
+                {user ? (
+                  <>
+                    <LayoutDashboard className="h-4 w-4 mr-1.5" />
+                    Dashboard
+                  </>
+                ) : (
+                  <>
+                    <LogIn className="h-4 w-4 mr-1.5" />
+                    Masuk
+                  </>
+                )}
+              </Link>
+            </Button>
+          </nav>
+        </div>
+      </header>
+
+      {/* Hero Band */}
+      <section className="gradient-primary text-primary-foreground">
+        <div className="container py-8 sm:py-12">
+          <div className="max-w-3xl space-y-3">
+            <p className="text-xs sm:text-sm font-medium uppercase tracking-wider text-primary-foreground/80">
+              Asosiasi Futsal Provinsi Sulawesi Selatan
+            </p>
+            <h1 className="text-2xl sm:text-4xl font-bold tracking-tight text-balance">
+              Kalender Event Publik &amp; Cek Jadwal Kosong
+            </h1>
+            <p className="text-sm sm:text-base text-primary-foreground/90 max-w-2xl">
+              Periksa jadwal event futsal resmi di 24 Kabupaten/Kota se-Sulawesi Selatan untuk
+              menemukan tanggal yang masih kosong sebelum mengajukan rekomendasi penyelenggaraan
+              event.
+            </p>
+            <div className="pt-2 flex flex-wrap gap-2.5">
+              <Button asChild variant="secondary" size="sm" className="font-semibold">
+                <a href="#kalender-publik">
+                  <CalendarDays className="h-4 w-4 mr-1.5" />
+                  Lihat Kalender Event
+                </a>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                size="sm"
+                className="bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+              >
+                <Link to="/events/submit">
+                  <PlusCircle className="h-4 w-4 mr-1.5" />
+                  Ajukan Event Baru
+                </Link>
+              </Button>
+            </div>
           </div>
         </div>
+      </section>
 
-        {/* Footer */}
-        <div className="text-center mt-6 pb-8">
+      {/* Public Event Calendar Section */}
+      <main id="kalender-publik" className="flex-1 container py-6 sm:py-8">
+        <PublicEventCalendar />
+      </main>
+
+      {/* Footer */}
+      <footer className="border-t bg-card py-6">
+        <div className="container flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
           <p className="text-xs text-muted-foreground">
-            © 2026 Asosiasi Futsal Provinsi Sulawesi Selatan
+            © 2026 Asosiasi Futsal Provinsi Sulawesi Selatan — Sistem Manajemen Wasit &amp; Event
           </p>
-          <p className="text-xs text-muted-foreground mt-1">
-            Sistem Manajemen Wasit & Event
-          </p>
+          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+            <Link to="/review" className="hover:text-foreground transition-colors">
+              Penilaian Wasit
+            </Link>
+            <Link to="/signup" className="hover:text-foreground transition-colors">
+              Daftar Panitia
+            </Link>
+            <Link to="/login" className="hover:text-foreground transition-colors">
+              Masuk
+            </Link>
+          </div>
         </div>
-      </div>
+      </footer>
     </div>
   );
 }
@@ -239,11 +133,21 @@ function Login() {
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Masuk \u2014 AFP Sulsel" },
-      { name: "description", content: "Masuk \u2014 Sistem manajemen wasit Asosiasi Futsal Provinsi Sulawesi Selatan." },
-      { property: "og:title", content: "Masuk \u2014 AFP Sulsel" },
-      { property: "og:description", content: "Masuk \u2014 Sistem manajemen wasit Asosiasi Futsal Provinsi Sulawesi Selatan." },
+      { title: "Kalender Event Publik — AFP Sulawesi Selatan" },
+      {
+        name: "description",
+        content:
+          "Lihat kalender event futsal resmi dan cek ketersediaan jadwal kosong per kabupaten/kota di Sulawesi Selatan.",
+      },
+      { property: "og:title", content: "Kalender Event Publik — AFP Sulawesi Selatan" },
+      {
+        property: "og:description",
+        content:
+          "Lihat kalender event futsal resmi dan cek ketersediaan jadwal kosong per kabupaten/kota di Sulawesi Selatan.",
+      },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  component: Login,
+  component: PublicHomePage,
 });
