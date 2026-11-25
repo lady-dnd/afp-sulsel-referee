@@ -18,11 +18,12 @@ import { ArrowLeft, CalendarIcon, MapPin, Trophy, CheckCircle2, FileText } from 
 import { format, startOfDay } from "date-fns";
 import { id } from "date-fns/locale";
 import { cn } from "@/lib/utils";
-import { useCreateEvent } from "@/hooks/useEvents";
+import { useCreateEvent, useKabupatenBookedDates } from "@/hooks/useEvents";
 import { useKabupatenKotaList } from "@/hooks/useOrganization";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 import { getInitialEventStatusForRole } from "@/lib/eventPermissions";
+import { findRangeConflict, isDateBooked } from "@/lib/eventBooking";
 import { toast } from "sonner";
 
 // Disable dates before today
@@ -66,6 +67,8 @@ const EventSubmission = () => {
   const totalSteps = 3;
   const canCreateHistoricalEvent = isAdminProvinsi();
   const isHistoricalEvent = Boolean(startDate && startDate < today);
+  const { data: bookedRanges = [] } = useKabupatenBookedDates(formData.kabupatenKotaId || null);
+  const rangeConflict = findRangeConflict(startDate, endDate, bookedRanges);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
@@ -132,7 +135,7 @@ const EventSubmission = () => {
   };
 
   const isStep1Valid = formData.eventName.trim() !== "";
-  const isStep2Valid = startDate && endDate && formData.location.trim() !== "";
+  const isStep2Valid = Boolean(startDate && endDate && formData.location.trim() !== "" && !rangeConflict);
   const isStep3Valid = true; // Optional fields
 
   const canProceed = () => {
@@ -462,7 +465,10 @@ const EventSubmission = () => {
                             setEndDate(date);
                           }
                         }}
-                        disabled={(date) => !canCreateHistoricalEvent && date < today}
+                        disabled={(date) =>
+                          (!canCreateHistoricalEvent && date < today) ||
+                          Boolean(isDateBooked(date, bookedRanges))
+                        }
                         initialFocus
                         className="pointer-events-auto"
                       />
@@ -494,7 +500,11 @@ const EventSubmission = () => {
                         mode="single"
                         selected={endDate}
                         onSelect={setEndDate}
-                        disabled={(date) => (!canCreateHistoricalEvent && date < today) || (startDate ? date < startDate : false)}
+                        disabled={(date) =>
+                          (!canCreateHistoricalEvent && date < today) ||
+                          (startDate ? date < startDate : false) ||
+                          Boolean(isDateBooked(date, bookedRanges))
+                        }
                         initialFocus
                         className="pointer-events-auto"
                       />
@@ -502,6 +512,21 @@ const EventSubmission = () => {
                   </Popover>
                 </div>
               </div>
+
+              {rangeConflict && (
+                <div className="rounded-md border border-destructive/40 bg-destructive/10 p-3 text-sm text-destructive" role="alert">
+                  <p className="font-medium">Tanggal Bentrok di Wilayah Ini</p>
+                  <p>
+                    Rentang tanggal bertabrakan dengan event &ldquo;{rangeConflict.event_name}&rdquo; ({rangeConflict.start_date} s/d {rangeConflict.end_date}). Pilih tanggal lain yang kosong.
+                  </p>
+                </div>
+              )}
+
+              {formData.kabupatenKotaId && bookedRanges.length > 0 && !rangeConflict && (
+                <p className="text-xs text-muted-foreground">
+                  Tanggal yang sudah dipesan pada Kabupaten/Kota ini otomatis dinonaktifkan di kalender ({bookedRanges.length} jadwal aktif).
+                </p>
+              )}
               
               {startDate && endDate && startDate.getTime() !== endDate.getTime() && (
                 <p className="text-xs text-muted-foreground bg-muted/50 p-2 rounded">

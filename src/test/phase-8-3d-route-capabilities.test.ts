@@ -15,6 +15,6 @@ describe("F-001 assignment capability contract", () => {
   });
 
   it("does not expose the assignment CTA to non-admin event roles", () => {
-    expect(eventDetailSource).toContain('const canAssignReferees = isAdmin() && event.status === "DISETUJUI";');
+    expect(eventDetailSource).toContain("const canAssignReferees = canAssignRefereesToEvent(role, kabupatenKotaId, event);");
   });
 });

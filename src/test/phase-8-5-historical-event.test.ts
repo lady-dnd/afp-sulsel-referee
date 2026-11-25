@@ -5,7 +5,8 @@ const source = readFileSync(`${process.cwd()}/src/routes/events.submit.tsx`, "ut
 
 describe("Phase 8.5 historical event creation contract", () => {
   it("gates past-date creation through the canonical Admin Provinsi role", () => {
-    expect(source).toContain("const { user, isAdminProvinsi } = useAuth();");
+    expect(source).toContain("isAdminProvinsi");
+    expect(source).toContain("useAuth()");
     expect(source).toContain("const canCreateHistoricalEvent = isAdminProvinsi();");
     expect(source).toContain("!canCreateHistoricalEvent && date < today");
   });

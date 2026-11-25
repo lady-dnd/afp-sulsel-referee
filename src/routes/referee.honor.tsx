@@ -91,6 +91,9 @@ const getStatusConfig = (status: Honor["status"]) => {
 function RefereeHonor() {
   const [showInputForm, setShowInputForm] = useState(false);
   const [showSubmitDrawer, setShowSubmitDrawer] = useState(false);
+  const [editingDraft, setEditingDraft] = useState<Honor | null>(null);
+  const [draftAmount, setDraftAmount] = useState("");
+  const [draftNotes, setDraftNotes] = useState("");
   
   // Form state
   const [selectedEvent, setSelectedEvent] = useState("");
@@ -183,9 +186,30 @@ function RefereeHonor() {
   };
 
   const submitDraft = async (entry: Honor) => {
+    if (!entry.amount || entry.amount <= 0) {
+      setEditingDraft(entry);
+      setDraftAmount("");
+      setDraftNotes(entry.notes || "");
+      return;
+    }
     await submitHonor.mutateAsync({
       id: entry.id,
     });
+  };
+
+  const handleSaveAndSubmitDraft = async () => {
+    if (!editingDraft) return;
+    const amount = parseInt(draftAmount.replace(/\D/g, ""), 10);
+    if (!amount || amount <= 0 || amount > 10000000) return;
+    await updateHonor.mutateAsync({
+      id: editingDraft.id,
+      amount,
+      notes: draftNotes.trim() || undefined,
+    });
+    await submitHonor.mutateAsync({ id: editingDraft.id });
+    setEditingDraft(null);
+    setDraftAmount("");
+    setDraftNotes("");
   };
 
   if (honorsLoading) {
@@ -304,6 +328,56 @@ function RefereeHonor() {
               Ya, Ajukan
             </Button>
             <Button variant="outline" onClick={() => setShowSubmitDrawer(false)} className="h-12">
+              Batal
+            </Button>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
+
+      <Drawer open={Boolean(editingDraft)} onOpenChange={(open) => !open && setEditingDraft(null)}>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Isi Nominal Honor</DrawerTitle>
+            <DrawerDescription>
+              {editingDraft?.events?.name || "Event selesai"} — masukkan jumlah honor sebelum diajukan ke admin.
+            </DrawerDescription>
+          </DrawerHeader>
+          <div className="space-y-4 px-4 pb-2">
+            <div className="space-y-2">
+              <Label htmlFor="draft-amount">Jumlah Honor (Rp)</Label>
+              <Input
+                id="draft-amount"
+                type="text"
+                inputMode="numeric"
+                placeholder="Contoh: 500.000"
+                value={draftAmount}
+                onChange={(e) => {
+                  const numeric = e.target.value.replace(/\D/g, "");
+                  setDraftAmount(numeric ? new Intl.NumberFormat("id-ID").format(parseInt(numeric, 10)) : "");
+                }}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="draft-notes">Catatan</Label>
+              <Textarea
+                id="draft-notes"
+                placeholder="Opsional..."
+                value={draftNotes}
+                onChange={(e) => setDraftNotes(e.target.value)}
+                maxLength={200}
+              />
+            </div>
+          </div>
+          <DrawerFooter className="pb-safe">
+            <Button
+              onClick={handleSaveAndSubmitDraft}
+              disabled={updateHonor.isPending || submitHonor.isPending || !draftAmount}
+              className="h-12"
+            >
+              {(updateHonor.isPending || submitHonor.isPending) && <Loader2 className="h-4 w-4 animate-spin mr-2" />}
+              Simpan & Ajukan Honor
+            </Button>
+            <Button variant="outline" onClick={() => setEditingDraft(null)} className="h-12">
               Batal
             </Button>
           </DrawerFooter>

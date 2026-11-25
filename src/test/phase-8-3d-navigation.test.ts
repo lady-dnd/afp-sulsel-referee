@@ -9,11 +9,14 @@ describe("F-002 and F-003 mobile navigation contracts", () => {
     expect(source).not.toContain("/database-export");
   });
 
-  it("keeps approval navigation only in the Admin Provinsi branch", () => {
-    const adminProvinsiBranch = source.slice(source.indexOf("isAdminProvinsi() ? ["), source.indexOf(" : ["));
-    const nonProvinsiBranch = source.slice(source.indexOf(" : ["), source.indexOf("    ...(isAdmin()"));
-
-    expect(adminProvinsiBranch).toContain('path: "/approvals"');
-    expect(nonProvinsiBranch).not.toContain('path: "/approvals"');
+  it("exposes approval navigation to admin roles and excludes it from Panitia primary nav", () => {
+    expect(source).toContain('path: "/approvals"');
+    expect(source).toContain("isPanitia");
+    const panitiaNavStart = source.indexOf("const panitiaMainNavItems");
+    const panitiaNavEnd = source.indexOf("const adminMainNavItems");
+    const panitiaBranch = panitiaNavStart >= 0 && panitiaNavEnd > panitiaNavStart
+      ? source.slice(panitiaNavStart, panitiaNavEnd)
+      : "";
+    expect(panitiaBranch).not.toContain('path: "/approvals"');
   });
 });

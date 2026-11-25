@@ -1847,6 +1847,21 @@ export type Database = {
         Args: { p_kota_id: string; p_location: string; p_name: string }
         Returns: boolean
       }
+      check_event_schedule_conflict: {
+        Args: {
+          p_end_date: string
+          p_exclude_event_id?: string
+          p_kabupaten_kota_id: string
+          p_start_date: string
+        }
+        Returns: {
+          conflict_end_date: string
+          conflict_event_id: string
+          conflict_event_name: string
+          conflict_start_date: string
+          conflict_status: string
+        }[]
+      }
       claim_event_completion_notification: {
         Args: { p_channel: string; p_event_id: string; p_referee_id: string }
         Returns: {
@@ -1960,6 +1975,16 @@ export type Database = {
           metadata: Json
           new_data: Json
           old_data: Json
+        }[]
+      }
+      get_booked_event_dates: {
+        Args: { p_exclude_event_id?: string; p_kabupaten_kota_id: string }
+        Returns: {
+          end_date: string
+          event_id: string
+          event_name: string
+          start_date: string
+          status: string
         }[]
       }
       get_honor_statistics: {

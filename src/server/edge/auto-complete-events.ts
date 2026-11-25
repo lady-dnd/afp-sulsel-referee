@@ -2,6 +2,7 @@
 import { Deno } from "@/server/edge-runtime";
 import { createClient } from "@/server/edge-runtime";
 import { hasAnyRole, resolveCaller } from "./_shared/authorization.ts";
+import { dispatchEventCompletionNotifications } from "./send-event-completion-notification";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -136,58 +137,9 @@ export const handler = (async (req) => {
           // Don't fail the whole operation for this
         }
 
-        // Get all assigned referees (confirmed and pending, excluding cancelled/declined)
-        const { data: assignments, error: assignmentError } = await supabase
-          .from("event_assignments")
-          .select("referee_id")
-          .eq("event_id", event.id)
-          .is("deleted_at", null)
-          .in("status", ["confirmed", "pending"]);
-
-        let notificationsSent = 0;
-
-        if (!assignmentError && assignments && assignments.length > 0) {
-          // Create honor drafts for all confirmed assignments
-          const honorDrafts = assignments.map((assignment) => ({
-            referee_id: assignment.referee_id,
-            event_id: event.id,
-            amount: 0, // Referee will fill in the amount
-            status: 'PENDING',
-            notes: 'Auto-generated draft from event completion',
-          }));
-
-          const { error: honorError } = await supabase
-            .from("honors")
-            .insert(honorDrafts);
-
-          if (honorError) {
-            console.warn(`[auto-complete-events] Failed to create honor drafts: ${honorError.message}`);
-          } else {
-            console.log(`[auto-complete-events] Created ${honorDrafts.length} honor drafts`);
-          }
-
-          // Create notifications for each referee
-          const notifications = assignments.map((assignment) => ({
-            user_id: assignment.referee_id,
-            title: "Event Selesai",
-            message: `Event "${event.name}" telah selesai. Silakan submit honor Anda.`,
-            type: "event",
-            action: "event_completed",
-            entity_type: "event",
-            entity_id: event.id,
-          }));
-
-          const { error: notifError, data: notifData } = await supabase
-            .from("notifications")
-            .insert(notifications)
-            .select("id");
-
-          if (notifError) {
-            console.warn(`[auto-complete-events] Failed to insert notifications: ${notifError.message}`);
-          } else {
-            notificationsSent = notifData?.length || 0;
-          }
-        }
+        const dispatchResult = await dispatchEventCompletionNotifications(supabase, event.id);
+        const notificationsSent =
+          "inAppSent" in dispatchResult ? dispatchResult.inAppSent + dispatchResult.whatsappSent : 0;
 
         console.log(`[auto-complete-events] Completed event ${event.id}, notifications sent: ${notificationsSent}`);
 

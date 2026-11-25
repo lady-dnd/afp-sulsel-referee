@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { createNotification } from "./useNotifications";
 import { format } from "date-fns";
 import { writeAuditLog } from "@/lib/authAudit";
+import { mapBookingErrorMessage, type BookedDateRange } from "@/lib/eventBooking";
 
 export type EventStatus = "DIAJUKAN" | "DISETUJUI" | "DITOLAK" | "SELESAI";
 
@@ -174,6 +175,25 @@ export function useEventApprovals(eventId: string) {
   });
 }
 
+export function useKabupatenBookedDates(
+  kabupatenKotaId?: string | null,
+  excludeEventId?: string | null,
+) {
+  return useQuery({
+    queryKey: ["kabupaten-booked-dates", kabupatenKotaId ?? null, excludeEventId ?? null],
+    queryFn: async () => {
+      if (!kabupatenKotaId) return [] as BookedDateRange[];
+      const { data, error } = await supabase.rpc("get_booked_event_dates", {
+        p_kabupaten_kota_id: kabupatenKotaId,
+        ...(excludeEventId ? { p_exclude_event_id: excludeEventId } : {}),
+      });
+      if (error) throw error;
+      return (data || []) as BookedDateRange[];
+    },
+    enabled: Boolean(kabupatenKotaId),
+  });
+}
+
 export function useCreateEvent() {
   const queryClient = useQueryClient();
 
@@ -227,10 +247,12 @@ export function useCreateEvent() {
     },
     onSuccess: (eventData) => {
       queryClient.invalidateQueries({ queryKey: ["events"] });
+      queryClient.invalidateQueries({ queryKey: ["kabupaten-booked-dates"] });
       toast.success(eventData.status === "DISETUJUI" ? "Event berhasil dibuat dan disetujui" : "Event berhasil diajukan");
     },
     onError: (error) => {
-      toast.error("Gagal mengajukan event: " + error.message);
+      const bookingMsg = mapBookingErrorMessage(error);
+      toast.error(bookingMsg ?? "Gagal mengajukan event: " + error.message);
     },
   });
 }
@@ -296,10 +318,12 @@ export function useUpdateEvent() {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ["events"] });
       queryClient.invalidateQueries({ queryKey: ["events", data.id] });
+      queryClient.invalidateQueries({ queryKey: ["kabupaten-booked-dates"] });
       toast.success("Event berhasil diperbarui");
     },
     onError: (error) => {
-      toast.error("Gagal memperbarui event: " + error.message);
+      const bookingMsg = mapBookingErrorMessage(error);
+      toast.error(bookingMsg ?? "Gagal memperbarui event: " + error.message);
     },
   });
 }
@@ -479,6 +503,14 @@ export function useCompleteEvent() {
           throw new Error("Event bukan dalam status yang dapat diselesaikan.");
         }
         throw new Error("Event gagal diselesaikan. Silakan coba lagi.");
+      }
+
+      try {
+        await invokeServerTask("send-event-completion-notification", {
+          body: { eventId },
+        });
+      } catch (notifyErr) {
+        console.warn("Completion notification dispatch warning:", notifyErr);
       }
 
       return data;

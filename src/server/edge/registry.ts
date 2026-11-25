@@ -15,6 +15,7 @@ export const serverTasks: Record<string, Loader> = {
   "reset-user-password": () => import("./reset-user-password"),
   "seed-database": () => import("./seed-database"),
   "send-assignment-notification": () => import("./send-assignment-notification"),
+  "send-event-completion-notification": () => import("./send-event-completion-notification"),
   "send-event-notification": () => import("./send-event-notification"),
   "send-event-reminders": () => import("./send-event-reminders"),
   "send-license-reminder": () => import("./send-license-reminder"),

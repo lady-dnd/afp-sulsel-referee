@@ -16,9 +16,10 @@ import { ArrowLeft, CalendarIcon, MapPin, Loader2, Save, FileText, AlertTriangle
 import { format, parseISO, startOfDay } from "date-fns";
 import { id } from "date-fns/locale";
 import { cn } from "@/lib/utils";
-import { useEvent, useUpdateEvent, useCheckDuplicateEvent } from "@/hooks/useEvents";
+import { useEvent, useUpdateEvent, useCheckDuplicateEvent, useKabupatenBookedDates } from "@/hooks/useEvents";
 import { useKabupatenKotaList } from "@/hooks/useOrganization";
 import { useAuth } from "@/contexts/AuthContext";
+import { findRangeConflict, isDateBooked } from "@/lib/eventBooking";
 import { useSignedUrl } from "@/hooks/useSignedUrl";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { supabase } from "@/integrations/supabase/client";
@@ -57,6 +58,8 @@ const EventEdit = () => {
   const [isUploading, setIsUploading] = useState(false);
   const [duplicateWarning, setDuplicateWarning] = useState<string | null>(null);
   const isHistoricalEvent = Boolean(event?.start_date && event.start_date < format(today, "yyyy-MM-dd"));
+  const { data: bookedRanges = [] } = useKabupatenBookedDates(formData.kabupatenKotaId || null, eventId || null);
+  const rangeConflict = findRangeConflict(startDate, endDate, bookedRanges);
 
   // Load event data when available
   useEffect(() => {
@@ -90,7 +93,13 @@ const EventEdit = () => {
     setDocumentFile(file);
   };
 
-  const isFormValid = formData.eventName.trim() !== "" && startDate && endDate && formData.location.trim() !== "";
+  const isFormValid = Boolean(
+    formData.eventName.trim() !== "" &&
+    startDate &&
+    endDate &&
+    formData.location.trim() !== "" &&
+    !rangeConflict
+  );
 
   const handleCheckDuplicate = async () => {
     if (
@@ -329,7 +338,10 @@ const EventEdit = () => {
                             setEndDate(date);
                           }
                         }}
-                        disabled={(date) => !isHistoricalEvent && date < today}
+                        disabled={(date) =>
+                          (!isHistoricalEvent && date < today) ||
+                          Boolean(isDateBooked(date, bookedRanges))
+                        }
                         initialFocus
                         className="pointer-events-auto"
                       />
@@ -361,7 +373,11 @@ const EventEdit = () => {
                         mode="single"
                         selected={endDate}
                         onSelect={setEndDate}
-                        disabled={(date) => (!isHistoricalEvent && date < today) || (startDate ? date < startDate : false)}
+                        disabled={(date) =>
+                          (!isHistoricalEvent && date < today) ||
+                          (startDate ? date < startDate : false) ||
+                          Boolean(isDateBooked(date, bookedRanges))
+                        }
                         initialFocus
                         className="pointer-events-auto"
                       />
@@ -369,6 +385,15 @@ const EventEdit = () => {
                   </Popover>
                 </div>
               </div>
+
+              {rangeConflict && (
+                <Alert variant="destructive">
+                  <AlertTriangle className="h-4 w-4" />
+                  <AlertDescription>
+                    Tanggal bentrok dengan event &ldquo;{rangeConflict.event_name}&rdquo; ({rangeConflict.start_date} s/d {rangeConflict.end_date}) di wilayah yang sama.
+                  </AlertDescription>
+                </Alert>
+              )}
               
               {startDate && endDate && startDate.getTime() !== endDate.getTime() && (
                 <p className="text-xs text-muted-foreground bg-muted/50 p-2 rounded">
