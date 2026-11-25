@@ -145,7 +145,7 @@ const handler = async (req: Request): Promise<Response> => {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    if (!hasAnyRole(caller, ["admin_provinsi", "admin_kab_kota", "panitia"])) {
+    if (!hasAnyRole(caller, ["admin_provinsi", "admin_kab_kota"])) {
       return new Response(JSON.stringify({ error: "Forbidden" }), {
         status: 403,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -222,13 +222,6 @@ const handler = async (req: Request): Promise<Response> => {
       caller.roles.includes("admin_kab_kota") &&
       event.kabupaten_kota_id !== caller.kabupatenKotaId
     ) {
-      return new Response(JSON.stringify({ error: "Forbidden" }), {
-        status: 403,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      });
-    }
-
-    if (caller.roles.includes("panitia") && event.created_by !== caller.user.id) {
       return new Response(JSON.stringify({ error: "Forbidden" }), {
         status: 403,
         headers: { ...corsHeaders, "Content-Type": "application/json" },

@@ -57,6 +57,13 @@
       "when": 1795600220795,
       "tag": "0007_harden_selected_rls_and_storage_policies",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1795601478939,
+      "tag": "0008_tighten_panitia_and_regional_event_rls",
+      "breakpoints": true
     }
   ]
 }

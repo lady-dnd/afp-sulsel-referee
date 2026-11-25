@@ -22,6 +22,7 @@ import { useCreateEvent } from "@/hooks/useEvents";
 import { useKabupatenKotaList } from "@/hooks/useOrganization";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
+import { getInitialEventStatusForRole } from "@/lib/eventPermissions";
 import { toast } from "sonner";
 
 // Disable dates before today
@@ -29,7 +30,7 @@ const today = startOfDay(new Date());
 
 const EventSubmission = () => {
   const navigate = useNavigate();
-  const { user, isAdminProvinsi } = useAuth();
+  const { user, role, kabupatenKotaId, isAdmin, isAdminProvinsi } = useAuth();
   const createEvent = useCreateEvent();
   const { data: kabupatenKotaList } = useKabupatenKotaList();
   
@@ -43,8 +44,18 @@ const EventSubmission = () => {
     location: "",
     description: "",
     category: "",
-    kabupatenKotaId: "",
+    kabupatenKotaId: kabupatenKotaId || "",
   });
+
+  const isAdminKabKota = role === "admin_kab_kota";
+  const initialEventStatus = getInitialEventStatusForRole(role);
+  const isDirectApproved = initialEventStatus === "DISETUJUI";
+
+  useEffect(() => {
+    if (kabupatenKotaId && (isAdminKabKota || !formData.kabupatenKotaId)) {
+      setFormData((prev) => ({ ...prev, kabupatenKotaId }));
+    }
+  }, [kabupatenKotaId, isAdminKabKota]);
 
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
@@ -191,6 +202,7 @@ const EventSubmission = () => {
         category: formData.category || undefined,
         kabupaten_kota_id: formData.kabupatenKotaId || undefined,
         created_by: user.id,
+        status: initialEventStatus,
       });
 
       // Send email notification for event submission
@@ -288,14 +300,20 @@ const EventSubmission = () => {
             <div className="w-16 h-16 bg-success/15 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle2 className="h-8 w-8 text-success" />
             </div>
-            <h2 className="text-xl font-bold mb-2">Event Berhasil Diajukan!</h2>
+            <h2 className="text-xl font-bold mb-2">
+              {isDirectApproved ? "Event Berhasil Dibuat!" : "Event Berhasil Diajukan!"}
+            </h2>
             <p className="text-muted-foreground mb-4">
-              Pengajuan event Anda sedang ditinjau oleh Admin Provinsi.
+              {isDirectApproved
+                ? "Event dibuat oleh Admin Provinsi dan langsung disetujui sehingga siap ditugaskan wasit."
+                : "Pengajuan event Anda sedang ditinjau oleh Admin Provinsi atau Admin Kab/Kota terkait."}
               {documentFile && " Email notifikasi telah dikirim ke asosiasi."}
             </p>
             <div className="flex items-center justify-center gap-2 mb-6">
               <span className="text-sm text-muted-foreground">Status:</span>
-              <StatusBadge status="warning">Diajukan</StatusBadge>
+              <StatusBadge status={isDirectApproved ? "success" : "warning"}>
+                {isDirectApproved ? "Disetujui" : "Diajukan"}
+              </StatusBadge>
             </div>
             <div className="bg-muted/50 rounded-lg p-4 text-left mb-6">
               <h3 className="font-semibold mb-2">{formData.eventName}</h3>
@@ -315,9 +333,15 @@ const EventSubmission = () => {
               <Button className="w-full" onClick={() => navigate("/events")}>
                 Lihat Daftar Event
               </Button>
-              <Button variant="outline" className="w-full" onClick={() => navigate("/dashboard")}>
-                Kembali ke Dashboard
-              </Button>
+              {isAdmin() ? (
+                <Button variant="outline" className="w-full" onClick={() => navigate("/dashboard")}>
+                  Kembali ke Dashboard
+                </Button>
+              ) : (
+                <Button variant="outline" className="w-full" onClick={() => navigate("/events/calendar")}>
+                  Lihat Kalender Event
+                </Button>
+              )}
             </div>
           </CardContent>
         </Card>
@@ -508,7 +532,11 @@ const EventSubmission = () => {
 
               <div className="space-y-2">
                 <Label>Kabupaten/Kota</Label>
-                <Select value={formData.kabupatenKotaId} onValueChange={(v) => handleInputChange("kabupatenKotaId", v)}>
+                <Select
+                  value={formData.kabupatenKotaId}
+                  onValueChange={(v) => handleInputChange("kabupatenKotaId", v)}
+                  disabled={isAdminKabKota && Boolean(kabupatenKotaId)}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih kabupaten/kota" />
                   </SelectTrigger>
@@ -518,6 +546,16 @@ const EventSubmission = () => {
                     ))}
                   </SelectContent>
                 </Select>
+                {isAdminKabKota && kabupatenKotaId && (
+                  <p className="text-xs text-muted-foreground">
+                    Wilayah otomatis disesuaikan dengan Kabupaten/Kota Anda.
+                  </p>
+                )}
+                {isAdminProvinsi() && (
+                  <p className="text-xs text-muted-foreground">
+                    Admin Provinsi dapat membuat event di seluruh wilayah dan event langsung berstatus Disetujui.
+                  </p>
+                )}
               </div>
             </CardContent>
           </Card>

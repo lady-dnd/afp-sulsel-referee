@@ -75,7 +75,7 @@ function Approvals() {
 
   const filteredPendingEvents = pendingEvents?.filter((event) => {
     const matchesSearch = event.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesKabKota = filterKabKota === "all" || event.kabupaten_kota?.id === filterKabKota;
+    const matchesKabKota = !isAdminProvinsi() || filterKabKota === "all" || event.kabupaten_kota?.id === filterKabKota;
     return matchesSearch && matchesKabKota;
   }) || [];
 
@@ -85,7 +85,7 @@ function Approvals() {
 
   const filteredHistoryEvents = historyEvents.filter((event) => {
     const matchesSearch = event.name.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesKabKota = filterKabKota === "all" || event.kabupaten_kota?.id === filterKabKota;
+    const matchesKabKota = !isAdminProvinsi() || filterKabKota === "all" || event.kabupaten_kota?.id === filterKabKota;
     return matchesSearch && matchesKabKota;
   });
 
@@ -650,7 +650,7 @@ export const Route = createFileRoute("/approvals")({
     ],
   }),
   component: () => (
-    <ProtectedRoute requireRole="admin_provinsi" requireProfileComplete>
+    <ProtectedRoute requireRole={["admin_provinsi", "admin_kab_kota"]} requireProfileComplete>
       <Approvals />
     </ProtectedRoute>
   ),

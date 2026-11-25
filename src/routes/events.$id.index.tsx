@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { useEvent, useEventApprovals, useApproveEvent, useRejectEvent, useCompleteEvent, useDeleteEvent, useActiveAssignmentsCount, getEventStatusDisplay, EventStatus } from "@/hooks/useEvents";
 import { useEventAssignments, getRoleBadgeVariant, getStatusBadgeVariant, RefereeRole, AssignmentStatus, useCancelConfirmedAssignment, EventAssignment } from "@/hooks/useEventAssignments";
 import { useAuth } from "@/contexts/AuthContext";
+import { canApproveEvent, canAssignRefereesToEvent, canEditEvent } from "@/lib/eventPermissions";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { formatEventDateRangeFull } from "@/lib/dateUtils";
@@ -67,9 +68,9 @@ function EventDetail() {
   }
 
   const statusDisplay = getEventStatusDisplay(event.status as EventStatus);
-  const canApprove = isAdminProvinsi() && event.status === "DIAJUKAN";
+  const canApprove = canApproveEvent(role, kabupatenKotaId, event);
   const canComplete = isAdminProvinsi() && event.status === "DISETUJUI";
-  const canAssignReferees = isAdmin() && event.status === "DISETUJUI";
+  const canAssignReferees = canAssignRefereesToEvent(role, kabupatenKotaId, event);
   
   // Delete permission:
   // - Admin Provinsi: can delete any event
@@ -80,8 +81,7 @@ function EventDetail() {
      event.status === "DIAJUKAN");
   
   // Edit permission: Admin can always edit, creator can only edit if status is DIAJUKAN
-  const canEdit = isAdminProvinsi() || 
-    (event.created_by === user?.id && event.status === "DIAJUKAN");
+  const canEdit = canEditEvent(role, user?.id, kabupatenKotaId, event);
 
   const handleApprove = async () => {
     if (!user) return;

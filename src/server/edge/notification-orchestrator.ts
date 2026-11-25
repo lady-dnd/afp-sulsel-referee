@@ -203,10 +203,6 @@ async function getAssignmentContext(supabase: any, assignmentId: string, caller:
     return { forbidden: true } as const;
   }
 
-  if (caller.roles.includes("panitia") && data.event?.created_by !== caller.user.id) {
-    return { forbidden: true } as const;
-  }
-
   let refereeContact: { whatsapp_number: string | null } | null = null;
 
   try {
@@ -439,7 +435,7 @@ const handler = async (req: Request): Promise<Response> => {
     }
 
     phase = "authorization";
-    if (!hasAnyRole(caller, ["admin_provinsi", "admin_kab_kota", "panitia"])) { return jsonResponse({ success: false, error: "Forbidden" }, 403); }
+    if (!hasAnyRole(caller, ["admin_provinsi", "admin_kab_kota"])) { return jsonResponse({ success: false, error: "Forbidden" }, 403); }
 
     phase = "parse_request";
     let body: unknown;

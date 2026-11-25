@@ -74,7 +74,7 @@ describe("Phase 2 notification orchestrator", () => {
     const settingsPage = read("src/routes/settings.tsx");
 
     expect(source).toContain("resolveCaller(req, supabase)");
-    expect(source).toContain("hasAnyRole(caller, [\"admin_provinsi\", \"admin_kab_kota\", \"panitia\"])");
+    expect(source).toContain("hasAnyRole(caller, [\"admin_provinsi\", \"admin_kab_kota\"])");
     expect(source).toContain("send-assignment-notification");
     expect(source).toContain("send-whatsapp");
     expect(source).toContain("Deno.env.get(\"SUPABASE_SERVICE_ROLE_KEY\")");

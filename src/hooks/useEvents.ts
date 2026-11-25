@@ -187,8 +187,9 @@ export function useCreateEvent() {
       description?: string;
       kabupaten_kota_id?: string;
       created_by?: string;
+      status?: "DIAJUKAN" | "DISETUJUI";
     }) => {
-      // Create event with DIAJUKAN status
+      const initialStatus = event.status ?? "DIAJUKAN";
       const { data: eventData, error: eventError } = await supabase
         .from("events")
         .insert({
@@ -201,7 +202,7 @@ export function useCreateEvent() {
           description: event.description,
           kabupaten_kota_id: event.kabupaten_kota_id,
           created_by: event.created_by,
-          status: "DIAJUKAN",
+          status: initialStatus,
         })
         .select()
         .single();
@@ -213,9 +214,9 @@ export function useCreateEvent() {
         .from("event_approvals")
         .insert({
           event_id: eventData.id,
-          status: "pending",
+          status: initialStatus === "DISETUJUI" ? "approved" : "pending",
           approver_id: event.created_by,
-          notes: "Event diajukan",
+          notes: initialStatus === "DISETUJUI" ? "Event dibuat dan langsung disetujui oleh Admin Provinsi" : "Event diajukan",
         });
 
       if (approvalError) {
@@ -224,9 +225,9 @@ export function useCreateEvent() {
 
       return eventData;
     },
-    onSuccess: () => {
+    onSuccess: (eventData) => {
       queryClient.invalidateQueries({ queryKey: ["events"] });
-      toast.success("Event berhasil diajukan");
+      toast.success(eventData.status === "DISETUJUI" ? "Event berhasil dibuat dan disetujui" : "Event berhasil diajukan");
     },
     onError: (error) => {
       toast.error("Gagal mengajukan event: " + error.message);

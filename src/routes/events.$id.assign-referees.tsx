@@ -64,10 +64,13 @@ import { formatEventDateRangeFull } from "@/lib/dateUtils";
 import { SmartSuggestionCard } from "@/components/assignment/SmartSuggestionCard";
 import { BatchAssignmentBar } from "@/components/assignment/BatchAssignmentBar";
 import { SaveTemplateDialog, ApplyTemplateDialog } from "@/components/assignment/AssignmentTemplateDialog";
+import { useAuth } from "@/contexts/AuthContext";
+import { canAccessAssignRefereesForEvent } from "@/lib/eventPermissions";
 
 function RefereeAssignment() {
   const navigate = useNavigate();
   const { id: eventId } = useParams<{ id: string }>();
+  const { role, kabupatenKotaId } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRole, setSelectedRole] = useState<RefereeRole>("CADANGAN");
   const [selectedReferees, setSelectedReferees] = useState<Set<string>>(new Set());
@@ -236,6 +239,22 @@ function RefereeAssignment() {
           <h2 className="text-xl font-semibold mb-2">Event tidak ditemukan</h2>
           <Button variant="outline" onClick={() => navigate(-1)}>
             Kembali
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (!canAccessAssignRefereesForEvent(role, kabupatenKotaId, event)) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <div className="text-center max-w-md space-y-3" role="alert">
+          <h2 className="text-xl font-semibold">Akses Penugasan Ditolak</h2>
+          <p className="text-sm text-muted-foreground">
+            Penugasan wasit hanya dapat dilakukan oleh Admin Provinsi (semua wilayah) atau Admin Kabupaten/Kota sesuai wilayah event.
+          </p>
+          <Button variant="outline" onClick={() => navigate(`/events/${event.id}`)}>
+            Kembali ke Detail Event
           </Button>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Home, Calendar, Users, ClipboardCheck, MoreHorizontal, Building2, UserCog, UserCheck, Database, BookOpen, MessageSquare, IdCard, FileCheck, FileText } from "lucide-react";
+import { Home, Calendar, Users, ClipboardCheck, MoreHorizontal, Building2, UserCog, UserCheck, Database, BookOpen, MessageSquare, IdCard, FileCheck, FileText, PlusCircle, CalendarDays } from "lucide-react";
 import { NavLink, useNavigate, useLocation } from "@/lib/navigation";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/contexts/AuthContext";
@@ -16,21 +16,28 @@ import {
 export const MobileNav = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { isAdminProvinsi, isAdmin, kabupatenKotaId } = useAuth();
+  const { isAdminProvinsi, isAdmin, kabupatenKotaId, role } = useAuth();
   const { data: pendingUserCount } = usePendingCount();
   const { data: pendingEventCount } = usePendingEventsCount(isAdminProvinsi() ? undefined : kabupatenKotaId || undefined);
   const [sheetOpen, setSheetOpen] = useState(false);
   
   // Total pending for badge on "More" button
   const totalPendingCount = (pendingUserCount || 0) + (pendingEventCount || 0);
+  const isPanitia = role === "panitia" && !isAdmin();
   
   // Main nav items (max 5)
-  const mainNavItems = [
-    { icon: Home, label: "Beranda", path: "/dashboard" },
-    { icon: Calendar, label: "Event", path: "/events" },
-    { icon: Users, label: "Wasit", path: "/referees" },
-    { icon: ClipboardCheck, label: "Evaluasi", path: "/evaluations" },
-  ];
+  const mainNavItems = isPanitia
+    ? [
+        { icon: Calendar, label: "Event", path: "/events" },
+        { icon: PlusCircle, label: "Ajukan", path: "/events/submit" },
+        { icon: CalendarDays, label: "Kalender", path: "/events/calendar" },
+      ]
+    : [
+        { icon: Home, label: "Beranda", path: "/dashboard" },
+        { icon: Calendar, label: "Event", path: "/events" },
+        { icon: Users, label: "Wasit", path: "/referees" },
+        { icon: ClipboardCheck, label: "Evaluasi", path: "/evaluations" },
+      ];
 
   // Additional items for "More" menu
   const moreNavItems = [
@@ -45,7 +52,9 @@ export const MobileNav = () => {
       { icon: Database, label: "Export Database", path: "/export" },
       { icon: FileText, label: "Laporan Tahunan", path: "/reports/annual" },
     ] : [
-      
+      ...(role === "admin_kab_kota" ? [
+        { icon: FileCheck, label: "Event Approval", path: "/approvals", badge: pendingEventCount },
+      ] : []),
     ]),
     ...(isAdmin() ? [
       { icon: IdCard, label: "ID Card Wasit", path: "/admin/id-cards" },
