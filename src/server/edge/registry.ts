@@ -9,6 +9,7 @@ export const serverTasks: Record<string, Loader> = {
   "create-users-bulk": () => import("./create-users-bulk"),
   "delete-user": () => import("./delete-user"),
   "export-database": () => import("./export-database"),
+  "event-whatsapp-status": () => import("./event-whatsapp-status"),
   "generate-report-pdf": () => import("./generate-report-pdf"),
   "import-database": () => import("./import-database"),
   "notification-orchestrator": () => import("./notification-orchestrator"),

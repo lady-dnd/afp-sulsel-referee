@@ -15,7 +15,9 @@ import { Label } from "@/components/ui/label";
 import { useEvent, useEventApprovals, useApproveEvent, useRejectEvent, useCompleteEvent, useDeleteEvent, useActiveAssignmentsCount, getEventStatusDisplay, EventStatus } from "@/hooks/useEvents";
 import { useEventAssignments, getRoleBadgeVariant, getStatusBadgeVariant, RefereeRole, AssignmentStatus, useCancelConfirmedAssignment, EventAssignment } from "@/hooks/useEventAssignments";
 import { useAuth } from "@/contexts/AuthContext";
-import { canApproveEvent, canAssignRefereesToEvent, canEditEvent } from "@/lib/eventPermissions";
+import { canAccessAssignRefereesForEvent, canApproveEvent, canAssignRefereesToEvent, canEditEvent } from "@/lib/eventPermissions";
+import { useEventWhatsAppStatus } from "@/hooks/useEventWhatsAppStatus";
+import { EventWhatsAppStatusTab } from "@/components/events/EventWhatsAppStatusTab";
 import { format } from "date-fns";
 import { id } from "date-fns/locale";
 import { formatEventDateRangeFull } from "@/lib/dateUtils";
@@ -29,6 +31,8 @@ function EventDetail() {
   const { data: approvals } = useEventApprovals(eventId || "");
   const { data: assignments, isLoading: assignmentsLoading, error: assignmentsError, refetch: refetchAssignments } = useEventAssignments(eventId || "");
   const { data: activeAssignmentsCount = 0 } = useActiveAssignmentsCount(eventId || "");
+  const canViewWhatsAppStatus = Boolean(event && canAccessAssignRefereesForEvent(role, kabupatenKotaId, event));
+  const { data: whatsappStatusData } = useEventWhatsAppStatus(eventId || "", canViewWhatsAppStatus);
   const approveEvent = useApproveEvent();
   const rejectEvent = useRejectEvent();
   const completeEvent = useCompleteEvent();
@@ -281,7 +285,7 @@ function EventDetail() {
 
         {/* Tabs */}
         <Tabs defaultValue="history" className="px-4 pb-8">
-          <TabsList className="w-full grid grid-cols-2">
+          <TabsList className={`w-full grid ${canViewWhatsAppStatus ? "grid-cols-3" : "grid-cols-2"}`}>
             <TabsTrigger value="history">Riwayat</TabsTrigger>
             <TabsTrigger value="referees">
               Wasit
@@ -291,6 +295,16 @@ function EventDetail() {
                 </span>
               )}
             </TabsTrigger>
+            {canViewWhatsAppStatus && (
+              <TabsTrigger value="whatsapp">
+                Notifikasi WA
+                {(whatsappStatusData?.summary.needsAttention ?? 0) > 0 && (
+                  <span className="ml-1.5 px-1.5 py-0.5 text-xs bg-destructive text-destructive-foreground rounded-full">
+                    {whatsappStatusData?.summary.needsAttention}
+                  </span>
+                )}
+              </TabsTrigger>
+            )}
           </TabsList>
 
           <TabsContent value="history" className="mt-4 space-y-3">
@@ -441,6 +455,16 @@ function EventDetail() {
               </Card>
             )}
           </TabsContent>
+
+          {canViewWhatsAppStatus && (
+            <TabsContent value="whatsapp" className="mt-4">
+              <EventWhatsAppStatusTab
+                eventId={event.id}
+                eventName={event.name}
+                enabled={canViewWhatsAppStatus}
+              />
+            </TabsContent>
+          )}
         </Tabs>
       </div>
 
