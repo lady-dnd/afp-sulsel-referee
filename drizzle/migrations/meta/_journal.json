@@ -50,6 +50,13 @@
       "when": 1794769178698,
       "tag": "0006_fix_event_approval_logging",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1795600220795,
+      "tag": "0007_harden_selected_rls_and_storage_policies",
+      "breakpoints": true
     }
   ]
 }
