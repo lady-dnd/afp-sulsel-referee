@@ -8,6 +8,7 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA "extensions";
 SELECT pg_catalog.set_config('search_path', '', false);
 SET check_function_bodies = false;
 CREATE TYPE public.app_role AS ENUM (
+    'super_admin',
     'admin_provinsi',
     'admin_kab_kota',
     'panitia',
