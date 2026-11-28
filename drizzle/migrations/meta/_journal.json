@@ -71,6 +71,13 @@
       "when": 1795602205597,
       "tag": "0009_add_event_region_booking_lock",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1795846986453,
+      "tag": "0010_tighten_pengurus_and_public_settings_rls",
+      "breakpoints": true
     }
   ]
 }
